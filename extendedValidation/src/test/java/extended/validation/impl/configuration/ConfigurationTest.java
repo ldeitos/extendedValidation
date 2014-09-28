@@ -1,0 +1,40 @@
+package extended.validation.impl.configuration;
+
+import static extended.constants.Constants.MESSAGE_FILES_ENVIRONMENT_PROPERTY;
+import static extended.validation.impl.configuration.Configuration.getConfiguration;
+import static java.lang.System.setProperty;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
+import extended.validation.impl.interpolator.TestMessageSource;
+
+public class ConfigurationTest {
+	private static final String TEST_MESSAGE_FILE = "TestValidationMessage";
+	
+	@Test
+	public void testConfigurationWithMessageFilesCofiguredByEnvironment(){
+		setProperty(MESSAGE_FILES_ENVIRONMENT_PROPERTY, "arq1, arq2");
+		
+		assertEquals(TestMessageSource.class, 
+				getConfiguration().getConfiguredMessagesSource().getClass());
+		
+		assertEquals(3, getConfiguration().getConfituredMessageFiles().size());
+		assertTrue(getConfiguration().getConfituredMessageFiles().contains(TEST_MESSAGE_FILE));
+		assertTrue(getConfiguration().getConfituredMessageFiles().contains("arq1"));
+		assertTrue(getConfiguration().getConfituredMessageFiles().contains("arq2"));
+		
+		System.clearProperty(MESSAGE_FILES_ENVIRONMENT_PROPERTY);
+	}
+	
+	@Test
+	public void testConfigurationWithoutMessageFilesCofiguredByEnvironment(){
+		
+		assertEquals(TestMessageSource.class, 
+				getConfiguration().getConfiguredMessagesSource().getClass());
+		
+		assertEquals(1, getConfiguration().getConfituredMessageFiles().size());
+		assertTrue(getConfiguration().getConfituredMessageFiles().contains(TEST_MESSAGE_FILE));
+	}
+}
