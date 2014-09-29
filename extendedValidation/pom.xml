@@ -21,7 +21,7 @@
   </licenses>
   
   <scm>
-    <url>ssh://ldeitos@git.code.sf.net/p/cdi-util/code cdi-util-code</url>
+    <url>ssh://ldeitos@git.code.sf.net/p/extendedvalidation/code</url>
   </scm>
   
   <dependencies>
