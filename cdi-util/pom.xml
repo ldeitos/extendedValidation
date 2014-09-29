@@ -3,6 +3,24 @@
   <groupId>extended</groupId>
   <artifactId>cdi-util</artifactId>
   <version>0.0.1-RC1</version>
+  <packaging>jar</packaging>
+
+  <name>Extended Validation</name>
+  <description>
+  Utilitary to get bean instance CDI managed.
+  </description>
+  
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+  <scm>
+    <url>ssh://ldeitos@git.code.sf.net/p/extendedvalidation/code</url>
+  </scm>
   
   <dependencies>
   	<dependency>
