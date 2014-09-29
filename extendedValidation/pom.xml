@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>extended</groupId>
   <artifactId>extendedValidation</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1-RC1</version>
   
   <dependencies>
   	<dependency>
@@ -38,7 +38,7 @@
 	<dependency>
 		<groupId>extended</groupId>
 		<artifactId>cdi-util</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1-RC1</version>
 		<scope>compile</scope>
 	</dependency>
 	<dependency>
