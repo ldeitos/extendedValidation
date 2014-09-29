@@ -37,7 +37,7 @@
 	</dependency>
 	<dependency>
 		<groupId>extended</groupId>
-		<artifactId>utils</artifactId>
+		<artifactId>cdi-util</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<scope>compile</scope>
 	</dependency>
