@@ -9,8 +9,6 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-
-import com.google.common.collect.Collections2;
  
 /**
  * Provides simple way how to obtain the instance of managed beans
