@@ -4,13 +4,13 @@ import static extended.constants.Constants.DEFAULT_MESSAGE_FILE;
 import static extended.validation.impl.configuration.Configuration.getConfiguration;
 import static java.util.Arrays.asList;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,7 +22,7 @@ class MultipleBundlesSource implements MessagesSource {
 	
 	private static int BUNDLE_KEY_GROUP = 2;
 	
-	private List<String> bundleFiles = new ArrayList<String>(asList(DEFAULT_MESSAGE_FILE));
+	private Set<String> bundleFiles = new HashSet<String>(asList(DEFAULT_MESSAGE_FILE));
 	
 	private Map<String, ResourceBundle> cache = new HashMap<String, ResourceBundle>();
 	

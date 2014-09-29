@@ -3,7 +3,7 @@
   <groupId>extended</groupId>
   <artifactId>extendedValidation</artifactId>
   <version>0.0.1-RC1</version>
-   <packaging>jar</packaging>
+  <packaging>jar</packaging>
 
   <name>Extended Validation</name>
   <description>

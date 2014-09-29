@@ -59,6 +59,8 @@ class ExtendedParameterContext implements
 
 		private final ConstraintDescriptor<T> decorated;
 		
+		private Map<String, Object> attributes;
+		
 		ExtendedConstraintDescriptor(ConstraintDescriptor<T> descriptor) {
 			decorated = descriptor;
 		}
@@ -88,6 +90,14 @@ class ExtendedParameterContext implements
 		}
 
 		public Map<String, Object> getAttributes() {
+			if(attributes == null){
+				attributes = parseExtendedParametersAttributes();
+			}
+			
+			return attributes;
+		}
+
+		private Map<String, Object> parseExtendedParametersAttributes() {
 			Map<String, Object> atributes = 
 					new HashMap<String, Object>(decorated.getAttributes());
 			
