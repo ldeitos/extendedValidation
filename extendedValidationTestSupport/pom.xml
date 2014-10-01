@@ -30,7 +30,6 @@
     <developerConnection>scm:git:git@github.com:ldeitos/repository.git</developerConnection>
     <url>git:git@github.com:ldeitos/repository.git</url>
   </scm>
-
   <build>
 	<plugins>
 	  <plugin>
