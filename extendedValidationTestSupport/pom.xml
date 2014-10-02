@@ -138,4 +138,5 @@
 	</dependency>
   </dependencies>
   <url>https://sourceforge.net/projects/extendedvalidation/</url>
+  <description>Test support provider project.</description>
 </project>
