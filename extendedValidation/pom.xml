@@ -105,6 +105,13 @@
     </repository>
   </distributionManagement>
   
+  <developers>
+    <developer>
+      <name>Leandro Deitos</name>
+      <email>leandro.deitos@gmail.com</email>
+    </developer>
+  </developers>
+  
   <dependencies>
   	<dependency>
 		<groupId>javax.validation</groupId>
