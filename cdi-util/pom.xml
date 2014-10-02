@@ -122,4 +122,5 @@
 		<version>1.2</version>
 	</dependency>		  	
   </dependencies>
+  <url>https://sourceforge.net/projects/extendedvalidation/</url>
 </project>
