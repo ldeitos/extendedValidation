@@ -6,11 +6,7 @@
   <packaging>jar</packaging>
 
   <name>Extended Validation</name>
-  <description>
-  Extension for BeanValidation API to provide CDI compatible ConstraintValidatorFactory, easy way to
-  set parameters on message constraint and easy API to add non properties file message sources, like
-  DB, external modules, mainframe routines, etc.
-  </description>
+  <description>Extension for BeanValidation API to provide CDI compatible ConstraintValidatorFactory, easy way to set parameters on message constraint and easy API to add non properties file message sources, like DB, external modules, mainframe routines, etc.</description>
   
   <licenses>
     <license>
@@ -37,6 +33,20 @@
   </scm>
   <build>
 	<plugins>
+	  <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+		<version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 	  <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
@@ -145,4 +155,5 @@
 		<scope>test</scope>
 	</dependency>
   </dependencies>
+  <url>https://sourceforge.net/projects/extendedvalidation/</url>
 </project>
