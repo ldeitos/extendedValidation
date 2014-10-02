@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.ldeitos</groupId>
   <artifactId>extendedValidationTestSupport</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1-RC1</version>
   <packaging>jar</packaging>
 
   <name>Extended Validation Test Support</name>
@@ -32,6 +32,20 @@
   </scm>
   <build>
 	<plugins>
+	  <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+		<version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 	  <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
@@ -123,4 +137,5 @@
 		<scope>compile</scope>
 	</dependency>
   </dependencies>
+  <url>https://sourceforge.net/projects/extendedvalidation/</url>
 </project>
