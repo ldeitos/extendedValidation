@@ -15,14 +15,14 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
 
-@javax.validation.constraints.NotNull
+@javax.validation.constraints.AssertTrue
 @Target( { METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @Constraint(validatedBy = {})
 @ReportAsSingleViolation()
 @Documented
-public @interface NotNull {
-	String message() default "{javax.validation.constraints.NotNull.message}";
+public @interface AssertTrue {
+	String message() default "{javax.validation.constraints.AssertTrue.message}";
 	
 	String[] messageParameters() default {};
 
@@ -31,14 +31,14 @@ public @interface NotNull {
     Class<? extends Payload>[] payload() default {};
     
     /**
-     * Defines several {@link NotNull} annotations on the same element.
+     * Defines several {@link AssertTrue} annotations on the same element.
      *
-     * @see com.github.ldeitos.constraint.NotNull
+     * @see com.github.ldeitos.constraint.AssertTrue
      */
     @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
     @Retention(RUNTIME)
     @Documented
     @interface List {
-        NotNull[] value();
+        AssertTrue[] value();
     }
 }
