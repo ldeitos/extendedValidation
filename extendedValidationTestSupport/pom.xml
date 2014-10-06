@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.ldeitos</groupId>
   <artifactId>extendedValidationTestSupport</artifactId>
-  <version>0.0.1-RC1</version>
+  <version>0.1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Extended Validation Test Support</name>
@@ -132,6 +132,6 @@
 		<scope>compile</scope>
 	</dependency>
   </dependencies>
-  <url>https://sourceforge.net/projects/extendedvalidation/</url>
+  <url>http://extendedvalidation.sourceforge.net/</url>
   <description>Test support provider project.</description>
 </project>

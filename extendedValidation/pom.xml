@@ -86,6 +86,19 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.17</version>
+        <configuration>
+          <systemProperties>
+            <property>
+              <name>org.jboss.weld.nonPortableMode</name>
+              <value>true</value>
+            </property>
+          </systemProperties>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   
@@ -115,9 +128,9 @@
 		<scope>compile</scope>
 	</dependency>
   	<dependency>
-		<groupId>commons-collections</groupId>
-		<artifactId>commons-collections</artifactId>
-		<version>3.0</version>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-collections4</artifactId>
+		<version>4.0</version>
 		<scope>compile</scope>
 	</dependency>
 	<dependency>
@@ -156,6 +169,25 @@
 		<version>4.11</version>
 		<scope>test</scope>
 	</dependency>
+	<dependency>
+		<groupId>com.github.ldeitos</groupId>
+		<artifactId>extendedValidationTestSupport</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-validator</artifactId>
+		<version>5.1.2.Final</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>com.sun.el</groupId>
+		<artifactId>el-ri</artifactId>
+		<version>1.0</version>
+		<scope>test</scope>
+	</dependency>
+	
   </dependencies>
-  <url>https://sourceforge.net/projects/extendedvalidation/</url>
+  <url>http://extendedvalidation.sourceforge.net/</url>
 </project>

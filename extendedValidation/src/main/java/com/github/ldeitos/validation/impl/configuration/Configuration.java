@@ -18,7 +18,7 @@ import com.github.ldeitos.validation.impl.configuration.dto.ConfigurationDTO;
 import com.github.ldeitos.validation.impl.configuration.dto.MessageFileDTO;
 
 public class Configuration {
-	private final static Configuration instance = new Configuration();;
+	private final static Configuration instance = new Configuration();
 	
 	private ConfigurationDTO configuration;
 	
