@@ -15,6 +15,12 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
 
+/**
+ * The annotated element must not be {@code null}.
+ * Accepts any type.
+ *
+ * @author Emmanuel Bernard
+ */
 @javax.validation.constraints.NotNull
 @Target( { METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
@@ -24,6 +30,17 @@ import javax.validation.ReportAsSingleViolation;
 public @interface NotNull {
 	String message() default "{javax.validation.constraints.NotNull.message}";
 	
+	/**
+     * @return Parameter array to be interpolated at message. Parameters can be informed in
+     * "key=value" or just "value" pattern.<br/>
+     * e.g:<br/>
+     * <br/>
+     * message="My {par1} message"<br/>
+     * messageParameters = {"par1=parameterized"}<br/>
+     * <br/>
+     * message="My {0} message"<br/>
+     * messageParameters = {"parameterized"}
+     */
 	String[] messageParameters() default {};
 
     Class<?>[] groups() default {};

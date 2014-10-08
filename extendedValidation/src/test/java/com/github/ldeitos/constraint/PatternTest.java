@@ -18,24 +18,38 @@ import com.github.ldeitos.validation.impl.interpolator.ExtendedValidationBaseTes
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 
 @AdditionalClasses({TestMessageSource.class})
-public class NullTest extends ExtendedValidationBaseTest {
+public class PatternTest extends ExtendedValidationBaseTest {
 	
-	private static final String MENSAGEM_ESPERADA = "Null Teste";
+	private static final String MENSAGEM_ESPERADA = "Pattern Teste";
 
 	@Inject
 	@ExtendedValidator
 	private Validator validador;
 	
 	@Test
-	public void testNullValue(){
-		Teste var = new Teste();
+	public void testPatterValid(){
+		Teste var = new Teste("{x=y}");
 		Set<ConstraintViolation<Teste>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testNotNullValue(){
-		Teste var = new Teste("");
+	public void testPatterValid2(){
+		Teste var = new Teste("{xy}");
+		Set<ConstraintViolation<Teste>> violacoes = validador.validate(var);
+		assertTrue(violacoes.isEmpty());
+	}
+	
+	@Test
+	public void testPatterValid3(){
+		Teste var = new Teste("{fadfx=yfsda]");
+		Set<ConstraintViolation<Teste>> violacoes = validador.validate(var);
+		assertTrue(violacoes.isEmpty());
+	}
+	
+	@Test
+	public void testPatterInvalid(){
+		Teste var = new Teste("teste");
 		Set<ConstraintViolation<Teste>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
@@ -43,7 +57,7 @@ public class NullTest extends ExtendedValidationBaseTest {
 	}
 	
 	static class Teste {
-		@Null(messageParameters = {"par=Teste"})
+		@Pattern(messageParameters = {"par=Teste"}, regexp = "^(\\{|\\[)(.*)(=)?(.*)(\\]|\\})$")
 		private String campo;
 		
 		Teste(){

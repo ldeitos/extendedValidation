@@ -20,19 +20,54 @@ import com.github.ldeitos.validation.impl.interpolator.ExtendedValidationBaseTes
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 
 @AdditionalClasses({TestMessageSource.class})
-public class MaxTest extends ExtendedValidationBaseTest {
+public class DecimalMaxTest extends ExtendedValidationBaseTest {
 	
-	private static final String MENSAGEM_ESPERADA = "Max Teste";
+	private static final String MENSAGEM_ESPERADA = "DecimalMax Teste";
 
 	@Inject
 	@ExtendedValidator
 	private Validator validador;
 	
+	
 	@Test
-	public void testMaxStringValid(){
-		TesteString var = new TesteString("");
+	public void testMaxStringLowerValid(){
+		TesteString var = new TesteString("3.0009");
 		Set<ConstraintViolation<TesteString>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
+	}
+	
+	@Test
+	public void testMaxStringEquals(){
+		TesteString var = new TesteString("3.001");
+		Set<ConstraintViolation<TesteString>> violacoes = validador.validate(var);
+		assertTrue(violacoes.isEmpty());
+	}
+	
+	@Test
+	public void testMaxStringInvalid(){
+		TesteString var = new TesteString("3.002");
+		Set<ConstraintViolation<TesteString>> violacoes = validador.validate(var);
+		assertFalse(violacoes.isEmpty());
+		assertEquals(1, violacoes.size());
+		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
+	}
+	
+	@Test
+	public void testMaxStringEmptyInvalid(){
+		TesteString var = new TesteString("");
+		Set<ConstraintViolation<TesteString>> violacoes = validador.validate(var);
+		assertFalse(violacoes.isEmpty());
+		assertEquals(1, violacoes.size());
+		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
+	}
+	
+	@Test
+	public void testMaxStringExclusiveInvalid(){
+		TesteStringExclusive var = new TesteStringExclusive("3.001");
+		Set<ConstraintViolation<TesteStringExclusive>> violacoes = validador.validate(var);
+		assertFalse(violacoes.isEmpty());
+		assertEquals(1, violacoes.size());
+		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
 	}
 	
 	@Test
@@ -170,21 +205,30 @@ public class MaxTest extends ExtendedValidationBaseTest {
 
 	@Test
 	public void testMaxBigDecimalLowerValid(){
-		TesteBigDecimal var = new TesteBigDecimal(new BigDecimal(2L));
+		TesteBigDecimal var = new TesteBigDecimal(new BigDecimal("3.0009"));
 		Set<ConstraintViolation<TesteBigDecimal>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
 	public void testMaxBigDecimalEqualValid(){
-		TesteBigDecimal var = new TesteBigDecimal(new BigDecimal(3L));
+		TesteBigDecimal var = new TesteBigDecimal(new BigDecimal("3.001"));
 		Set<ConstraintViolation<TesteBigDecimal>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
+	public void testMaxBigDecimalEqualExclusiveInvalid(){
+		TesteBigDecimalExclusive var = new TesteBigDecimalExclusive(new BigDecimal("3.001"));
+		Set<ConstraintViolation<TesteBigDecimalExclusive>> violacoes = validador.validate(var);
+		assertFalse(violacoes.isEmpty());
+		assertEquals(1, violacoes.size());
+		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
+	}
+	
+	@Test
 	public void testMaxBigDecimalInvalid(){
-		TesteBigDecimal var = new TesteBigDecimal(new BigDecimal(4L));
+		TesteBigDecimal var = new TesteBigDecimal(new BigDecimal("3.002"));
 		Set<ConstraintViolation<TesteBigDecimal>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
@@ -320,7 +364,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteString {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3.001")
 		String campo;
 		
 		TesteString(String val){
@@ -328,8 +372,17 @@ public class MaxTest extends ExtendedValidationBaseTest {
 		}
 	}
 	
+	private static class TesteStringExclusive {
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3.001", inclusive = false)
+		String campo;
+		
+		TesteStringExclusive(String val){
+			campo = val;
+		}
+	}
+	
 	private static class TesteInteger {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3")
 		Integer campo;
 		
 		TesteInteger(){
@@ -341,7 +394,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteLong {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3")
 		Long campo;
 		
 		TesteLong(){
@@ -353,7 +406,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteByte {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3")
 		Byte campo;
 		
 		TesteByte(){
@@ -365,7 +418,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteShort {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3")
 		Short campo;
 		
 		TesteShort(){
@@ -377,7 +430,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteBigInteger {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3")
 		BigInteger campo;
 		
 		TesteBigInteger(){
@@ -389,7 +442,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteBigDecimal {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3.001")
 		BigDecimal campo;
 		
 		TesteBigDecimal(){
@@ -400,8 +453,17 @@ public class MaxTest extends ExtendedValidationBaseTest {
 		}
 	}
 	
+	private static class TesteBigDecimalExclusive {
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3.001", inclusive = false)
+		BigDecimal campo;
+		
+		TesteBigDecimalExclusive(BigDecimal val){
+			campo = val;
+		}
+	}
+	
 	private static class TesteIntPrimitive {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3")
 		int campo;
 		
 		TesteIntPrimitive(int val){
@@ -410,7 +472,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteLongPrimitive {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3")
 		long campo;
 		
 		TesteLongPrimitive(long val){
@@ -419,7 +481,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteBytePrimitive {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3")
 		byte campo;
 		
 		TesteBytePrimitive(byte val){
@@ -428,7 +490,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteShortPrimitive {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3")
 		short campo;
 		
 		TesteShortPrimitive(short val){

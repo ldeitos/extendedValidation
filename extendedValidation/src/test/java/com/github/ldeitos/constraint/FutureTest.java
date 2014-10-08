@@ -14,9 +14,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.jglue.cdiunit.AdditionalClasses;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.github.ldeitos.qualifier.ExtendedValidator;

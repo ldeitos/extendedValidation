@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.github.ldeitos.validators.MaxValidatorImpl;
+import com.github.ldeitos.validators.MaxDecimalValidatorImpl;
 
 /**
  * The annotated element must be a number whose value must be lower or
@@ -24,6 +24,7 @@ import com.github.ldeitos.validators.MaxValidatorImpl;
  * <ul>
  *     <li>{@code BigDecimal}</li>
  *     <li>{@code BigInteger}</li>
+ *     <li>{@code CharSequence}</li>
  *     <li>{@code byte}, {@code short}, {@code int}, {@code long}, and their respective
  *     wrappers</li>
  * </ul>
@@ -37,10 +38,10 @@ import com.github.ldeitos.validators.MaxValidatorImpl;
 @Target( { METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = {MaxValidatorImpl.class })
-public @interface Max {
+@Constraint(validatedBy = {MaxDecimalValidatorImpl.class })
+public @interface DecimalMax {
 
-    String message() default "{javax.validation.constraints.Max.message}";
+    String message() default "{javax.validation.constraints.DecimalMax.message}";
 
     /**
      * @return Parameter array to be interpolated at message. Parameters can be informed in
@@ -60,20 +61,34 @@ public @interface Max {
     Class<? extends Payload>[] payload() default { };
 
     /**
-     * @return value the element must be higher or equal to
+     * The {@code String} representation of the max value according to the
+     * {@code BigDecimal} string representation.
+     *
+     * @return value the element must be lower or equal to
      */
-    long value();
+    String value();
 
     /**
-     * Defines several {@link Max} annotations on the same element.
+     * Specifies whether the specified maximum is inclusive or exclusive.
+     * By default, it is inclusive.
      *
-     * @see Max
+     * @return {@code true} if the value must be lower or equal to the specified minimum,
+     *         {@code false} if the value must be lower
+     *
+     * @since 1.1
+     */
+    boolean inclusive() default true;
+
+    /**
+     * Defines several {@link DecimalMax} annotations on the same element.
+     *
+     * @see DecimalMax
      */
     @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
     @Retention(RUNTIME)
     @Documented
     @interface List {
 
-        Max[] value();
+        DecimalMax[] value();
     }
 }

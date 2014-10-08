@@ -17,12 +17,13 @@ public class MinValidatorImpl extends  NumberComparativeValidator<Min> {
 	@Override
 	protected boolean compareValid(Number n) {
 		boolean get = true;
-		
-		if(n.getClass().isAssignableFrom(BigDecimal.class)){
-			BigDecimal value = (BigDecimal) n;
+		Class<? extends Number> numberClass = n.getClass();
+
+		if(BigDecimal.class.isAssignableFrom(numberClass)){
+			BigDecimal value = BigDecimal.class.cast(n);
 			get = value.compareTo(BigDecimal.valueOf(min)) >= 0;
-		} else if(n.getClass().isAssignableFrom(BigInteger.class)){
-			BigInteger value = (BigInteger) n;
+		} else if(BigInteger.class.isAssignableFrom(numberClass)){
+			BigInteger value = BigInteger.class.cast(n);
 			get = value.compareTo(BigInteger.valueOf(min)) >= 0;
 		} else {
 			long value =  n.longValue();

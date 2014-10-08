@@ -16,6 +16,24 @@ import javax.validation.Payload;
 
 import com.github.ldeitos.validators.MinValidatorImpl;
 
+/**
+ * The annotated element must be a number whose value must be higher or
+ * equal to the specified minimum.
+ * <p/>
+ * Supported types are:
+ * <ul>
+ *     <li>{@code BigDecimal}</li>
+ *     <li>{@code BigInteger}</li>
+ *     <li>{@code byte}, {@code short}, {@code int}, {@code long}, and their respective
+ *     wrappers</li>
+ * </ul>
+ * Note that {@code double} and {@code float} are not supported due to rounding errors
+ * (some providers might provide some approximative support).
+ * <p/>
+ * {@code null} elements are considered valid.
+ *
+ * @author Emmanuel Bernard
+ */
 @Target( { METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @Documented
@@ -24,6 +42,17 @@ public @interface Min {
 
     String message() default "{javax.validation.constraints.Min.message}";
 
+    /**
+     * @return Parameter array to be interpolated at message. Parameters can be informed in
+     * "key=value" or just "value" pattern.<br/>
+     * e.g:<br/>
+     * <br/>
+     * message="My {par1} message"<br/>
+     * messageParameters = {"par1=parameterized"}<br/>
+     * <br/>
+     * message="My {0} message"<br/>
+     * messageParameters = {"parameterized"}
+     */
     String[] messageParameters() default {};
     
     Class<?>[] groups() default { };

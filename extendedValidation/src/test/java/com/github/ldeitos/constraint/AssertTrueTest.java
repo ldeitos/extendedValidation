@@ -11,12 +11,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.jglue.cdiunit.AdditionalClasses;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.github.ldeitos.constraint.AssertFalseTest.TesteObject;
 import com.github.ldeitos.qualifier.ExtendedValidator;
 import com.github.ldeitos.validation.impl.interpolator.ExtendedValidationBaseTest;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;

@@ -17,12 +17,13 @@ public class MaxValidatorImpl extends  NumberComparativeValidator<Max> {
 	@Override
 	protected boolean compareValid(Number n) {
 		boolean let = true;
+		Class<? extends Number> numberClass = n.getClass();
 		
-		if(n.getClass().isAssignableFrom(BigDecimal.class)){
-			BigDecimal value = (BigDecimal) n;
+		if(BigDecimal.class.isAssignableFrom(numberClass)){
+			BigDecimal value = BigDecimal.class.cast(n);
 			let = value.compareTo(BigDecimal.valueOf(max)) <= 0;
-		} else if(n.getClass().isAssignableFrom(BigInteger.class)){
-			BigInteger value = (BigInteger) n;
+		} else if(BigInteger.class.isAssignableFrom(numberClass)){
+			BigInteger value = BigInteger.class.cast(n);
 			let = value.compareTo(BigInteger.valueOf(max)) <= 0;
 		} else {
 			long value =  n.longValue();

@@ -20,45 +20,80 @@ import com.github.ldeitos.validation.impl.interpolator.ExtendedValidationBaseTes
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 
 @AdditionalClasses({TestMessageSource.class})
-public class MaxTest extends ExtendedValidationBaseTest {
+public class DecimalMinTest extends ExtendedValidationBaseTest {
 	
-	private static final String MENSAGEM_ESPERADA = "Max Teste";
+	private static final String MENSAGEM_ESPERADA = "DecimalMin Teste";
 
 	@Inject
 	@ExtendedValidator
 	private Validator validador;
 	
+	
 	@Test
-	public void testMaxStringValid(){
-		TesteString var = new TesteString("");
+	public void testMinStringGreaterValid(){
+		TesteString var = new TesteString("3.002");
 		Set<ConstraintViolation<TesteString>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxIntegerNullValid(){
+	public void testMinStringEquals(){
+		TesteString var = new TesteString("3.001");
+		Set<ConstraintViolation<TesteString>> violacoes = validador.validate(var);
+		assertTrue(violacoes.isEmpty());
+	}
+	
+	@Test
+	public void testMinStringInvalid(){
+		TesteString var = new TesteString("3.0009");
+		Set<ConstraintViolation<TesteString>> violacoes = validador.validate(var);
+		assertFalse(violacoes.isEmpty());
+		assertEquals(1, violacoes.size());
+		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
+	}
+	
+	@Test
+	public void testMinStringEmptyInvalid(){
+		TesteString var = new TesteString("");
+		Set<ConstraintViolation<TesteString>> violacoes = validador.validate(var);
+		assertFalse(violacoes.isEmpty());
+		assertEquals(1, violacoes.size());
+		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
+	}
+	
+	@Test
+	public void testMinStringExclusiveInvalid(){
+		TesteStringExclusive var = new TesteStringExclusive("3.001");
+		Set<ConstraintViolation<TesteStringExclusive>> violacoes = validador.validate(var);
+		assertFalse(violacoes.isEmpty());
+		assertEquals(1, violacoes.size());
+		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
+	}
+	
+	@Test
+	public void testMinIntegerNullValid(){
 		TesteInteger var = new TesteInteger();
 		Set<ConstraintViolation<TesteInteger>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 
 	@Test
-	public void testMaxIntegerLowerValid(){
-		TesteInteger var = new TesteInteger(2);
+	public void testMinIntegerGreaterValid(){
+		TesteInteger var = new TesteInteger(4);
 		Set<ConstraintViolation<TesteInteger>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxIntegerEqualValid(){
+	public void testMinIntegerEqualValid(){
 		TesteInteger var = new TesteInteger(3);
 		Set<ConstraintViolation<TesteInteger>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxIntegerInvalid(){
-		TesteInteger var = new TesteInteger(4);
+	public void testMinIntegerInvalid(){
+		TesteInteger var = new TesteInteger(2);
 		Set<ConstraintViolation<TesteInteger>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
@@ -66,29 +101,29 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	@Test
-	public void testMaxLongNullValid(){
+	public void testMinLongNullValid(){
 		TesteLong var = new TesteLong();
 		Set<ConstraintViolation<TesteLong>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 
 	@Test
-	public void testMaxLongLowerValid(){
-		TesteLong var = new TesteLong(2l);
+	public void testMinLongGreaterValid(){
+		TesteLong var = new TesteLong(4l);
 		Set<ConstraintViolation<TesteLong>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxLongEqualValid(){
+	public void testMinLongEqualValid(){
 		TesteLong var = new TesteLong(3l);
 		Set<ConstraintViolation<TesteLong>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxLongInvalid(){
-		TesteLong var = new TesteLong(4l);
+	public void testMinLongInvalid(){
+		TesteLong var = new TesteLong(2l);
 		Set<ConstraintViolation<TesteLong>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
@@ -96,22 +131,22 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	@Test
-	public void testMaxByteNullValid(){
+	public void testMinByteNullValid(){
 		TesteByte var = new TesteByte();
 		Set<ConstraintViolation<TesteByte>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 
 	@Test
-	public void testMaxByteLowerValid(){
-		byte b = 2;
+	public void testMinByteGreaterValid(){
+		byte b = 4;
 		TesteByte var = new TesteByte(b);
 		Set<ConstraintViolation<TesteByte>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxByteEqualValid(){
+	public void testMinByteEqualValid(){
 		byte b = 3;
 		TesteByte var = new TesteByte(b);
 		Set<ConstraintViolation<TesteByte>> violacoes = validador.validate(var);
@@ -119,8 +154,8 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	@Test
-	public void testMaxByteInvalid(){
-		byte b = 4;
+	public void testMinByteInvalid(){
+		byte b = 2;
 		TesteByte var = new TesteByte(b);
 		Set<ConstraintViolation<TesteByte>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
@@ -129,22 +164,22 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	@Test
-	public void testMaxShortNullValid(){
+	public void testMinShortNullValid(){
 		TesteShort var = new TesteShort();
 		Set<ConstraintViolation<TesteShort>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 
 	@Test
-	public void testMaxShortLowerValid(){
-		short b = 2;
+	public void testMinShortGreaterValid(){
+		short b = 4;
 		TesteShort var = new TesteShort(b);
 		Set<ConstraintViolation<TesteShort>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxShortEqualValid(){
+	public void testMinShortEqualValid(){
 		short b = 3;
 		TesteShort var = new TesteShort(b);
 		Set<ConstraintViolation<TesteShort>> violacoes = validador.validate(var);
@@ -152,8 +187,8 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	@Test
-	public void testMaxShortInvalid(){
-		short b = 4;
+	public void testMinShortInvalid(){
+		short b = 2;
 		TesteShort var = new TesteShort(b);
 		Set<ConstraintViolation<TesteShort>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
@@ -162,29 +197,38 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	@Test
-	public void testMaxBigDecimalNullValid(){
+	public void testMinBigDecimalNullValid(){
 		TesteBigDecimal var = new TesteBigDecimal();
 		Set<ConstraintViolation<TesteBigDecimal>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 
 	@Test
-	public void testMaxBigDecimalLowerValid(){
-		TesteBigDecimal var = new TesteBigDecimal(new BigDecimal(2L));
+	public void testMinBigDecimalGreaterValid(){
+		TesteBigDecimal var = new TesteBigDecimal(new BigDecimal("3.002"));
 		Set<ConstraintViolation<TesteBigDecimal>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxBigDecimalEqualValid(){
-		TesteBigDecimal var = new TesteBigDecimal(new BigDecimal(3L));
+	public void testMinBigDecimalEqualValid(){
+		TesteBigDecimal var = new TesteBigDecimal(new BigDecimal("3.001"));
 		Set<ConstraintViolation<TesteBigDecimal>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxBigDecimalInvalid(){
-		TesteBigDecimal var = new TesteBigDecimal(new BigDecimal(4L));
+	public void testMinBigDecimalEqualExclusiveInvalid(){
+		TesteBigDecimalExclusive var = new TesteBigDecimalExclusive(new BigDecimal("3.001"));
+		Set<ConstraintViolation<TesteBigDecimalExclusive>> violacoes = validador.validate(var);
+		assertFalse(violacoes.isEmpty());
+		assertEquals(1, violacoes.size());
+		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
+	}
+	
+	@Test
+	public void testMinBigDecimalInvalid(){
+		TesteBigDecimal var = new TesteBigDecimal(new BigDecimal("3.0009"));
 		Set<ConstraintViolation<TesteBigDecimal>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
@@ -192,29 +236,29 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	@Test
-	public void testMaxBigIntegerNullValid(){
+	public void testMinBigIntegerNullValid(){
 		TesteBigInteger var = new TesteBigInteger();
 		Set<ConstraintViolation<TesteBigInteger>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 
 	@Test
-	public void testMaxBigIntegerLowerValid(){
-		TesteBigInteger var = new TesteBigInteger(new BigInteger("2"));
+	public void testMinBigIntegerGreaterValid(){
+		TesteBigInteger var = new TesteBigInteger(new BigInteger("4"));
 		Set<ConstraintViolation<TesteBigInteger>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxBigIntegerEqualValid(){
+	public void testMinBigIntegerEqualValid(){
 		TesteBigInteger var = new TesteBigInteger(new BigInteger("3"));
 		Set<ConstraintViolation<TesteBigInteger>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxBigIntegerInvalid(){
-		TesteBigInteger var = new TesteBigInteger(new BigInteger("4"));
+	public void testMinBigIntegerInvalid(){
+		TesteBigInteger var = new TesteBigInteger(new BigInteger("2"));
 		Set<ConstraintViolation<TesteBigInteger>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
@@ -222,22 +266,22 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	@Test
-	public void testMaxIntLowerValid(){
-		TesteIntPrimitive var = new TesteIntPrimitive(2);
+	public void testMinIntGreaterValid(){
+		TesteIntPrimitive var = new TesteIntPrimitive(4);
 		Set<ConstraintViolation<TesteIntPrimitive>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxIntEqualValid(){
+	public void testMinIntEqualValid(){
 		TesteIntPrimitive var = new TesteIntPrimitive(3);
 		Set<ConstraintViolation<TesteIntPrimitive>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxIntInvalid(){
-		TesteIntPrimitive var = new TesteIntPrimitive(4);
+	public void testMinIntInvalid(){
+		TesteIntPrimitive var = new TesteIntPrimitive(2);
 		Set<ConstraintViolation<TesteIntPrimitive>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
@@ -245,22 +289,22 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	@Test
-	public void testMaxLongPrimitiveLowerValid(){
-		TesteLongPrimitive var = new TesteLongPrimitive(2);
+	public void testMinLongPrimitiveGreaterValid(){
+		TesteLongPrimitive var = new TesteLongPrimitive(4);
 		Set<ConstraintViolation<TesteLongPrimitive>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxLongPrimitiveEqualValid(){
+	public void testMinLongPrimitiveEqualValid(){
 		TesteLongPrimitive var = new TesteLongPrimitive(3);
 		Set<ConstraintViolation<TesteLongPrimitive>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxLongPrimitiveInvalid(){
-		TesteLongPrimitive var = new TesteLongPrimitive(4);
+	public void testMinLongPrimitiveInvalid(){
+		TesteLongPrimitive var = new TesteLongPrimitive(2);
 		Set<ConstraintViolation<TesteLongPrimitive>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
@@ -268,15 +312,15 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	@Test
-	public void testMaxShortPrimitiveLowerValid(){
-		short n = 2;
+	public void testMinShortPrimitiveGreaterValid(){
+		short n = 4;
 		TesteShortPrimitive var = new TesteShortPrimitive(n);
 		Set<ConstraintViolation<TesteShortPrimitive>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxShortPrimitiveEqualValid(){
+	public void testMinShortPrimitiveEqualValid(){
 		short n = 3;
 		TesteShortPrimitive var = new TesteShortPrimitive(n);
 		Set<ConstraintViolation<TesteShortPrimitive>> violacoes = validador.validate(var);
@@ -284,8 +328,8 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	@Test
-	public void testMaxShortPrimitiveInvalid(){
-		short n = 4;
+	public void testMinShortPrimitiveInvalid(){
+		short n = 2;
 		TesteShortPrimitive var = new TesteShortPrimitive(n);
 		Set<ConstraintViolation<TesteShortPrimitive>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
@@ -294,15 +338,15 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	@Test
-	public void testMaxBytePrimitiveLowerValid(){
-		byte n = 2;
+	public void testMinBytePrimitiveGreaterValid(){
+		byte n = 4;
 		TesteBytePrimitive var = new TesteBytePrimitive(n);
 		Set<ConstraintViolation<TesteBytePrimitive>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
 	
 	@Test
-	public void testMaxBytePrimitiveEqualValid(){
+	public void testMinBytePrimitiveEqualValid(){
 		byte n = 3;
 		TesteBytePrimitive var = new TesteBytePrimitive(n);
 		Set<ConstraintViolation<TesteBytePrimitive>> violacoes = validador.validate(var);
@@ -310,8 +354,8 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	@Test
-	public void testMaxBytePrimitiveInvalid(){
-		byte n = 4;
+	public void testMinBytePrimitiveInvalid(){
+		byte n = 2;
 		TesteBytePrimitive var = new TesteBytePrimitive(n);
 		Set<ConstraintViolation<TesteBytePrimitive>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
@@ -320,7 +364,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteString {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMin(messageParameters = {"par=Teste"}, value="3.001")
 		String campo;
 		
 		TesteString(String val){
@@ -328,8 +372,17 @@ public class MaxTest extends ExtendedValidationBaseTest {
 		}
 	}
 	
+	private static class TesteStringExclusive {
+		@DecimalMin(messageParameters = {"par=Teste"}, value="3.001", inclusive = false)
+		String campo;
+		
+		TesteStringExclusive(String val){
+			campo = val;
+		}
+	}
+	
 	private static class TesteInteger {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMin(messageParameters = {"par=Teste"}, value="3")
 		Integer campo;
 		
 		TesteInteger(){
@@ -341,7 +394,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteLong {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMin(messageParameters = {"par=Teste"}, value="3")
 		Long campo;
 		
 		TesteLong(){
@@ -353,7 +406,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteByte {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMin(messageParameters = {"par=Teste"}, value="3")
 		Byte campo;
 		
 		TesteByte(){
@@ -365,7 +418,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteShort {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMin(messageParameters = {"par=Teste"}, value="3")
 		Short campo;
 		
 		TesteShort(){
@@ -377,7 +430,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteBigInteger {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMin(messageParameters = {"par=Teste"}, value="3")
 		BigInteger campo;
 		
 		TesteBigInteger(){
@@ -389,7 +442,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteBigDecimal {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMin(messageParameters = {"par=Teste"}, value="3.001")
 		BigDecimal campo;
 		
 		TesteBigDecimal(){
@@ -400,8 +453,17 @@ public class MaxTest extends ExtendedValidationBaseTest {
 		}
 	}
 	
+	private static class TesteBigDecimalExclusive {
+		@DecimalMin(messageParameters = {"par=Teste"}, value="3.001", inclusive = false)
+		BigDecimal campo;
+		
+		TesteBigDecimalExclusive(BigDecimal val){
+			campo = val;
+		}
+	}
+	
 	private static class TesteIntPrimitive {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMin(messageParameters = {"par=Teste"}, value="3")
 		int campo;
 		
 		TesteIntPrimitive(int val){
@@ -410,7 +472,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteLongPrimitive {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMin(messageParameters = {"par=Teste"}, value="3")
 		long campo;
 		
 		TesteLongPrimitive(long val){
@@ -419,7 +481,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteBytePrimitive {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMin(messageParameters = {"par=Teste"}, value="3")
 		byte campo;
 		
 		TesteBytePrimitive(byte val){
@@ -428,7 +490,7 @@ public class MaxTest extends ExtendedValidationBaseTest {
 	}
 	
 	private static class TesteShortPrimitive {
-		@Max(messageParameters = {"par=Teste"}, value=3L)
+		@DecimalMin(messageParameters = {"par=Teste"}, value="3")
 		short campo;
 		
 		TesteShortPrimitive(short val){
