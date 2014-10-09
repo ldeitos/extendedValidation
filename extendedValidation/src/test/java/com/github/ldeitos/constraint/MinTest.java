@@ -6,10 +6,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
+import javax.validation.ValidationException;
 import javax.validation.Validator;
 
 import org.jglue.cdiunit.AdditionalClasses;
@@ -27,14 +30,7 @@ public class MinTest extends ExtendedValidationBaseTest {
 	@Inject
 	@ExtendedValidator
 	private Validator validador;
-	
-	@Test
-	public void testMinStringValid(){
-		TesteString var = new TesteString("");
-		Set<ConstraintViolation<TesteString>> violacoes = validador.validate(var);
-		assertTrue(violacoes.isEmpty());
-	}
-	
+			
 	@Test
 	public void testMinIntegerNullValid(){
 		TesteInteger var = new TesteInteger();
@@ -319,13 +315,15 @@ public class MinTest extends ExtendedValidationBaseTest {
 		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
 	}
 	
-	private static class TesteString {
+	@Test(expected = ValidationException.class)
+	public void testInvalidType(){
+		TesteInvalidType var = new TesteInvalidType();
+		validador.validate(var);
+	}
+	
+	static class TesteInvalidType {
 		@Min(messageParameters = {"par=Teste"}, value=3L)
-		String campo;
-		
-		TesteString(String val){
-			campo = val;
-		}
+		private List<?> campo = new ArrayList();
 	}
 	
 	private static class TesteInteger {

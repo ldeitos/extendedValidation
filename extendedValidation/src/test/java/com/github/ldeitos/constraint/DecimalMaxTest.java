@@ -6,10 +6,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
+import javax.validation.ValidationException;
 import javax.validation.Validator;
 
 import org.jglue.cdiunit.AdditionalClasses;
@@ -52,13 +55,10 @@ public class DecimalMaxTest extends ExtendedValidationBaseTest {
 		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
 	}
 	
-	@Test
+	@Test(expected = ValidationException.class)
 	public void testMaxStringEmptyInvalid(){
 		TesteString var = new TesteString("");
-		Set<ConstraintViolation<TesteString>> violacoes = validador.validate(var);
-		assertFalse(violacoes.isEmpty());
-		assertEquals(1, violacoes.size());
-		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
+		validador.validate(var);
 	}
 	
 	@Test
@@ -361,6 +361,17 @@ public class DecimalMaxTest extends ExtendedValidationBaseTest {
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
 		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
+	}
+	
+	@Test(expected = ValidationException.class)
+	public void testInvalidType(){
+		TesteInvalidType var = new TesteInvalidType();
+		validador.validate(var);
+	}
+	
+	static class TesteInvalidType {
+		@DecimalMax(messageParameters = {"par=Teste"}, value="3.001")
+		private List<?> campo = new ArrayList();
 	}
 	
 	private static class TesteString {

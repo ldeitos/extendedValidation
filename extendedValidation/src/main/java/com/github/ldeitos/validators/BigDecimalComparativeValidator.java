@@ -1,8 +1,11 @@
 package com.github.ldeitos.validators;
 
+import static java.lang.String.format;
+
 import java.lang.annotation.Annotation;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.security.InvalidParameterException;
 
 public abstract class BigDecimalComparativeValidator<A extends Annotation> extends MultiTargetValidator<A> {
 	private final Class<?>[] targetClasses = {Number.class, CharSequence.class}; 
@@ -18,7 +21,9 @@ public abstract class BigDecimalComparativeValidator<A extends Annotation> exten
 			try {
 				n = new BigDecimal(value.toString());
 			} catch (NumberFormatException e){
-				n = null;
+				throw new InvalidParameterException(
+					format("Value [%s] invalid to be validated by [%s] validator.", value, 
+						getClass().getName()));
 			}
 		} else if(Long.class.isAssignableFrom(valueClass)){
 			n = new BigDecimal(Long.class.cast(value));
@@ -26,7 +31,7 @@ public abstract class BigDecimalComparativeValidator<A extends Annotation> exten
 			n = new BigDecimal(Number.class.cast(value).doubleValue());
 		}		
 		
-		return n == null ? false : compareValid(n);
+		return compareValid(n);
 	}
 	
 	@Override
