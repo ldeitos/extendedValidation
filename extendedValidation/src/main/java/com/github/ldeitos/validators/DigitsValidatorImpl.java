@@ -1,6 +1,9 @@
 package com.github.ldeitos.validators;
 
+import static java.lang.String.format;
+
 import java.math.BigDecimal;
+import java.security.InvalidParameterException;
 
 import com.github.ldeitos.constraint.Digits;
 
@@ -10,8 +13,17 @@ public class DigitsValidatorImpl extends BigDecimalComparativeValidator<Digits> 
 	private int fractionPart;
 	
 	public void initialize(Digits constraintAnnotation) {
-		integerPart = constraintAnnotation.integer();
-		fractionPart = constraintAnnotation.fraction();
+		integerPart = validateParam(constraintAnnotation.integer(), "integer length");
+		fractionPart = validateParam(constraintAnnotation.fraction(), "fraction length");
+	}
+
+	private int validateParam(int value, String param) {
+		
+		if(value < 0) {
+			throw new InvalidParameterException(format("Invalid %s: [%d]", param, value));
+		}
+		
+		return value;
 	}
 
 	@Override
