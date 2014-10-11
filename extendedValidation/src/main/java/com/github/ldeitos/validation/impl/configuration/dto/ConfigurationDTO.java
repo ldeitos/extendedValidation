@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="com.github.ldeitos-validation")
+@XmlRootElement(name="extended-validation")
 @XmlAccessorType(FIELD)
 public class ConfigurationDTO {
 	@XmlElement(type= String.class, name="message-source", defaultValue = DEFAULT_MESSAGE_SOURCE)

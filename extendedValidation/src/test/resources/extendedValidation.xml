@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<com.github.ldeitos-validation>
+<extended-validation>
 	<message-source>com.github.ldeitos.validation.impl.interpolator.TestMessageSource</message-source>
 	<message-files>
 		<message-file>TestValidationMessage</message-file>
 	</message-files>
-</com.github.ldeitos-validation>
+</extended-validation>
