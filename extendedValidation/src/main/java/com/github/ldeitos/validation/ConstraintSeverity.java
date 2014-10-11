@@ -9,12 +9,17 @@ import javax.validation.Payload;
  */
 public class ConstraintSeverity implements Payload {
 	private class ERROR extends ConstraintSeverity {};
+	private class ALERT extends ConstraintSeverity {};
 	private class INFO extends ConstraintSeverity {};
 	private class WARN extends ConstraintSeverity {};
 	private class FATAL extends ConstraintSeverity {};
 	
 	public static Class<? extends ConstraintSeverity> error(){
 		return ERROR.class;
+	}
+	
+	public static Class<? extends ConstraintSeverity> alert(){
+		return ALERT.class;
 	}
 	
 	public static Class<? extends ConstraintSeverity> info(){

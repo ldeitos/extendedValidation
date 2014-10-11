@@ -1,6 +1,6 @@
 package com.github.ldeitos.validation.impl.configuration;
 
-import static com.github.ldeitos.constants.Constants.MESSAGE_FILES_ENVIRONMENT_PROPERTY;
+import static com.github.ldeitos.constants.Constants.MESSAGE_FILES_SYSTEM_PROPERTY;
 import static com.github.ldeitos.validation.impl.configuration.Configuration.getConfiguration;
 import static java.lang.System.setProperty;
 import static org.junit.Assert.assertEquals;
@@ -20,7 +20,7 @@ public class ConfigurationTest {
 	
 	@Test
 	public void testConfigurationWithMessageFilesCofiguredByEnvironment(){
-		setProperty(MESSAGE_FILES_ENVIRONMENT_PROPERTY, "arq1, arq2");
+		setProperty(MESSAGE_FILES_SYSTEM_PROPERTY, "arq1, arq2");
 		
 		assertEquals(TestMessageSource.class, 
 				getConfiguration().getConfiguredMessagesSource().getClass());
@@ -30,7 +30,7 @@ public class ConfigurationTest {
 		assertTrue(getConfiguration().getConfituredMessageFiles().contains("arq1"));
 		assertTrue(getConfiguration().getConfituredMessageFiles().contains("arq2"));
 		
-		System.clearProperty(MESSAGE_FILES_ENVIRONMENT_PROPERTY);
+		System.clearProperty(MESSAGE_FILES_SYSTEM_PROPERTY);
 	}
 	
 	@Test

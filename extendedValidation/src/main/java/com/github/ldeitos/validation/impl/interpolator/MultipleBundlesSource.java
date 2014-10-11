@@ -11,48 +11,62 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import com.github.ldeitos.constants.Constants;
 import com.github.ldeitos.validation.MessagesSource;
 
-class MultipleBundlesSource implements MessagesSource {
+/**
+ * Default ExtendedValidation concrete implementation from {@link MessagesSource}.<br/>
+ * Recovery messages from ValidationMessages.properties <b>and</b> any other file configured
+ * by {@link Constants#CONFIGURATION_FILE} or {@link Constants#MESSAGE_FILES_SYSTEM_PROPERTY}.
+ * 
+ * @author <a href="mailto:leandro.deitos@gmail.com">Leandro Deitos</a>
+ *
+ */
+class MultipleBundlesSource extends AbstractMessagesSource {
 	
-	private static final Pattern PATTERN_BUNDLE_KEY = Pattern.compile("^(\\{|\\[)(.*)(\\}|\\])$");
-	
-	private static int BUNDLE_KEY_GROUP = 2;
-	
+	/**
+	 * Set of messages file names containing {@link Constants#DEFAULT_MESSAGE_FILE} and others configured 
+	 * file names, if any.
+	 */
 	private Set<String> bundleFiles = new HashSet<String>(asList(DEFAULT_MESSAGE_FILE));
 	
+	/**
+	 * Cache to recovered bundles from file names.
+	 */
 	private Map<String, ResourceBundle> cache = new HashMap<String, ResourceBundle>();
 	
 	{
 		bundleFiles.addAll(getConfiguration().getConfituredMessageFiles());
 	}
-
-	public String getMessage(String key) {
-		return getMessage(key, null);
-	}
 	
-	public String getMessage(String key, Locale locale) {
-		String msg = new String(key);		
-		Matcher matcher = PATTERN_BUNDLE_KEY.matcher(key);
+	/**
+	 * {@inheritDoc}
+	 */
+	protected String getInSource(String original, String key, Locale locale) {
+		String msg = new String(original);
 		
-		if(matcher.matches()){
-			for(String fileName : bundleFiles) {
-				ResourceBundle resource = getBundle(fileName, locale);
-				String bundleKey = matcher.group(BUNDLE_KEY_GROUP);
-			
-				if(resource != null && resource.containsKey(bundleKey)){
-					msg = resource.getString(bundleKey);
-					break;
-				} 	
-			}
+		for(String fileName : bundleFiles) {
+			ResourceBundle resource = getBundle(fileName, locale);
+		
+			if(resource != null && resource.containsKey(key)){
+				msg = resource.getString(key);
+				break;
+			} 	
 		}
 		
 		return msg;
 	}
 
+	/**
+	 * @param fileName
+	 * 		Resource file name.
+	 * @param locale
+	 * 		Locale to recover a resource file. May be null.
+	 * @return
+	 * 		{@link ResourceBundle} equivalent to file name and locale solicited or null if does not exist.<br/>
+	 * 		If resource is correctly loaded from environment, the bundle is cached to be recovered in future requests.	
+	 */
 	private ResourceBundle getBundle(String fileName, Locale locale) {
 		String cacheKey = parseCacheKey(fileName, locale);
 		ResourceBundle resource;
@@ -75,6 +89,14 @@ class MultipleBundlesSource implements MessagesSource {
 		return resource;
 	}
 	
+	/**
+	 * @param fileName
+	 * 		File name.
+	 * @param locale
+	 * 		Locale to desidered resource. May be null.
+	 * @return
+	 * 		Cache key string formed by file name concatenated, if locale is not null, with "-" + locale display name.
+	 */
 	private String parseCacheKey(String fileName, Locale locale){
 		StringBuilder sb = new StringBuilder(fileName);
 				
@@ -84,5 +106,4 @@ class MultipleBundlesSource implements MessagesSource {
 		
 		return sb.toString();
 	}
-
 }

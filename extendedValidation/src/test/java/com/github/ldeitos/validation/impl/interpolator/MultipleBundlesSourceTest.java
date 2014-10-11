@@ -1,6 +1,6 @@
 package com.github.ldeitos.validation.impl.interpolator;
 
-import static com.github.ldeitos.constants.Constants.MESSAGE_FILES_ENVIRONMENT_PROPERTY;
+import static com.github.ldeitos.constants.Constants.MESSAGE_FILES_SYSTEM_PROPERTY;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Locale;
@@ -48,19 +48,19 @@ public class MultipleBundlesSourceTest {
 	
 	@Test
 	public void testOtherMessageFile(){
-		System.setProperty(MESSAGE_FILES_ENVIRONMENT_PROPERTY, OTHER_MESSAGE_FILE);
+		System.setProperty(MESSAGE_FILES_SYSTEM_PROPERTY, OTHER_MESSAGE_FILE);
 		
 		MultipleBundlesSource source = new MultipleBundlesSource();
 		String msg = source.getMessage(OTHER_MESSAGE_KEY);
 		
 		assertEquals(OTHER_MESSAGE, msg);
 		
-		System.clearProperty(MESSAGE_FILES_ENVIRONMENT_PROPERTY);
+		System.clearProperty(MESSAGE_FILES_SYSTEM_PROPERTY);
 	}
 	
 	@Test
 	public void testOtherMessageFileLocalized() {
-		System.setProperty(MESSAGE_FILES_ENVIRONMENT_PROPERTY, OTHER_MESSAGE_FILE);
+		System.setProperty(MESSAGE_FILES_SYSTEM_PROPERTY, OTHER_MESSAGE_FILE);
 		
 		Locale locale = new Locale("en_US");
 		MultipleBundlesSource source = new MultipleBundlesSource();
@@ -68,31 +68,31 @@ public class MultipleBundlesSourceTest {
 		
 		assertEquals(OTHER_LOCALIZED_MESSAGE, msg);
 		
-		System.clearProperty(MESSAGE_FILES_ENVIRONMENT_PROPERTY);
+		System.clearProperty(MESSAGE_FILES_SYSTEM_PROPERTY);
 	}
 	
 	@Test
 	public void testNoKeyText() {
-		System.setProperty(MESSAGE_FILES_ENVIRONMENT_PROPERTY, OTHER_MESSAGE_FILE);
+		System.setProperty(MESSAGE_FILES_SYSTEM_PROPERTY, OTHER_MESSAGE_FILE);
 		
 		MultipleBundlesSource source = new MultipleBundlesSource();
 		String msg = source.getMessage(NO_KEY_TEXT);
 		
 		assertEquals(NO_KEY_TEXT, msg);
 		
-		System.clearProperty(MESSAGE_FILES_ENVIRONMENT_PROPERTY);
+		System.clearProperty(MESSAGE_FILES_SYSTEM_PROPERTY);
 	}
 	
 	@Test
 	public void testKeyNotMaped() {
-		System.setProperty(MESSAGE_FILES_ENVIRONMENT_PROPERTY, OTHER_MESSAGE_FILE);
+		System.setProperty(MESSAGE_FILES_SYSTEM_PROPERTY, OTHER_MESSAGE_FILE);
 		
 		MultipleBundlesSource source = new MultipleBundlesSource();
 		String msg = source.getMessage(KEY_NOT_MAPPED);
 		
 		assertEquals(KEY_NOT_MAPPED, msg);
 		
-		System.clearProperty(MESSAGE_FILES_ENVIRONMENT_PROPERTY);
+		System.clearProperty(MESSAGE_FILES_SYSTEM_PROPERTY);
 	}
 	
 }

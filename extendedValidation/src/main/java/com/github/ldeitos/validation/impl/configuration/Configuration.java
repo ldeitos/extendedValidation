@@ -1,6 +1,6 @@
 package com.github.ldeitos.validation.impl.configuration;
 
-import static com.github.ldeitos.constants.Constants.MESSAGE_FILES_ENVIRONMENT_PROPERTY;
+import static com.github.ldeitos.constants.Constants.MESSAGE_FILES_SYSTEM_PROPERTY;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 import static org.apache.commons.collections15.CollectionUtils.collect;
@@ -46,7 +46,7 @@ public class Configuration {
 				return arg0.trim();
 			}
 		};
-		String configuredFiles = System.getProperty(MESSAGE_FILES_ENVIRONMENT_PROPERTY);
+		String configuredFiles = System.getProperty(MESSAGE_FILES_SYSTEM_PROPERTY);
 		Collection<String> fileNames = new ArrayList<String>();
 		
 		if(configuredFiles != null){;
