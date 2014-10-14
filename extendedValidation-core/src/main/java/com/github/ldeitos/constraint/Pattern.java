@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.github.ldeitos.validators.PatterValidatorImpl;
+import com.github.ldeitos.validators.PatternValidator;
 
 /**
  * The annotated {@code CharSequence} must match the specified regular expression.
@@ -28,7 +28,7 @@ import com.github.ldeitos.validators.PatterValidatorImpl;
 @Target( { METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { PatterValidatorImpl.class })
+@Constraint(validatedBy = { PatternValidator.class })
 public @interface Pattern {
 	
 	/**

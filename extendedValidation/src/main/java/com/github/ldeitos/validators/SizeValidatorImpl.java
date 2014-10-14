@@ -11,7 +11,8 @@ import org.apache.commons.collections15.Predicate;
 
 import com.github.ldeitos.constraint.Size;
 
-public class SizeValidatorImpl extends MultiTargetValidator<Size> {
+public class SizeValidatorImpl extends MultiTargetValidator<Size> 
+	implements SizeValidator {
 	
 	private static final Class<?>[] targetClasses = {Collection.class, Map.class, CharSequence.class};
 	

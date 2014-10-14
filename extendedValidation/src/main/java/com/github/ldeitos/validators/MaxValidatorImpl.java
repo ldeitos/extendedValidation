@@ -5,7 +5,8 @@ import java.math.BigInteger;
 
 import com.github.ldeitos.constraint.Max;
 
-public class MaxValidatorImpl extends  NumberComparativeValidator<Max> {
+public class MaxValidatorImpl extends  NumberComparativeValidator<Max> 
+	implements MaxValidator {
 	
 	private long max;
 			

@@ -15,16 +15,21 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
+import org.jboss.weld.bootstrap.WeldBootstrap;
 import org.jglue.cdiunit.AdditionalClasses;
+import org.jglue.cdiunit.InRequestScope;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.github.ldeitos.qualifier.ExtendedValidator;
 import com.github.ldeitos.validation.impl.interpolator.ExtendedValidationBaseTest;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
+import com.github.ldeitos.validators.MinDecimalValidatorImpl;
 
-@AdditionalClasses({TestMessageSource.class})
+@AdditionalClasses({TestMessageSource.class, MinDecimalValidatorImpl.class })
 public class DecimalMinTest extends ExtendedValidationBaseTest {
-	
+		
 	private static final String MENSAGEM_ESPERADA = "DecimalMin Teste";
 
 	@Inject

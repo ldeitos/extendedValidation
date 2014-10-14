@@ -5,7 +5,8 @@ import java.math.BigInteger;
 
 import com.github.ldeitos.constraint.Min;
 
-public class MinValidatorImpl extends  NumberComparativeValidator<Min> {
+public class MinValidatorImpl extends  NumberComparativeValidator<Min> 
+	implements MinValidator {
 	
 	private long min;
 			

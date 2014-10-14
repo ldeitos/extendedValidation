@@ -7,7 +7,8 @@ import java.security.InvalidParameterException;
 
 import com.github.ldeitos.constraint.Digits;
 
-public class DigitsValidatorImpl extends BigDecimalComparativeValidator<Digits> {
+public class DigitsValidatorImpl extends BigDecimalComparativeValidator<Digits> 
+	implements DigitsValidator {
 	private int integerPart;
 	
 	private int fractionPart;

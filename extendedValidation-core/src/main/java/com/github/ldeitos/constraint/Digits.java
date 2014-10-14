@@ -14,35 +14,30 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.github.ldeitos.validators.MaxValidatorImpl;
+import com.github.ldeitos.validators.DigitsValidator;
 
 /**
- * The annotated element must be a number whose value must be lower or
- * equal to the specified maximum.
- * <p/>
+ * The annotated element must be a number within accepted range
  * Supported types are:
  * <ul>
  *     <li>{@code BigDecimal}</li>
  *     <li>{@code BigInteger}</li>
+ *     <li>{@code CharSequence}</li>
  *     <li>{@code byte}, {@code short}, {@code int}, {@code long}, and their respective
- *     wrappers</li>
+ *     wrapper types</li>
  * </ul>
- * Note that {@code double} and {@code float} are not supported due to rounding errors
- * (some providers might provide some approximative support).
  * <p/>
  * {@code null} elements are considered valid.
  *
  * @author Emmanuel Bernard
  */
-@Target( { METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
+@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = {MaxValidatorImpl.class })
-public @interface Max {
+@Constraint(validatedBy = { DigitsValidator.class })
+public @interface Digits {
 
-    String message() default "{javax.validation.constraints.Max.message}";
-
-    /**
+	/**
      * @return Parameter array to be interpolated at message. Parameters can be informed in
      * "key=value" or just "value" pattern.<br/>
      * e.g:<br/>
@@ -53,27 +48,34 @@ public @interface Max {
      * message="My {0} message"<br/>
      * messageParameters = {"parameterized"}
      */
-    String[] messageParameters() default {};
-    
+	String[] messageParameters() default {};
+	
+	String message() default "{javax.validation.constraints.Digits.message}";
+
     Class<?>[] groups() default { };
 
     Class<? extends Payload>[] payload() default { };
 
     /**
-     * @return value the element must be higher or equal to
+     * @return maximum number of integral digits accepted for this number
      */
-    long value();
+    int integer();
 
     /**
-     * Defines several {@link Max} annotations on the same element.
-     *
-     * @see Max
+     * @return maximum number of fractional digits accepted for this number
      */
-    @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+    int fraction();
+
+    /**
+     * Defines several {@link Digits} annotations on the same element.
+     *
+     * @see Digits
+     */
+    @Target( { METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
     @Retention(RUNTIME)
     @Documented
     @interface List {
 
-        Max[] value();
+        Digits[] value();
     }
 }

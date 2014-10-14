@@ -21,8 +21,9 @@ import org.junit.Test;
 import com.github.ldeitos.qualifier.ExtendedValidator;
 import com.github.ldeitos.validation.impl.interpolator.ExtendedValidationBaseTest;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
+import com.github.ldeitos.validators.MaxValidatorImpl;
 
-@AdditionalClasses({TestMessageSource.class})
+@AdditionalClasses({TestMessageSource.class, MaxValidatorImpl.class })
 public class MaxTest extends ExtendedValidationBaseTest {
 	
 	private static final String MENSAGEM_ESPERADA = "Max Teste";

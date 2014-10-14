@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.github.ldeitos.validators.SizeValidatorImpl;
+import com.github.ldeitos.validators.SizeValidator;
 
 /**
  * The annotated element size must be between the specified boundaries (included).
@@ -34,7 +34,7 @@ import com.github.ldeitos.validators.SizeValidatorImpl;
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { SizeValidatorImpl.class })
+@Constraint(validatedBy = { SizeValidator.class })
 public @interface Size {
 	
 	/**

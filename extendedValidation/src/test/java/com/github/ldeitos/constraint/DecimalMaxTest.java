@@ -21,8 +21,9 @@ import org.junit.Test;
 import com.github.ldeitos.qualifier.ExtendedValidator;
 import com.github.ldeitos.validation.impl.interpolator.ExtendedValidationBaseTest;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
+import com.github.ldeitos.validators.MaxDecimalValidatorImpl;
 
-@AdditionalClasses({TestMessageSource.class})
+@AdditionalClasses({TestMessageSource.class, MaxDecimalValidatorImpl.class})
 public class DecimalMaxTest extends ExtendedValidationBaseTest {
 	
 	private static final String MENSAGEM_ESPERADA = "DecimalMax Teste";

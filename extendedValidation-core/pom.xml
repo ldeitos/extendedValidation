@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.ldeitos</groupId>
-  <artifactId>extendedValidation</artifactId>
+  <artifactId>extendedValidation-core</artifactId>
   <version>0.3.0</version>
   <packaging>jar</packaging>
 
-  <name>Extended Validation</name>
-  <description>Extension for BeanValidation API to provide CDI compatible ConstraintValidatorFactory, easy way to set parameters on message constraint and easy API to add non properties file message sources, like DB, external modules, mainframe routines, etc.</description>
+  <name>Extended Validation Core</name>
+  <description>Extension for BeanValidation API Core. Content interfaces, qualifiers and constraints definitions.</description>
   
   <licenses>
     <license>
@@ -132,78 +132,6 @@
 		<artifactId>cdi-api</artifactId>
 		<version>1.2</version>
 	</dependency>
-  	<dependency>
-		<groupId>org.apache.commons</groupId>
-		<artifactId>commons-collections4</artifactId>
-		<version>4.0</version>
-		<scope>compile</scope>
-	</dependency>
-	<dependency>
-		<groupId>commons-lang</groupId>
-		<artifactId>commons-lang</artifactId>
-		<version>2.6</version>
-		<scope>compile</scope>
-	</dependency>	
-	<dependency>
-		<groupId>net.sourceforge.collections</groupId>
-		<artifactId>collections-generic</artifactId>
-		<version>4.01</version>
-		<scope>compile</scope>
-	</dependency>
-	<dependency>
-		<groupId>javax.xml.bind</groupId>
-		<artifactId>jaxb-api</artifactId>
-		<version>2.2.11</version>
-		<scope>compile</scope>
-	</dependency>
-	<dependency>
-		<groupId>com.sun.xml.bind</groupId>
-		<artifactId>jaxb1-impl</artifactId>
-		<version>2.2.5.1</version>
-		<scope>compile</scope>
-	</dependency>
-	<dependency>
-		<groupId>com.github.ldeitos</groupId>
-		<artifactId>cdi-util</artifactId>
-		<version>0.3.0</version>
-	</dependency>
-	<dependency>
-		<groupId>com.github.ldeitos</groupId>
-		<artifactId>extendedValidation-core</artifactId>
-		<version>0.3.0</version>
-		<scope>compile</scope>
-	</dependency>
-	<dependency>
-		<groupId>org.jglue.cdi-unit</groupId>
-		<artifactId>cdi-unit</artifactId>
-		<version>3.0.1</version>
-		<scope>test</scope>
-	</dependency>
-	<dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-		<version>4.11</version>
-		<scope>test</scope>
-	</dependency>
-	<dependency>
-		<groupId>com.github.ldeitos</groupId>
-		<artifactId>extendedValidationTestSupport</artifactId>
-		<version>0.1.0-SNAPSHOT</version>
-		<scope>test</scope>
-	</dependency>
-	<dependency>
-		<groupId>org.hibernate</groupId>
-		<artifactId>hibernate-validator</artifactId>
-		<version>5.1.2.Final</version>
-		<scope>test</scope>
-	</dependency>
-	<dependency>
-		<groupId>com.sun.el</groupId>
-		<artifactId>el-ri</artifactId>
-		<version>1.0</version>
-		<scope>test</scope>
-	</dependency>
-	
   </dependencies>
   <url>http://extendedvalidation.sourceforge.net/</url>
 </project>

@@ -14,17 +14,16 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.github.ldeitos.validators.MinDecimalValidatorImpl;
+import com.github.ldeitos.validators.MaxValidator;
 
 /**
- * The annotated element must be a number whose value must be higher or
- * equal to the specified minimum.
+ * The annotated element must be a number whose value must be lower or
+ * equal to the specified maximum.
  * <p/>
  * Supported types are:
  * <ul>
  *     <li>{@code BigDecimal}</li>
  *     <li>{@code BigInteger}</li>
- *     <li>{@code CharSequence}</li>
  *     <li>{@code byte}, {@code short}, {@code int}, {@code long}, and their respective
  *     wrappers</li>
  * </ul>
@@ -38,10 +37,10 @@ import com.github.ldeitos.validators.MinDecimalValidatorImpl;
 @Target( { METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = {MinDecimalValidatorImpl.class })
-public @interface DecimalMin {
+@Constraint(validatedBy = {MaxValidator.class })
+public @interface Max {
 
-    String message() default "{javax.validation.constraints.DecimalMin.message}";
+    String message() default "{javax.validation.constraints.Max.message}";
 
     /**
      * @return Parameter array to be interpolated at message. Parameters can be informed in
@@ -61,34 +60,20 @@ public @interface DecimalMin {
     Class<? extends Payload>[] payload() default { };
 
     /**
-     * The {@code String} representation of the min value according to the
-     * {@code BigDecimal} string representation.
-     *
      * @return value the element must be higher or equal to
      */
-    String value();
+    long value();
 
     /**
-     * Specifies whether the specified minimum is inclusive or exclusive.
-     * By default, it is inclusive.
+     * Defines several {@link Max} annotations on the same element.
      *
-     * @return {@code true} if the value must be higher or equal to the specified minimum,
-     *         {@code false} if the value must be higher
-     *
-     * @since 1.1
-     */
-    boolean inclusive() default true;
-
-    /**
-     * Defines several {@link DecimalMin} annotations on the same element.
-     *
-     * @see DecimalMin
+     * @see Max
      */
     @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
     @Retention(RUNTIME)
     @Documented
     @interface List {
 
-        DecimalMin[] value();
+        Max[] value();
     }
 }

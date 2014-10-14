@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 
 import com.github.ldeitos.constraint.DecimalMin;
 
-public class MinDecimalValidatorImpl extends BigDecimalComparativeValidator<DecimalMin> {
+public class MinDecimalValidatorImpl extends BigDecimalComparativeValidator<DecimalMin> 
+	implements MinDecimalValidator {
 	private BigDecimal minValue;
 	
 	private boolean inclusive;

@@ -16,8 +16,9 @@ import org.junit.Test;
 import com.github.ldeitos.qualifier.ExtendedValidator;
 import com.github.ldeitos.validation.impl.interpolator.ExtendedValidationBaseTest;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
+import com.github.ldeitos.validators.PatternValidatorImpl;
 
-@AdditionalClasses({TestMessageSource.class})
+@AdditionalClasses({TestMessageSource.class, PatternValidatorImpl.class })
 public class PatternTest extends ExtendedValidationBaseTest {
 	
 	private static final String MENSAGEM_ESPERADA = "Pattern Teste";

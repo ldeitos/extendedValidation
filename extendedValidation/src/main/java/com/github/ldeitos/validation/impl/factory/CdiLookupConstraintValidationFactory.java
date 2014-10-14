@@ -6,6 +6,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorFactory;
 
+import org.apache.deltaspike.core.api.provider.BeanProvider;
+
 import com.github.ldeitos.util.ManualContext;
 
 /**

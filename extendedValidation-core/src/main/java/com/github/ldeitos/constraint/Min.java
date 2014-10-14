@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.github.ldeitos.validators.MinValidatorImpl;
+import com.github.ldeitos.validators.MinValidator;
 
 /**
  * The annotated element must be a number whose value must be higher or
@@ -37,7 +37,7 @@ import com.github.ldeitos.validators.MinValidatorImpl;
 @Target( { METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = {MinValidatorImpl.class })
+@Constraint(validatedBy = {MinValidator.class })
 public @interface Min {
 
     String message() default "{javax.validation.constraints.Min.message}";
