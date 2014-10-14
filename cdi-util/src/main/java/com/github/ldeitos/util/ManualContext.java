@@ -2,6 +2,7 @@ package com.github.ldeitos.util;
 
 import java.lang.annotation.Annotation;
 import java.util.Iterator;
+import java.util.Set;
 
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
@@ -17,21 +18,27 @@ import javax.naming.NamingException;
  * @author Vaclav Svejcar (v.svejcar@norcane.cz)
  */
 public class ManualContext {
+	
+	private static final String BEAN_MANAGER_JNDI = "java:comp/BeanManager";
+    private static final String BEAN_MANAGER_JNDI_FALLBACK = "java:comp/env/BeanManager";
+
  
-	private static final Context ctx;
-	private static final BeanManager beanManager;
- 
-	static {
+	private static BeanManager getBeanManager() {
 		try {
-			ctx = new InitialContext();
+			Context ctx = new InitialContext();
  
 			// manual JNDI lookupCDI for the CDI bean manager (JSR 299)
-			beanManager = (BeanManager) ctx.lookup(
-					"java:comp/BeanManager");
+			BeanManager beanManager = (BeanManager) ctx.lookup(BEAN_MANAGER_JNDI);
+			
+			if(beanManager == null) {
+				beanManager = (BeanManager) ctx.lookup(BEAN_MANAGER_JNDI_FALLBACK);
+			}
+			
+			return beanManager;
 		} catch (NamingException ex) {
 			throw new IllegalStateException(
 					"cannot perform JNDI lookup for CDI BeanManager");
-		}
+		}		
 	}
  
 	/**
@@ -45,10 +52,12 @@ public class ManualContext {
 	 */
 	public static <T> T lookupCDI(Class<T> theClass, Annotation... annotations) {
 		T beanReference = null;
-		Iterator<Bean<?>> it = beanManager.getBeans(theClass, annotations).iterator();
+		BeanManager beanManager = getBeanManager();
+		Set<Bean<?>> beans = beanManager.getBeans(theClass, annotations);
+		Iterator<Bean<?>> it = beans.iterator();
 
 		if(it.hasNext()){
-			Bean<T> bean = (Bean<T>) it.next();
+			Bean<T> bean = (Bean<T>) beanManager.resolve(beans);
 			CreationalContext<T> cCtx = beanManager.createCreationalContext(bean);
 			beanReference = (T) beanManager.getReference(bean, theClass, cCtx);
 		}
