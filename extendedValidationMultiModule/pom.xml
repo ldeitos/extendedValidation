@@ -34,7 +34,7 @@
 		<module>extendedValidation</module>
 	</modules>
 
-	<build>
+	<build>		
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
