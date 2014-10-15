@@ -3,10 +3,9 @@ package com.github.ldeitos.validation.impl.factory;
 import static javax.validation.Validation.byDefaultProvider;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.UnsatisfiedResolutionException;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorFactory;
-
-import org.apache.deltaspike.core.api.provider.BeanProvider;
 
 import com.github.ldeitos.util.ManualContext;
 
@@ -22,11 +21,13 @@ public class CdiLookupConstraintValidationFactory implements
 	ConstraintValidatorFactory delegate = byDefaultProvider().configure().getDefaultConstraintValidatorFactory();
 
 	public <T extends ConstraintValidator<?, ?>> T getInstance(Class<T> key) {
-		T constraintValidator = ManualContext.lookupCDI(key);
+		T constraintValidator = null;
 		
-		if(constraintValidator == null) {
+		try {
+			constraintValidator = ManualContext.lookupCDI(key);
+		} catch(UnsatisfiedResolutionException ex) {
 			constraintValidator = delegate.getInstance(key);
-		}
+		}		
 		
 		return constraintValidator;
 	}

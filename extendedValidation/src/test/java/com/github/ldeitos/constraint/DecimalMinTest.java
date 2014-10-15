@@ -15,11 +15,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
-import org.jboss.weld.bootstrap.WeldBootstrap;
 import org.jglue.cdiunit.AdditionalClasses;
-import org.jglue.cdiunit.InRequestScope;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.github.ldeitos.qualifier.ExtendedValidator;
