@@ -48,7 +48,7 @@ public class ExtendedParameterMessageInterpolator implements MessageInterpolator
 	}
 
 	/**
-	 * Get message , using {@link MessageTemplate}, in {@link MessagesSource} and
+	 * Get message , using messageTemplate, in {@link MessagesSource} and
 	 * delegate to default interpolator to parameters resolution.
 	 */
 	public String interpolate(String messageTemplate, Context context,
