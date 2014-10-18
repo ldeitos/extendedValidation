@@ -1,0 +1,118 @@
+<div class="content">
+	<div class="art-box-body art-post-body">
+		<div class="art-post-inner art-article">
+			<h2 class="art-postheader">
+				Suporte extendido a parametrização do texto das mensagens
+			</h2>
+			<div class="art-postmetadataheader">
+				<div class="art-postheadericons art-metadata-icons">
+				</div>
+			</div>
+			<div class="art-postcontent">
+				<p>
+				As possibilidades de parametrização do texto das mensagens geradas para o sistema através da violação das <i>Constraint</i> 
+				foram ampliadas com o uso do <i>ExtendedValidation</i>.
+				</p>
+				<p>
+				A <a href="http://beanvalidation.org/1.1/spec/#default-messageresolver"><i>BeanValidation API 1.1</i></a> define que os campos 
+				declarados na <i>Constraint</i>, além de <i>EL expressions</i> e algumas variáveis pré-definidas podem ser utilizadas para 
+				resolver a mensagem na fase de interpolação. Abaixo está exemplificado como um campo ("label") é utilizado para valorizar 
+				um parâmetro definido em uma mensagem.
+				</p>
+				<div class="gsc-branding-text gsc-sidebar-text-small">Definição da <i>Constraint</i></div>
+<pre class="brush: java;">
+@Constraint(validatedBy = MyValidator.class)
+@Documented
+@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Retention(RUNTIME)
+public @interface MyConstraint {
+	String label() default "";
+	String message() default "{label} invalida";
+	Class&lt;?&gt;[] groups() default {};
+	Class&lt;? extends Payload&gt;[] payload() default {};
+}
+</pre>
+				<div class="gsc-branding-text gsc-sidebar-text-small">Aplicação da <i>Constraint</i> em uma entidade.</div>
+<pre class="brush: java;">
+@MyConstraint(label="Minha entidade")
+public class MyEntity {
+	...
+}
+</pre>
+				<p>
+				No exemplo demonstrado a mensagem gerada seria "Minha entidade invalida".
+				</p>
+				<p>
+				O mecanismo proposto pela <a href="http://beanvalidation.org/1.1/spec/"><i>BeanValidation API 1.1</i></a> é muito 
+				flexível e atende a maioria dos cenários comuns de uso. Entretanto, em sistemas cujo as mensagens são pré-cadastradas 
+				e reaproveitadas em múltiplos cenários, ou ainda quando a <i>constraint</i> é reutilizada gerando mensagens diferentes
+				em momentos distintos, a necessidade de prever todos os parâmetros que serão utilizados ao longo do tempo no momento 
+				da definição da <i>constraint</i> pode tornar-se inconveniente.
+				</p>
+				<p>
+				Com a proposta de ampliar as possiblidades de parametrização de mensagens e permitir que isso seja realizado no momento 
+				da aplicação da <i>constraint</i>, e não no de sua definição, o <i>ExtendedValidation</i> adiciona a possibilidade de 
+				declarar o campo "messageParameters" na <i>constraint</i>. Caso o campo esteja presente, seu conteúdo é processado pela implementação 
+				do interpolador disponibilizado pelo componente, que extrai o par 'chave=valor' e envia para o interpolador default da implementação 
+				da API escolhida para o projeto.
+				</p>
+				<div class="gsc-branding-text gsc-sidebar-text-small">Definição da <i>Constraint</i></div>
+<pre class="brush: java;">
+@Constraint(validatedBy = MyValidator.class)
+@Documented
+@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Retention(RUNTIME)
+public @interface MyConstraint {
+	String[] messageParameters() default {};
+	String message() default "{label} invalida";
+	Class&lt;?&gt;[] groups() default {};
+	Class&lt;? extends Payload&gt;[] payload() default {};
+}
+</pre>
+				<div class="gsc-branding-text gsc-sidebar-text-small">Aplicação da <i>Constraint</i> em uma entidade.</div>
+<pre class="brush: java;">
+@MyConstraint(messageParameters={"label=Minha entidade"})
+public class MyEntity {
+	...
+}
+</pre>
+				<p>
+				A mensagem resultante será idêntica a do caso anterior.
+				</p>
+				<p>
+				É importante salientar que o componente não efetiva a resolução dos parâmetros na mensagem, esta fase é executada pelo 
+				interpolador padrão da implementação concreta da API utilizada no projeto. A implementação de interpolador do componente 
+				é um <i>decorator</i> que tem apenas a função de processar os parâmetros definidos em "messageParameters" e enviá-los 
+				ao interpolador padrão como se tivessem sido definidos da forma especificada pela API.										
+				</p>
+				<p>
+				A parametrização de mensagens pode ser realizada no esquema "chave=valor" ou apenas informando o valor a ser interpolado. 
+				Entretanto, neste caso, é necessário que a mensagem defina o parâmetro no padrão de índice, como em: "{0} invalida".
+				</p>
+				<p>
+				Uma vez que o campo "messageParameters" é um <i>array</i>, é possível informar multiplos parâmetros adicionando-os  
+				separados por vírgula, como nos exemplos abaixo: 
+				</p>
+<pre class="brush: java;">
+@MyConstraint(messageParameters={"par1=val1", "par2=val2", "par3=val3"}, 
+              message="{par1} deve ser diferente de {par2} e {par3}")
+public class MyEntity {
+	...
+}
+</pre>
+<pre class="brush: java;">
+@MyConstraint(messageParameters={"val1", "val2", "val3"}, 
+              message="{0} deve ser diferente de {1} e {2}")
+public class MyEntity {
+	...
+}
+</pre>				
+			</div>
+			<div class="cleared"></div>
+			<div class="art-postfootericons art-metadata-icons">
+				<span class="art-posttagicon"><a href="mailto:leandro.deitos@gmail.com" title="link">Leandro Deitos</a> - 2014</span>
+			</div>
+		</div>
+		<div class="cleared"></div>
+	</div>
+</div>						

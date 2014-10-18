@@ -1,0 +1,7 @@
+# robots.txt generated at http://www.mcanerin.com
+User-agent: *
+Disallow: 
+Disallow: /template/
+Disallow: /src/
+Disallow: /apidoc/
+Sitemap: http://extendedvalidation.sourceforge.net/sitemap.xml

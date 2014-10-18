@@ -1,0 +1,70 @@
+<div class="content">
+	<div class="art-box-body art-post-body">
+		<div class="art-post-inner art-article">
+			<h2 class="art-postheader">
+				Integrado ao CDI
+			</h2>
+			<div class="art-postmetadataheader">
+				<div class="art-postheadericons art-metadata-icons">
+				</div>
+			</div>
+			<div class="art-postcontent">
+			<p>
+				O ExtendedValidation possui uma implementação de <i>ConstraintValidatorFactory</i> integrada ao contexto de dependências
+				da <a href="http://cdi-spec.org/" target="_blank">API CDI</a>, possibilitando que a instância do validador declarado pela 
+				<i>Constraint</i> seja recuperada a partir de uma interface, tornando possível desacoplar esses elementos.
+				</p>
+				<p>
+				A especificaçao do <a href="http://beanvalidation.org/1.1/spec/"><i>BeanValidation API 1.1</i></a> relaciona a descrição da 
+				<i>Constraint</i> com seu validador diretamente através da classe desse último, como exemplificado no modelo abaixo: 
+				</p>
+				<div align="center" class="art-box art-blockcontent">
+					<img src="./images/ConstraintValidation1.png" class="gsc-branding-img-noclear" alt="" />
+				</div>
+				<p>
+				Afim de possibilitar a desvinculação entre a <i>Constraint</i> e a implementação de seu validador, a <i>factory</i> de validadores 
+				implementada pelo <i>ExtendedValidation</i> permite que seja atribuído uma interface à <i>Constraint</i>, a qual será implementada 
+				pelo validador, que poderá ou não estar fisicamente no mesmo componente, como a seguir:
+				</p>
+				<div align="center" class="art-box art-blockcontent">
+					<img src="./images/ConstraintValidation2.png" class="gsc-branding-img-noclear" alt="" />
+				</div>
+				<p>
+				Projetos <i>Enterprise</i> compostos por um grande número de módulos, e que possuem interdependência de dados, costumam 
+				apresentar aumento de complexidade no gerenciamento de dependências proporcional ao seu crescimento, principalmente em cenários 
+				em que há times distintos trabalhando simultaneamente em módulos relacionados. 
+				</p>
+				<p>
+				O diagrama abaixo apresenta o cenário tradicional, aonde cada componte de negócio que possua relacionamento com outro 
+				carrega consigo uma dependência direta com o componente origem dos elementos a serem compartilhados. 
+				</p>
+				<div align="center" class="art-box art-blockcontent">
+					<img src="./images/Tradicional.png" class="gsc-branding-img-noclear" alt="" />
+				</div>
+				<p>
+				Este modelo pode levar a situações de dependência circular, cenário geralmente indesejado devido a fragilidade resultante do aumento 
+				da complexidade na gestão, manutenção e evolução dos componentes envolvidos.
+				</p>
+				<p>
+				Tendo em mente que entidades e interfaces de serviços mudam com menor frequência que os comportamentos de negócio, o desacoplamento possibilitado pelo 
+				<i>ExtendedValidation</i> viabiliza a adoção de uma arquitetura segmentada em componentes com responsabilidades mais coesas e independentes,
+				de forma a permitir que as dependências sejam estabelecidas entre os elementos com menor possibilidade de alteração ao longo da vida do sistema,
+				como demonstrado no diagrama a seguir:
+				</p>
+				<div align="center" class="art-box art-blockcontent">
+					<img src="./images/Desacoplado.png" class="gsc-branding-img-noclear" alt="" />
+				</div>
+				<p>
+				A <i>Factory</i> implementada permite a convivência entre o modelo proposto e o padrão definido pela <a href="http://beanvalidation.org/1.1/spec/"><i>BeanValidation API 1.1</i></a>,
+				ou seja, é possível existir definições de <i>Constraint</i> relacionadas a interfaces e outras definindo classes concretas, ambas serão igualmente tratadas na fase de resolução do 
+				validador a ser aplicado.
+				</p>	
+			</div>
+			<div class="cleared"></div>
+			<div class="art-postfootericons art-metadata-icons">
+				<span class="art-posttagicon"><a href="mailto:leandro.deitos@gmail.com" title="link">Leandro Deitos</a> - 2014</span>
+			</div>
+		</div>
+		<div class="cleared"></div>
+	</div>	
+</div>						

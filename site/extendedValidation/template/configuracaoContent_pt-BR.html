@@ -1,0 +1,75 @@
+<div class="content">
+	<div class="art-box-body art-post-body">
+		<div class="art-post-inner art-article">									
+			<h2 class="art-postheader">
+				Configuração e uso
+			</h2>
+			<div class="art-postmetadataheader">
+				<div class="art-postheadericons art-metadata-icons"></div>
+			</div>
+			<div class="art-postcontent">
+				<p>
+				Para utilizar o <i>ExtendedValidation</i> é necessário adicionar ao projeto as seguintes dependências:
+				<div class="cleared"></div>
+				&nbsp;&nbsp;&nbsp;- <a target="_blank" href="http://search.maven.org/#search%7Cga%7C1%7Cextendedvalidation"><i>ExtendedValidation</i>
+				<div class="cleared"></div>
+				&nbsp;&nbsp;&nbsp;- <a target="_blank" href="http://search.maven.org/#artifactdetails%7Cjavax.validation%7Cvalidation-api%7C1.1.0.Final%7Cjar"><i>BeanValidation API 1.1</i></a>
+				<div class="cleared"></div>
+			 	&nbsp;&nbsp;&nbsp;- Uma implementação da <i>BeanValidation API 1.1</i> (Ex.: <a target="_blank" href="http://search.maven.org/#artifactdetails%7Corg.hibernate%7Chibernate-validator%7C5.1.2.Final%7Cjar">Hibernate Validator</a>)
+				</p>
+				<p>
+				O <i>ExtendedValidation</i> já possui as configurações necessárias para que seus recursos sejam integrados ao mecanismo 
+				de validação. Entretanto, caso seu projeto possua configurações próprias declaradas no arquivo <i>validation.xml</i> 
+				é necessário que uma das seguintes ações sejam tomadas:
+				<div class="cleared"></div>
+				&nbsp;&nbsp;&nbsp;- Remover as configurações atuais e substituí-las pelos mecanismos disponibilizados pelo <i>ExtendedValidation</i>
+				<div class="cleared"></div>
+				&nbsp;&nbsp;&nbsp;- Adicionar as configurações necessárias para o correto funcionamento do <i>ExtendedValidation</i>, conforme segue:
+				</p>
+<pre class="brush: xml;">
+<?xml version="1.0" encoding="UTF-8"?>
+<validation-config>
+  <message-interpolator>
+  com.github.ldeitos.validation.impl.interpolator.ExtendedParameterMessageInterpolator
+  </message-interpolator>
+  
+  <constraint-validator-factory>
+  com.github.ldeitos.validation.impl.factory.CdiLookupConstraintValidationFactory
+  </constraint-validator-factory>
+   
+  ...
+</validation-config>
+</pre>
+				<p>
+				O uso do arquivo de configuração  <i>extendedValidation.xml</i> somente é exigido caso seja preciso configurar múltiplos arquivos como fonte das mensagens ou se 
+				for necessário substituir a implementação padrão de <i>MessagesSource</i> do componente, conforme detalhado no <a href="multiFontes.html">capítulo específico</a>.
+				</p>
+				<p>
+				O arquivo de configuração  deve ser declarado, se necessário, uma única vez no projeto, ou seja, caso o projeto seja composto 
+				de múltiplos módulos, apenas uma ocorrência do arquivo deverá estar presente no <i>path</i> da aplicação.
+				</p>
+				
+				<p>
+				Abaixo segue modelo do arquivo <i>extendedValidation.xml</i> para referência.
+				</p>
+<pre class="brush: xml;">
+<?xml version="1.0" encoding="UTF-8"?>
+<extended-validation>
+	<!--Nome qualificado da instância de MessagesSource a ser utilizado-->
+	<message-source></message-source> 
+	<!--Lista de arquivos que conterão as mensagens da aplicação-->
+	<message-files>
+		<!--nome de arquivo, sem extensão-->
+		<message-file></message-file>
+		<message-file></message-file>
+	</message-files>
+</extended-validation>
+</pre>
+			</div>
+			<div class="cleared"></div>
+			<div class="art-postfootericons art-metadata-icons">
+				<span class="art-posttagicon"><a href="mailto:leandro.deitos@gmail.com" title="link">Leandro Deitos</a> - 2014</span>
+			</div>
+		</div>							
+	</div>	
+</div>						

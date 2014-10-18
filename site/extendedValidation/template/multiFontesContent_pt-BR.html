@@ -1,0 +1,148 @@
+<div class="content">
+	<div class="art-box-body art-post-body">
+		<div class="art-post-inner art-article">
+			<h2 class="art-postheader">
+				Multiplas fontes de mensagens
+			</h2>
+			<div class="art-postmetadataheader">
+				<div class="art-postheadericons art-metadata-icons">
+				</div>
+			</div>
+			<div class="art-postcontent">				
+				<p>
+				A <a href="http://beanvalidation.org/1.1/spec/"><i>BeanValidation API 1.1</i></a> possibilita duas formas para atribuir mensagens 
+				à <i>constraint</i>:
+				</p>
+				<p>
+				 - Atribuindo o texto da mensagem diretamente ao atributo <i>"message"</i>, seja na declaração ou no aplicação da <i>constraint</i>,
+				 como exemplificado abaixo:
+				</p>
+<pre class="brush: java;">
+@Constraint(validatedBy = MyValidator.class)
+@Documented
+@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Retention(RUNTIME)
+public @interface MyConstraint {
+	String[] messageParameters() default {};
+	String message() default "Minha Mensagem";
+	Class&lt;?&gt;[] groups() default {};
+	Class&lt;? extends Payload&gt;[] payload() default {};
+}
+
+// OU //
+
+@MyConstraint(message="Minha Mensagem")
+public class MyClass {
+	...
+}
+</pre>
+				<p>
+				 - Atribuir ao atributo <i>"message"</i> uma chave que identifica a mensagem a ser recuperada no arquivo "ValidationMessages.properties",
+				 como segue:
+				</p>
+<pre class="brush: java;">
+@Constraint(validatedBy = MyValidator.class)
+@Documented
+@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Retention(RUNTIME)
+public @interface MyConstraint {
+	String[] messageParameters() default {};
+	String message() default "{meusistema.minhamensagem}";
+	Class&lt;?&gt;[] groups() default {};
+	Class&lt;? extends Payload&gt;[] payload() default {};
+}
+
+// OU //
+
+@MyConstraint(message="{meusistema.minhamensagem}")
+public class MyClass {
+	...
+}
+</pre>
+				<p>
+				Em consonância com a especifição, o <i>ExtendedValidation</i> mantém as formas de especificar as mensagens acima demonstradas, porém 
+				expande as possibilidades de definição do repositório das mensagens, disponibilizando um mecanismo simplificado para configuraçao  
+				de multiplos arquivos ".properties" ou mesmo definir uma implementação própria que recupere as mensagens a partir de outro tipo 
+				de fonte como banco de dados, módulo ou aplicação externa ao sistema, rotinas mainframe, etc.
+				</p>
+				<p>
+				Esta abordagem dispensa que aplicações compostas por multiplos módulos necessitem centralizar as mensagens em um único arquivo, 
+				procedimento que pode trazer transtornos em ambientes aonde há o desenvolvimento concorrente de módulos por times distintos, além 
+				de facilitar o reaproveitamento de fontes de mensagens legadas.
+				</p>
+				<h3 class="art-postcontent art-subtitle">
+					Configuração de múltiplos arquivos de mensagens
+				</h3>
+				<p>
+				A abordagem padrão de origem de mensagem adotado pelo <i>ExtendedValidation</i> é a recuperação em arquivos ".properties", sendo que 
+				é possível se utilizar de multiplos arquivos para este fim. Existem duas formas para configurar este comportamento: 
+				</p>
+				<p>
+				 - Definir a variável de ambiente <a href="#"><b>"com.github.ldeitos.validation.message.files"</b></a> atribuindo a essa a lista de nomes 
+				de arquivos a serem considerados sepearados por ",". O exemplo a seguir demonstra a configuração da variável de sistema ao iniciar a 
+				aplicação java, entretanto a forma de efetuar esta configuração varia de acordo com o ambiente, como por exemplo o servidor de aplicação 
+				utilizado.
+				</p>
+<pre class="brush: plain;">
+java myApp -Dcom.github.ldeitos.validation.message.files=
+moduleXErrorMessages, moduleYErrorMessages, ... 
+</pre>
+				<p>
+				 - Configurar através do arquivo <a href="#"><b>extendedValidation.xml</b></a>
+				</p>
+<pre class="brush: xml;">
+<?xml version="1.0" encoding="UTF-8"?>
+<extended-validation>
+	<message-files>
+		<message-file>moduleXErrorMessages</message-file>
+		<message-file>moduleYErrorMessages</message-file>
+		...
+	</message-files>
+</extended-validation>
+</pre>
+				<p>
+				Em ambos os casos o arquivo padrão definido pela API, o "ValidationMessages.properties", será considerado caso esteja presente
+				no <i>path</i> da aplicação, independente de ter sido ou não mencionado na configuração. Caso ambas as formas forem utilizadas 
+				concorrentemente, tanto o conteúdo do arquivo de configuração quanto da variável de sistema será considerado, sendo que duplicações 
+				são eliminadas.
+				</p>
+				<p>
+				Finalmente, caso uma mesma chave esteja definida em mais de um arquivo, será recuperada a que for encontrada primeiro pelo mecanismo.
+				</p>
+				<h3 class="art-postcontent art-subtitle">
+					Redefinição da origem das mensagens
+				</h3>
+				<p>
+				Como já mencionado também é possível substituir a fonte das mensagens, ou seja, utilizar outro tipo de repositório que não arquivos
+				".properties". Para este fim, o <i>ExtendedValidation</i> disponibiliza a interface <i>MessagesSource</i>, a qual pode ser implementada
+				livremente pela equipe do projeto afim de utilizar o meio desejado para recuperar as mensagens do sistema.
+				</p>
+				<p>
+				Para substituir o <i>MessagesSource</i> padrão do componente basta configurar a sua implementação no arquivo 
+				<a href="#"><b>extendedValidation.xml</b></a>:
+				</p>
+<pre class="brush: xml;">
+<?xml version="1.0" encoding="UTF-8"?>
+<extended-validation>
+	<message-source>com.foo.bar.MyMessageSource</message-source>
+</extended-validation>
+</pre>
+				<p>
+				Também é disponibilizado a classe abstrata <i>AbstractMessagesSource</i>, cuja implementação verifica se o template de mensagem recebido
+				está no formato padrão de chave de busca - "{chave.para.minhamensagem}" - ou, opcionalmente, a variação identificada por "[...]", antes 
+				de tentar recuperar a mensagem na origem definida. 
+				</p>
+				<p>
+				Caso se utilize a classe abstrata e o template definido na constraint não seja compatível com o padrão de chave de busca, o próprio texto 
+				do template é retornado pelo <i>MessagesSource</i>. É importante que o mesmo comportamento seja adotado pelas implementações próprias,
+				tanto para este caso como quando a chave utilizada não recupera nenhuma mensagem.
+				</p>
+			</div>
+			<div class="cleared"></div>
+			<div class="art-postfootericons art-metadata-icons">
+				<span class="art-posttagicon"><a href="mailto:leandro.deitos@gmail.com" title="link">Leandro Deitos</a> - 2014</span>
+			</div>
+		</div>
+		<div class="cleared"></div>
+	</div>	
+</div>	
