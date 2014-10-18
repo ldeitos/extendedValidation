@@ -4,7 +4,7 @@ import java.lang.annotation.Annotation;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public abstract class NumberComparativeValidator<A extends Annotation> extends MultiTargetValidator<A> {
+abstract class NumberComparativeValidator<A extends Annotation> extends MultiTargetValidator<A> {
 	private final Class<?>[] targetClasses = {Integer.class, Long.class, Short.class, 
 			Byte.class, BigInteger.class, BigDecimal.class}; 
 

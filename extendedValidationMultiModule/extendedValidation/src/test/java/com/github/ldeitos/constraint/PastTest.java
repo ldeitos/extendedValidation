@@ -17,11 +17,11 @@ import org.jglue.cdiunit.AdditionalClasses;
 import org.junit.Test;
 
 import com.github.ldeitos.qualifier.ExtendedValidator;
-import com.github.ldeitos.validation.impl.interpolator.ExtendedValidationBaseTest;
+import com.github.ldeitos.test.base.BaseTest;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 
 @AdditionalClasses({TestMessageSource.class})
-public class PastTest extends ExtendedValidationBaseTest {
+public class PastTest extends BaseTest {
 	
 	private static final String MENSAGEM_ESPERADA = "Past Teste";
 

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.InvalidParameterException;
 
-public abstract class BigDecimalComparativeValidator<A extends Annotation> extends MultiTargetValidator<A> {
+abstract class BigDecimalComparativeValidator<A extends Annotation> extends MultiTargetValidator<A> {
 	private final Class<?>[] targetClasses = {Number.class, CharSequence.class}; 
 
 	protected boolean doValidation(Object value) {

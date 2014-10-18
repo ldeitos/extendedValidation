@@ -20,106 +20,106 @@ import org.jglue.cdiunit.AdditionalClasses;
 import org.junit.Test;
 
 import com.github.ldeitos.qualifier.ExtendedValidator;
-import com.github.ldeitos.validation.impl.interpolator.ExtendedValidationBaseTest;
+import com.github.ldeitos.test.base.BaseTest;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 import com.github.ldeitos.validators.SizeValidatorImpl;
 
-@AdditionalClasses({TestMessageSource.class, SizeValidatorImpl.class })
-public class SizeTest extends ExtendedValidationBaseTest {
-	
+@AdditionalClasses({ TestMessageSource.class, SizeValidatorImpl.class })
+public class SizeTest extends BaseTest {
+
 	private static final String MENSAGEM_ESPERADA = "Size Teste";
 
 	@Inject
 	@ExtendedValidator
 	private Validator validador;
-	
+
 	@Test
-	public void testPrimitiveArrayNull(){
+	public void testPrimitiveArrayNull() {
 		TestePrimitiveArray var = new TestePrimitiveArray();
 		Set<ConstraintViolation<TestePrimitiveArray>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
-	
+
 	@Test
-	public void testPrimitiveArrayValidBottomLimit(){
-		TestePrimitiveArray var = new TestePrimitiveArray(new int[] {1, 2});
+	public void testPrimitiveArrayValidBottomLimit() {
+		TestePrimitiveArray var = new TestePrimitiveArray(new int[] { 1, 2 });
 		Set<ConstraintViolation<TestePrimitiveArray>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
-	
+
 	@Test
-	public void testPrimitiveArrayValidTopLimit(){
-		TestePrimitiveArray var = new TestePrimitiveArray(new int[] {1, 2, 3, 4});
+	public void testPrimitiveArrayValidTopLimit() {
+		TestePrimitiveArray var = new TestePrimitiveArray(new int[] { 1, 2, 3, 4 });
 		Set<ConstraintViolation<TestePrimitiveArray>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
-	
+
 	@Test
-	public void testPrimitiveArrayValidBottomInvalid(){
+	public void testPrimitiveArrayValidBottomInvalid() {
 		TestePrimitiveArray var = new TestePrimitiveArray(new int[] {});
 		Set<ConstraintViolation<TestePrimitiveArray>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
 		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
 	}
-	
+
 	@Test
-	public void testPrimitiveArrayValidTopInvalid(){
-		TestePrimitiveArray var = new TestePrimitiveArray(new int[] {1, 2, 3, 4, 5});
+	public void testPrimitiveArrayValidTopInvalid() {
+		TestePrimitiveArray var = new TestePrimitiveArray(new int[] { 1, 2, 3, 4, 5 });
 		Set<ConstraintViolation<TestePrimitiveArray>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
 		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
 	}
-	
+
 	@Test
-	public void testCollectionNull(){
+	public void testCollectionNull() {
 		TesteCollection var = new TesteCollection();
 		Set<ConstraintViolation<TesteCollection>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
-	
+
 	@Test
-	public void testCollectionValidBottomLimit(){
+	public void testCollectionValidBottomLimit() {
 		TesteCollection var = new TesteCollection(asList(true, false));
 		Set<ConstraintViolation<TesteCollection>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
-	
+
 	@Test
-	public void testCollectionValidTopLimit(){
+	public void testCollectionValidTopLimit() {
 		TesteCollection var = new TesteCollection(asList(true, false, true, false));
 		Set<ConstraintViolation<TesteCollection>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
-	
+
 	@Test
-	public void testCollectionValidBottomInvalid(){
+	public void testCollectionValidBottomInvalid() {
 		TesteCollection var = new TesteCollection(new ArrayList<String>());
 		Set<ConstraintViolation<TesteCollection>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
 		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
 	}
-	
+
 	@Test
-	public void testCollectionValidTopInvalid(){
+	public void testCollectionValidTopInvalid() {
 		TesteCollection var = new TesteCollection(asList(true, true, false, true, false));
 		Set<ConstraintViolation<TesteCollection>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
 		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
 	}
-	
+
 	@Test
-	public void testMapNull(){
+	public void testMapNull() {
 		TesteMap var = new TesteMap();
 		Set<ConstraintViolation<TesteMap>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
-	
+
 	@Test
-	public void testMapValidBottomLimit(){
+	public void testMapValidBottomLimit() {
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		map.put(1, 1);
 		map.put(2, 1);
@@ -127,9 +127,9 @@ public class SizeTest extends ExtendedValidationBaseTest {
 		Set<ConstraintViolation<TesteMap>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
-	
+
 	@Test
-	public void testMapValidTopLimit(){
+	public void testMapValidTopLimit() {
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		map.put(1, 1);
 		map.put(2, 1);
@@ -139,9 +139,9 @@ public class SizeTest extends ExtendedValidationBaseTest {
 		Set<ConstraintViolation<TesteMap>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
-	
+
 	@Test
-	public void testMapValidBottomInvalid(){
+	public void testMapValidBottomInvalid() {
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		map.put(1, 1);
 		TesteMap var = new TesteMap(map);
@@ -150,9 +150,9 @@ public class SizeTest extends ExtendedValidationBaseTest {
 		assertEquals(1, violacoes.size());
 		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
 	}
-	
+
 	@Test
-	public void testMapValidTopInvalid(){
+	public void testMapValidTopInvalid() {
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		map.put(1, 1);
 		map.put(2, 1);
@@ -165,102 +165,107 @@ public class SizeTest extends ExtendedValidationBaseTest {
 		assertEquals(1, violacoes.size());
 		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
 	}
-	
+
 	static class TestePrimitiveArray {
-		@Size(messageParameters = {"par=Teste"}, min = 2, max = 4)
+		@Size(messageParameters = { "par=Teste" }, min = 2, max = 4)
 		private int[] campo;
-		
-		TestePrimitiveArray(){
+
+		TestePrimitiveArray() {
 		}
-		
-		TestePrimitiveArray(int[] val){
+
+		TestePrimitiveArray(int[] val) {
 			campo = val;
 		}
 	}
-	
+
 	@Test
-	public void testCharSequenceNull(){
+	public void testCharSequenceNull() {
 		TesteCharSequence var = new TesteCharSequence();
 		Set<ConstraintViolation<TesteCharSequence>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
-	
+
 	@Test
-	public void testCharSequenceValidBottomLimit(){
+	public void testCharSequenceValidBottomLimit() {
 		TesteCharSequence var = new TesteCharSequence("12");
 		Set<ConstraintViolation<TesteCharSequence>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
-	
+
 	@Test
-	public void testCharSequenceValidTopLimit(){
+	public void testCharSequenceValidTopLimit() {
 		TesteCharSequence var = new TesteCharSequence("1234");
 		Set<ConstraintViolation<TesteCharSequence>> violacoes = validador.validate(var);
 		assertTrue(violacoes.isEmpty());
 	}
-	
+
 	@Test
-	public void testCharSequenceValidBottomInvalid(){
+	public void testCharSequenceValidBottomInvalid() {
 		TesteCharSequence var = new TesteCharSequence("");
 		Set<ConstraintViolation<TesteCharSequence>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
 		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
 	}
-	
+
 	@Test
-	public void testCharSequenceValidTopInvalid(){
+	public void testCharSequenceValidTopInvalid() {
 		TesteCharSequence var = new TesteCharSequence("12345");
 		Set<ConstraintViolation<TesteCharSequence>> violacoes = validador.validate(var);
 		assertFalse(violacoes.isEmpty());
 		assertEquals(1, violacoes.size());
 		assertEquals(MENSAGEM_ESPERADA, violacoes.iterator().next().getMessage());
 	}
-	
+
 	@Test(expected = ValidationException.class)
-	public void testInvalidType(){
+	public void testInvalidType() {
 		TesteInvalidType var = new TesteInvalidType();
 		validador.validate(var);
 	}
-	
+
 	static class TesteInvalidType {
-		@Size(messageParameters = {"par=Teste"}, min = 2, max = 4)
+		@Size(messageParameters = { "par=Teste" }, min = 2, max = 4)
 		private Integer campo = 1;
 	}
-	
+
 	static class TesteCollection {
-		@Size(messageParameters = {"par=Teste"}, min = 2, max = 4)
+		@Size(messageParameters = { "par=Teste" }, min = 2, max = 4)
 		private Collection<?> campo;
-		
-		TesteCollection(){
+
+		TesteCollection() {
 		}
-		
-		TesteCollection(Collection<?> val){
+
+		TesteCollection(Collection<?> val) {
 			campo = val;
 		}
 	}
-	
+
 	static class TesteMap {
-		@Size(messageParameters = {"par=Teste"}, min = 2, max = 4)
+		@Size(messageParameters = { "par=Teste" }, min = 2, max = 4)
 		private Map<?, ?> campo;
-		
-		TesteMap(){
+
+		TesteMap() {
 		}
-		
-		TesteMap(Map<?, ?> val){
+
+		TesteMap(Map<?, ?> val) {
 			campo = val;
 		}
 	}
-	
+
 	static class TesteCharSequence {
-		@Size(messageParameters = {"par=Teste"}, min = 2, max = 4)
+		@Size(messageParameters = { "par=Teste" }, min = 2, max = 4)
 		private CharSequence campo;
-		
-		TesteCharSequence(){
+
+		TesteCharSequence() {
 		}
-		
-		TesteCharSequence(CharSequence val){
+
+		TesteCharSequence(CharSequence val) {
 			campo = val;
 		}
+	}
+
+	@Override
+	protected Class<?> getClassOnTest() {
+		return SizeValidatorImpl.class;
 	}
 }

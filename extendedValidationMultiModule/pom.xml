@@ -5,8 +5,9 @@
 	<artifactId>extendedValidationMultiModule</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<url>http://extendedvalidation.sourceforge.net/</url>
+	<packaging>pom</packaging>
 	<properties>
-		<docDir>C:\xampp\htdocs\extendedValidation\</docDir>
+		<docDir>../</docDir>
 	</properties>
 
 	<licenses>
@@ -32,6 +33,7 @@
 		<module>extendedValidation-parent</module>
 		<module>extendedValidation-core</module>
 		<module>extendedValidation</module>
+		<module>extendedValidationTestSupport</module>
 	</modules>
 
 	<build>		
@@ -41,6 +43,8 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.1</version>
 				<configuration>
+					<encoding>ISO-8859-1</encoding>
+					<docencoding>ISO-8859-1</docencoding>
 					<outputDirectory>${docDir}</outputDirectory>
 					<reportOutputDirectory>${docDir}</reportOutputDirectory>
 				</configuration>
@@ -68,14 +72,6 @@
 			<name>Leandro Deitos</name>
 			<email>leandro.deitos@gmail.com</email>
 		</developer>
-	</developers>
-
-	<dependencies>
-		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-			<version>1.2</version>
-		</dependency>
-	</dependencies>
-	<packaging>pom</packaging>
+	</developers>	
+	
 </project>

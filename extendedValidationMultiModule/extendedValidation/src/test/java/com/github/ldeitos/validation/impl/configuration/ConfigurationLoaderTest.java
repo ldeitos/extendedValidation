@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 
-import com.github.ldeitos.validation.impl.configuration.ConfigurationLoader;
 import com.github.ldeitos.validation.impl.configuration.dto.ConfigurationDTO;
 
 public class ConfigurationLoaderTest {

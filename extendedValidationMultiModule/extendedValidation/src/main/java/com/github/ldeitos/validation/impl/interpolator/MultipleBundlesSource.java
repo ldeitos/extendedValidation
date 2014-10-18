@@ -23,7 +23,7 @@ import com.github.ldeitos.validation.MessagesSource;
  * @author <a href="mailto:leandro.deitos@gmail.com">Leandro Deitos</a>
  *
  */
-class MultipleBundlesSource extends AbstractMessagesSource {
+public class MultipleBundlesSource extends AbstractMessagesSource {
 	
 	/**
 	 * Set of messages file names containing {@link Constants#DEFAULT_MESSAGE_FILE} and others configured 

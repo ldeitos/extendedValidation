@@ -7,8 +7,6 @@ import java.util.Locale;
 
 import org.junit.Test;
 
-import com.github.ldeitos.validation.impl.interpolator.MultipleBundlesSource;
-
 public class MultipleBundlesSourceTest {
 	private static final String OTHER_MESSAGE_FILE = "otherValidationMessages";
 	

@@ -33,16 +33,13 @@ public class ExtendedParameterMessageInterpolator implements MessageInterpolator
 	 */
 	private MessagesSource messageSource;
 	
-	{
-		messageSource = getConfiguration().getConfiguredMessagesSource();
-	}
 
 	/**
 	 * Get message, using messageTemplate, in {@link MessagesSource} and
 	 * delegate to default interpolator to parameters resolution.
 	 */
 	public String interpolate(String messageTemplate, Context context) {
-		String message = messageSource.getMessage(messageTemplate);
+		String message = getMessageSource().getMessage(messageTemplate);
 		
 		return delegate.interpolate(message, new ExtendedParameterContext(context));
 	}
@@ -53,8 +50,16 @@ public class ExtendedParameterMessageInterpolator implements MessageInterpolator
 	 */
 	public String interpolate(String messageTemplate, Context context,
 			Locale locale) {
-		String message = messageSource.getMessage(messageTemplate, locale);
+		String message = getMessageSource().getMessage(messageTemplate, locale);
 		
 		return delegate.interpolate(message, new ExtendedParameterContext(context), locale);
+	}
+	
+	public MessagesSource getMessageSource() {
+		if(messageSource == null) {
+			messageSource = getConfiguration().getConfiguredMessagesSource();
+		}
+		
+		return messageSource;
 	}
 }

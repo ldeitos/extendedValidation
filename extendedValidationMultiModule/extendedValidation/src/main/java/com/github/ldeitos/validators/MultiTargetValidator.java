@@ -12,7 +12,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.apache.commons.collections15.Predicate;
 
-public abstract class MultiTargetValidator<A extends Annotation> implements ConstraintValidator<A, Object> {
+abstract class MultiTargetValidator<A extends Annotation> implements ConstraintValidator<A, Object> {
 	
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		boolean ret = true;

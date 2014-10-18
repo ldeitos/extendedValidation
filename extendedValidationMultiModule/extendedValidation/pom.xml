@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>com.github.ldeitos</groupId>
 		<artifactId>extendedValidation-parent</artifactId>
-		<version>0.3.0</version>
+		<version>0.4.0</version>
 		<relativePath>../extendedValidation-parent</relativePath>
 	</parent>
 
@@ -31,7 +31,6 @@
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
-
 		</dependency>
 		
 		<dependency>
@@ -52,6 +51,11 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>			
+		</dependency>		
+		
+		<dependency>
 			<groupId>net.sourceforge.collections</groupId>
 			<artifactId>collections-generic</artifactId>		
 			<scope>compile</scope>
@@ -67,6 +71,12 @@
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb1-impl</artifactId>		
 			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<scope>compile</scope>
 		</dependency>		
 		
 		<dependency>
@@ -80,22 +90,23 @@
 			<artifactId>junit</artifactId>			
 			<scope>test</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.github.ldeitos</groupId>
-			<artifactId>extendedValidationTestSupport</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
-			<scope>test</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.sun.el</groupId>
 			<artifactId>el-ri</artifactId>
+			<scope>test</scope>
+		</dependency>
+				
+		<dependency>
+			<groupId>uk.org.lidalia</groupId>
+			<artifactId>slf4j-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>	
 </project>
