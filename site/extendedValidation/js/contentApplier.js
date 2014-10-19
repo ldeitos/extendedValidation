@@ -35,7 +35,20 @@ function applyContent(element, contentSelector) {
 	$("link[rel='import']").each(function(){
 		var content = this.import;
 	   
-		if(content != null){
+		if(content == null) {
+			$.get(this.href, function(data){
+				var div = document.createElement("div");
+				$(div).html(data);
+				var el = div.querySelector(contentSelector);
+			
+				if(el != null) {
+					var toAppend = el.cloneNode(true);
+					$(element).empty();
+					$(element).append(toAppend);									
+				}									
+			});
+			
+		} else {
 			var el = content.querySelector(contentSelector);
 			
 			if(el != null) {
