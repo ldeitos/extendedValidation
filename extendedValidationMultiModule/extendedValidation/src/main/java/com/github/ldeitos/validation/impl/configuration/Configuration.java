@@ -33,7 +33,7 @@ import com.github.ldeitos.validation.impl.configuration.dto.MessageFileDTO;
  *
  */
 public class Configuration {
-	private final static Configuration instance = new Configuration();
+	private static Configuration instance;
 
 	private Logger log = LoggerFactory.getLogger(Configuration.class);
 
@@ -49,6 +49,10 @@ public class Configuration {
 	 * @return Unique instance to {@link Configuration} to application use.
 	 */
 	public static Configuration getConfiguration() {
+		if (instance == null) {
+			instance = new Configuration();
+		}
+
 		return instance;
 	}
 

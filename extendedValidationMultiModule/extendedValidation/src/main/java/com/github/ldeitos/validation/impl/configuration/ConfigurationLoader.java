@@ -46,16 +46,19 @@ class ConfigurationLoader {
 		try {
 			log.info(format("Loading configuration by %s files in class path.", CONFIGURATION_FILE));
 			Enumeration<URL> configurations = ClassLoader.getSystemResources(CONFIGURATION_FILE);
-			loadXMLFiles(configurations);
+			loadFromXMLFiles(configurations);
 		} catch (IOException e1) {
 			log.warn(format("Error on obtain %s files in class path: [%s]", CONFIGURATION_FILE,
 				e1.getMessage()));
 			log.warn("Loading by default configuration...");
+		}
+
+		if (configuration == null) {
 			loadDefaultConfiguration();
 		}
 	}
 
-	private static void loadXMLFiles(Enumeration<URL> configurations) throws IOException {
+	private static void loadFromXMLFiles(Enumeration<URL> configurations) throws IOException {
 		int qtd = 0;
 		while (configurations.hasMoreElements()) {
 			qtd++;

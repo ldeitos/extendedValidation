@@ -11,7 +11,6 @@ import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
-import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.Extension;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -48,8 +47,7 @@ public class ManualContext implements Extension {
 
 	/**
 	 * Returns the instance of the CDI managed bean obtained by BeanManager
-	 * lookup or, if isn't possible obtain, by {@link CDI} static class
-	 * selection.
+	 * lookup.
 	 *
 	 * @param <T>
 	 *            class type of the desired CDI managed bean
@@ -60,13 +58,7 @@ public class ManualContext implements Extension {
 	 * @return instance of the CDI managed bean
 	 */
 	public static <T> T lookupCDI(Class<T> theClass, Annotation... annotations) {
-		T beanReference = lookupByBeanManager(theClass, annotations);
-
-		if (beanReference == null) {
-			beanReference = CDI.current().select(theClass, annotations).get();
-		}
-
-		return beanReference;
+		return lookupByBeanManager(theClass, annotations);
 	}
 
 	/**
