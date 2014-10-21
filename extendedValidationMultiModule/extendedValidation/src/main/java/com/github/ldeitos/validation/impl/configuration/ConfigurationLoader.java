@@ -2,17 +2,14 @@ package com.github.ldeitos.validation.impl.configuration;
 
 import static com.github.ldeitos.constants.Constants.CONFIGURATION_FILE;
 import static com.github.ldeitos.constants.Constants.DEFAULT_MESSAGE_SOURCE;
+import static com.github.ldeitos.constants.Constants.PATH_CONF_MESSAGE_FILE;
+import static com.github.ldeitos.constants.Constants.PATH_CONF_MESSAGE_FILES;
+import static com.github.ldeitos.constants.Constants.PATH_CONF_MESSAGE_SOURCE;
 import static java.lang.String.format;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Enumeration;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.DefaultConfigurationBuilder;
+import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,11 +42,13 @@ class ConfigurationLoader {
 	private static void load() {
 		try {
 			log.info(format("Loading configuration by %s files in class path.", CONFIGURATION_FILE));
-			Enumeration<URL> configurations = ClassLoader.getSystemResources(CONFIGURATION_FILE);
-			loadFromXMLFiles(configurations);
-		} catch (IOException e1) {
+
+			DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(CONFIGURATION_FILE);
+			confBuilder.load();
+			loadFromXMLFiles(confBuilder);
+		} catch (ConfigurationException e) {
 			log.warn(format("Error on obtain %s files in class path: [%s]", CONFIGURATION_FILE,
-				e1.getMessage()));
+				e.getMessage()));
 			log.warn("Loading by default configuration...");
 		}
 
@@ -58,46 +57,25 @@ class ConfigurationLoader {
 		}
 	}
 
-	private static void loadFromXMLFiles(Enumeration<URL> configurations) throws IOException {
-		int qtd = 0;
-		while (configurations.hasMoreElements()) {
-			qtd++;
-			URL actual = configurations.nextElement();
-			InputStream xmlInputStream = actual.openStream();
+	private static void loadFromXMLFiles(DefaultConfigurationBuilder confBuilder) {
+		if (!confBuilder.isEmpty()) {
+			configuration = new ConfigurationDTO();
 
-			try {
-				String logDebug = format("Loading configuration file in %s", actual.getPath());
-				log.debug(logDebug);
-				ConfigurationDTO configurationDTO = getConfigurationDTO(xmlInputStream);
+			if (confBuilder.containsKey(PATH_CONF_MESSAGE_SOURCE)) {
+				configuration.setMessageSource(confBuilder.getString(PATH_CONF_MESSAGE_SOURCE));
+			}
 
-				if (configuration == null) {
-					configuration = configurationDTO;
-					continue;
-				}
-
-				configuration.merge(configurationDTO);
-			} catch (JAXBException e) {
-				loadDefaultConfiguration();
+			for (HierarchicalConfiguration next : confBuilder.configurationsAt(PATH_CONF_MESSAGE_FILES)) {
+				configuration.addMessageFile(next.getString(PATH_CONF_MESSAGE_FILE));
 			}
 		}
-		log.info(format("Located configuration files: %d", qtd));
-		log.info("ExtendedValidation configuration loaded.");
-		traceConfiguration(configuration);
+
 	}
 
 	private static void loadDefaultConfiguration() {
 		if (configuration == null) {
 			configuration = getDefaultConfiguration();
 		}
-	}
-
-	private static ConfigurationDTO getConfigurationDTO(InputStream xmlInputStream) throws JAXBException {
-		JAXBContext jaxbContext = JAXBContext.newInstance(ConfigurationDTO.class);
-		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		ConfigurationDTO configuration = (ConfigurationDTO) jaxbUnmarshaller.unmarshal(xmlInputStream);
-		traceConfiguration(configuration);
-
-		return configuration;
 	}
 
 	private static ConfigurationDTO getDefaultConfiguration() {

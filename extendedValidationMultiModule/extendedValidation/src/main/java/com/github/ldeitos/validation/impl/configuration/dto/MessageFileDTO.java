@@ -1,16 +1,21 @@
 package com.github.ldeitos.validation.impl.configuration.dto;
 
-import static javax.xml.bind.annotation.XmlAccessType.FIELD;
+import com.github.ldeitos.constants.Constants;
 
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement(name = "message-files")
-@XmlAccessorType(FIELD)
+/**
+ * DTO to load configuration from {@link Constants#CONFIGURATION_FILE}
+ *
+ * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
+ *
+ * @see Constants#PATH_CONF_MESSAGE_FILE
+ *
+ */
 public class MessageFileDTO {
-	@XmlElement(type = String.class, name = "message-file", defaultValue = "")
 	private String messageFile;
+
+	public MessageFileDTO(String fileName) {
+		messageFile = fileName;
+	}
 
 	public String getMessageFile() {
 		return messageFile;

@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>extendedValidationTestSupport</artifactId>
+	<artifactId>extendedValidation-test-support</artifactId>
 	<packaging>jar</packaging>
 	<parent>
 		<groupId>com.github.ldeitos</groupId>
 		<artifactId>extendedValidation-parent</artifactId>
-		<version>0.4.0</version>
+		<version>0.5.0</version>
 		<relativePath>../extendedValidation-parent</relativePath>
 	</parent>
 
@@ -42,6 +42,13 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>extendedValidation</artifactId>
 			<version>${project.version}</version>
+			<scope>compile</scope>			
+		</dependency>
+		
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>cdi-util</artifactId>
+			<version>0.4.0</version>
 			<scope>compile</scope>			
 		</dependency>
 		

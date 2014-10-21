@@ -1,7 +1,6 @@
 package com.github.ldeitos.validation.impl.configuration.dto;
 
 import static com.github.ldeitos.constants.Constants.DEFAULT_MESSAGE_SOURCE;
-import static javax.xml.bind.annotation.XmlAccessType.FIELD;
 import static org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 import java.util.ArrayList;
@@ -9,22 +8,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import com.github.ldeitos.constants.Constants;
 import com.github.ldeitos.exception.InvalidConfigurationException;
 
-@XmlRootElement(name = "extended-validation")
-@XmlAccessorType(FIELD)
+/**
+ * DTO to load configuration from {@link Constants#CONFIGURATION_FILE}
+ *
+ * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
+ *
+ */
 public class ConfigurationDTO {
-	@XmlElement(type = String.class, name = "message-source", defaultValue = DEFAULT_MESSAGE_SOURCE)
-	private String messageSource;
+	private String messageSource = DEFAULT_MESSAGE_SOURCE;
 
-	@XmlElement(name = "message-files")
 	private List<MessageFileDTO> messageFiles = new ArrayList<MessageFileDTO>();
 
 	public String getMessageSource() {
@@ -71,6 +69,10 @@ public class ConfigurationDTO {
 			InvalidConfigurationException.throwNew("Multiple configuration files in application class "
 				+ "path containing different MessagesSource references.");
 		}
+	}
+
+	public void addMessageFile(String fileName) {
+		getMessageFiles().add(new MessageFileDTO(fileName));
 	}
 
 	@Override
