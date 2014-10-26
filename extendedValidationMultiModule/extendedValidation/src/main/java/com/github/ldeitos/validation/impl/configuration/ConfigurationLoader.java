@@ -65,8 +65,10 @@ class ConfigurationLoader {
 				configuration.setMessageSource(confBuilder.getString(PATH_CONF_MESSAGE_SOURCE));
 			}
 
-			for (HierarchicalConfiguration next : confBuilder.configurationsAt(PATH_CONF_MESSAGE_FILES)) {
-				configuration.addMessageFile(next.getString(PATH_CONF_MESSAGE_FILE));
+			for (HierarchicalConfiguration nextConf : confBuilder.configurationsAt(PATH_CONF_MESSAGE_FILES)) {
+				for (HierarchicalConfiguration nextFile : nextConf.configurationsAt(PATH_CONF_MESSAGE_FILE)) {
+					configuration.addMessageFile(nextFile.getRoot().getValue().toString());
+				}
 			}
 		}
 

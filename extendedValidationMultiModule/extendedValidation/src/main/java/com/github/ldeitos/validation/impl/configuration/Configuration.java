@@ -167,6 +167,8 @@ public class Configuration {
 			log.debug(format("Reference from [%s] obtained by reflection.", configuration.getMessageSource()));
 		}
 
+		log.info(format("Using [%s] as message source.", configuration.getMessageSource()));
+
 		return messagesSource;
 	}
 

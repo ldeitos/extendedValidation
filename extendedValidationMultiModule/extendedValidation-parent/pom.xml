@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ldeitos</groupId>
 	<artifactId>extendedValidation-parent</artifactId>
-	<version>0.5.0</version>
+	<version>0.6.0</version>
 	<packaging>pom</packaging>
 	<name>Extended Validation Parent</name>
 	<description>ExtendedValidation parent project.</description>
@@ -190,7 +190,7 @@
 				<version>3.3.2</version>
 				<scope>compile</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
@@ -242,11 +242,10 @@
 
 			<dependency>
 				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
+				<artifactId>slf4j-nop</artifactId>
 				<version>1.7.7</version>
 				<scope>test</scope>
 			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
 </project>

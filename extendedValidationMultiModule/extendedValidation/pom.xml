@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>com.github.ldeitos</groupId>
 		<artifactId>extendedValidation-parent</artifactId>
-		<version>0.5.0</version>
+		<version>0.6.0</version>
 		<relativePath>../extendedValidation-parent</relativePath>
 	</parent>
 
@@ -102,8 +102,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>uk.org.lidalia</groupId>
-			<artifactId>slf4j-test</artifactId>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-nop</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

@@ -5,15 +5,12 @@ import static com.github.ldeitos.validation.impl.configuration.Configuration.get
 import static java.lang.System.setProperty;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static uk.org.lidalia.slf4jext.Level.TRACE;
 
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
 import com.github.ldeitos.util.ManualContext;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
@@ -25,7 +22,7 @@ public class ConfigurationTest {
 
 	@BeforeClass
 	public static void startup() {
-		TestLoggerFactory.getInstance().setPrintLevel(TRACE);
+		// TestLoggerFactory.getInstance().setPrintLevel(TRACE);
 	}
 
 	@Test
