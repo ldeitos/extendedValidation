@@ -1,43 +1,20 @@
 package com.github.ldeitos.validators;
 
-import static java.lang.String.format;
 import static org.apache.commons.lang.ArrayUtils.getLength;
 
-import java.security.InvalidParameterException;
 import java.util.Collection;
 import java.util.Map;
 
 import org.apache.commons.collections15.Predicate;
 
-import com.github.ldeitos.constraint.Size;
+import com.github.ldeitos.constraint.NotEmpty;
 
-public class SizeValidatorImpl extends MultiTargetValidator<Size> implements SizeValidator {
+public class NotEmptyValidatorImpl extends MultiTargetValidator<NotEmpty> implements NotEmptyValidator {
 
 	private static final Class<?>[] targetClasses = { Collection.class, Map.class, CharSequence.class };
 
-	private int min;
-
-	private int max;
-
 	@Override
-	public void initialize(Size constraintAnnotation) {
-		min = constraintAnnotation.min();
-		max = constraintAnnotation.max();
-
-		validateParameters();
-	}
-
-	private void validateParameters() {
-		doValidation(min, 0, "'min'", "zero");
-		doValidation(max, 0, "'max'", "zero");
-		doValidation(max, min, "'max'", "'min'");
-	}
-
-	private void doValidation(int val, int valReference, String fieldName, String valueReference) {
-		if (val < valReference) {
-			String msg = "Attribute %s must be greater than %s.";
-			throw new InvalidParameterException(format(msg, fieldName, valueReference));
-		}
+	public void initialize(NotEmpty constraintAnnotation) {
 	}
 
 	@Override
@@ -55,15 +32,7 @@ public class SizeValidatorImpl extends MultiTargetValidator<Size> implements Siz
 			size = getLength(value);
 		}
 
-		return minValid(size) && maxValid(size);
-	}
-
-	private boolean maxValid(int size) {
-		return size <= max;
-	}
-
-	private boolean minValid(int size) {
-		return size >= min;
+		return size > 0;
 	}
 
 	@Override

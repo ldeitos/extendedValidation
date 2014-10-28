@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -19,11 +18,6 @@ import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 @AdditionalClasses({ TestMessageSource.class, ManualContext.class })
 public class ConfigurationTest {
 	private static final String TEST_MESSAGE_FILE = "TestValidationMessage";
-
-	@BeforeClass
-	public static void startup() {
-		// TestLoggerFactory.getInstance().setPrintLevel(TRACE);
-	}
 
 	@Test
 	public void testConfigurationWithMessageFilesCofiguredByEnvironment() {

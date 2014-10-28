@@ -106,12 +106,12 @@ public class ManualContext implements Extension {
 				lookupBeanManagerByJNDI();
 			} catch (NamingException e) {
 				String errorMsg = format("Cannot perform JNDI lookup for CDI BeanManager: [%s]",
-					e.getMessage());
+				    e.getMessage());
 				log.error(errorMsg, e);
 				InvalidCDIContextException.throwNew(errorMsg, e);
 			} catch (ClassCastException e) {
 				String errorMsg = format("Cannot perform cast from obtained object in JNDI lookup "
-					+ "to CDI BeanManager: [%s]", e);
+				    + "to CDI BeanManager: [%s]", e);
 				log.error(errorMsg, e);
 				InvalidCDIContextException.throwNew(errorMsg, e);
 			}
@@ -135,7 +135,7 @@ public class ManualContext implements Extension {
 	private static void logBeanManagerObtainedByJNDILookup() {
 		String sucMsg = format("BeanManager retrieved by JNDI lookup from [%s] name.", BEAN_MANAGER_JNDI);
 		String errMsg = format("Error to retrieve BeanManager by JNDI lookup from [%s] name.",
-			BEAN_MANAGER_JNDI);
+		    BEAN_MANAGER_JNDI);
 		logDebug(beanManager != null, sucMsg, errMsg);
 	}
 

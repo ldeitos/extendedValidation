@@ -14,15 +14,8 @@ import com.github.ldeitos.validation.impl.interpolator.MultipleBundlesSource;
 @AdditionalClasses({ ValidatorImpl.class, MultipleBundlesSource.class, ManualContext.class })
 public abstract class BaseTest {
 
-	// private TestLoggerFactoryResetRule testLoggerFactoryResetRule = new
-	// TestLoggerFactoryResetRule();
-	//
-	// private TestLogger testLogger =
-	// TestLoggerFactory.getTestLogger(getClassOnTest());
-
 	@BeforeClass
 	public static void setup() {
-		// TestLoggerFactory.getInstance().setPrintLevel(Level.ERROR);
 		System.setProperty("org.jboss.weld.nonPortableMode", "true");
 		System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "off");
 	}
@@ -31,10 +24,6 @@ public abstract class BaseTest {
 	public static void shutdown() {
 		System.clearProperty("org.jboss.weld.nonPortableMode");
 	}
-
-	// public TestLogger getTestLogger() {
-	// return testLogger;
-	// }
 
 	protected Class<?> getClassOnTest() {
 		return BaseTest.class;
