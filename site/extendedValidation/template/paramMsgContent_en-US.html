@@ -1,0 +1,102 @@
+<div class="content">
+	<div class="art-box-body art-post-body">
+		<div class="art-post-inner art-article">
+			<h2 class="art-postheader">
+				Extended support for parameterization of text messages 
+			</h2>
+			<div class="art-postmetadataheader">
+				<div class="art-postheadericons art-metadata-icons">
+				</div>
+			</div>
+			<div class="art-postcontent">
+				<p>
+				The possibilities for parameterization of the text messages generated to the system by violations of <i> Constraint </i> have been expanded with the use of <i> ExtendedValidation </i>. 
+				</p>
+				<p>
+				The <a href="http://beanvalidation.org/1.1/spec/#default-messageresolver"> <i> BeanValidation API 1.1 </i> </a> defines that the fields declared in <i> Constraint </i>, and <i> EL expressions </i> and some pre-defined variables can be used to solve the message in the interpolation phase. Below is exemplified as a field ("label") is used to value a defined parameter in a message.
+				</p>
+				<div class="gsc-branding-text gsc-sidebar-text-small">Definition of <i>Constraint</i></div>
+<pre class="brush: java;">
+@Constraint(validatedBy = MyValidator.class)
+@Documented
+@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Retention(RUNTIME)
+public @interface MyConstraint {
+	String label() default "";
+	String message() default "{label} invalid";
+	Class&lt;?&gt;[] groups() default {};
+	Class&lt;? extends Payload&gt;[] payload() default {};
+}
+</pre>
+				<div class="gsc-branding-text gsc-sidebar-text-small">Application of <i>Constraint</i> within an entity.</div>
+<pre class="brush: java;">
+@MyConstraint(label="My entity")
+public class MyEntity {
+	...
+}
+</pre>
+				<p>
+				In the example shown the message generated would be "My invalidates entity".
+				</p>
+				<p>
+				The mechanism proposed by <a href="http://beanvalidation.org/1.1/spec/"> <i> BeanValidation API 1.1 </i> </a> is very flexible and covers the most common usage scenarios. However, in systems whose messages are pre-registered and reused in multiple scenarios, or when the <i> constraint </i> is reused generating different messages at different times, the need to predict all the parameters that will be used throughout time when the definition of <i> constraint </i> can become inconvenient.
+				</p>
+				<p>
+				With the proposal to expand the possibilities for parameterization of messages and allow this to be done at the <i> constraint </i> application time, and not in its definition, the <i> ExtendedValidation </i> adds the possibility to declare "messageParameters" field in <i> constraint </i>. If the field is present, its contents are processed by implementing the interpolator provided by the component, which extracts the pair 'key = value' and sends it to the default interpolator implementation of the API chosen for the project.
+				</p>
+				<div class="gsc-branding-text gsc-sidebar-text-small">Constraints definition.</div>
+<pre class="brush: java;">
+@Constraint(validatedBy = MyValidator.class)
+@Documented
+@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Retention(RUNTIME)
+public @interface MyConstraint {
+	String[] messageParameters() default {};
+	String message() default "{label} invalida";
+	Class&lt;?&gt;[] groups() default {};
+	Class&lt;? extends Payload&gt;[] payload() default {};
+}
+</pre>
+				<div class="gsc-branding-text gsc-sidebar-text-small">Application of <i>Constraint</i> within an entity.</div>
+<pre class="brush: java;">
+@MyConstraint(messageParameters={"label=My entity"})
+public class MyEntity {
+	...
+}
+</pre>
+				<p>
+				The resulting message will be identical to the previous case.
+				</p>
+				<p>
+				It is important highlight that, the component does not effectively solve the parameters in the message, this phase is performed by the default interpolating of the concrete implementation of the API used in the project. The implementation of the interpolator component is a <i> decorator </i> which has only the function of processing parameters defined in "messageParameters" and send them to the standard interpolation as if they had been defined by the manner specified API.									
+				</p>
+				<p>
+				The parameterization of messages can be held in "key = value" scheme or just setting the amount to be interpolated. 
+				However, in this case, it is necessary to set the parameter in the message index pattern, as:. '{0} invalidate "
+				</p>
+				<p>
+				Once the "messageParameters" field is an <i> array </i>, it is possible to inform multiple parameters adding them separated by commas, such as in the examples below:
+				</p>
+<pre class="brush: java;">
+@MyConstraint(messageParameters={"par1=val1", "par2=val2", "par3=val3"}, 
+              message="{par1} must be different than {par2} and {par3}")
+public class MyEntity {
+	...
+}
+</pre>
+<pre class="brush: java;">
+@MyConstraint(messageParameters={"val1", "val2", "val3"}, 
+              message="{0} must be different than {par2} and {par3}")
+public class MyEntity {
+	...
+}
+</pre>				
+			</div>
+			<div class="cleared"></div>
+			<div class="art-postfootericons art-metadata-icons">
+				<span class="art-posttagicon"><a href="mailto:leandro.deitos@gmail.com" title="link">Leandro Deitos</a> - 2014</span>
+			</div>
+		</div>
+		<div class="cleared"></div>
+	</div>
+</div>						

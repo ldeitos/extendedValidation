@@ -1,0 +1,126 @@
+<div class="content">
+	<div class="art-box-body art-post-body">
+		<div class="art-post-inner art-article">
+			<h2 class="art-postheader">
+				Multiple message sources
+			</h2>
+			<div class="art-postmetadataheader">
+				<div class="art-postheadericons art-metadata-icons">
+				</div>
+			</div>
+			<div class="art-postcontent">				
+				<p>
+				The <a href="http://beanvalidation.org/1.1/spec/"><i>BeanValidation API 1.1</i></a> enable two ways to assign messages to <b>constraint</b>:
+				</p>
+				<p>
+				 - Assigning text message directly to the attribute <b>"message"</b>, is the declaration or implementation of the <b>constraint</b> as exemplified bellow:
+				</p>
+<pre class="brush: java;">
+@Constraint(validatedBy = MyValidator.class)
+@Documented
+@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Retention(RUNTIME)
+public @interface MyConstraint {
+	String[] messageParameters() default {};
+	String message() default "My Message";
+	Class&lt;?&gt;[] groups() default {};
+	Class&lt;? extends Payload&gt;[] payload() default {};
+}
+
+// OR //
+
+@MyConstraint(message="My Message")
+public class MyClass {
+	...
+}
+</pre>
+				<p>
+				 - Assign the attribute <b>"message"</b> a key that identifies the message to be retrieved on file "ValidationMessages.properties", as follow:
+				</p>
+<pre class="brush: java;">
+@Constraint(validatedBy = MyValidator.class)
+@Documented
+@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Retention(RUNTIME)
+public @interface MyConstraint {
+	String[] messageParameters() default {};
+	String message() default "{mysystem.mymessage}";
+	Class&lt;?&gt;[] groups() default {};
+	Class&lt;? extends Payload&gt;[] payload() default {};
+}
+
+// OR //
+
+@MyConstraint(message="{mysystem.mymessage}")
+public class MyClass {
+	...
+}
+</pre>
+				<p>
+				In line with the specification, the <i>ExtendedValidation</i> keep the ways of specifying messages showed above, but expands the possibilities of definition of messages repository, providing a simplified mechanism for configuring multiple files ".properties" or defining an implementation or even define its own implementation that retrieves messages from another type of source such as a database, module or external application from the system, mainframe routines, etc.
+				</p>
+				<p>
+				This approach dispenses that composite applications that by multiple modules need to centralize messages within only one file, approach that can bring inconvenience in environments where there is concurrent development of modules by different teams, and facilitates the reuse of legacy sources of messages.
+				</p>
+				<h3 class="art-postcontent art-subtitle">
+					Configuration of multiple messages files 
+				</h3>
+				<p>
+				The standard approach adopted by the message source <b> ExtendedValidation </b> is retrieval from files ".properties", and it is possible to use multiple files for this purpose. There are two ways to configure this behavior:
+				</p>
+				<p>
+				 - Set the environment variable <a href="#"> <b> "com.github.ldeitos.validation.message.files" </b> </a> attributing this to the list of filenames to be considered separated by "." The following example shows the configuration of the system variable when launching a java application, but how to make this setting varies depending on the environment, such as the application server used.
+				</p>
+<pre class="brush: plain;">
+java myApp -Dcom.github.ldeitos.validation.message.files=
+moduleXErrorMessages, moduleYErrorMessages, ... 
+</pre>
+				<p>
+				 - Configuration by the file <a href="#"><b>extendedValidation.xml</b></a>
+				</p>
+<pre class="brush: xml;">
+<?xml version="1.0" encoding="UTF-8"?>
+<extended-validation>
+	<message-files>
+		<message-file>moduleXErrorMessages</message-file>
+		<message-file>moduleYErrorMessages</message-file>
+		...
+	</message-files>
+</extended-validation>
+</pre>
+				<p>
+				In both cases the standard file defined by the API, "ValidationMessages.properties" will be considered if present in <b> path </b> application, regardless of whether or not it was mentioned in the configuration. If both forms are used concurrently, both the contents of the configuration file for the system variables will be considered, and duplications are eliminated.
+				</p>
+				<p>
+				Finally, if the same key is defined in more than one file is retrieved that is first encountered by the engine.
+				</p>
+				<h3 class="art-postcontent art-subtitle">
+					Redefinition of message source 
+				</h3>
+				<p>
+				As already mentioned it is also possible to replace the source of the messages, or use another type of archive that no files ".properties". To this end, the <b> ExtendedValidation </b> offers a <b> MessagesSource </b> interface, which can be freely implemented by the project in order to use desired way to retrieve the messages from the system.
+				</p>
+				<p>
+				To replace the <b> MessagesSource </b> standard component simply configure their implementation in the file <a href="#"> <b> extendedValidation.xml </b> </a>:
+				</p>
+<pre class="brush: xml;">
+<?xml version="1.0" encoding="UTF-8"?>
+<extended-validation>
+	<message-source>com.foo.bar.MyMessageSource</message-source>
+</extended-validation>
+</pre>
+				<p>
+				Also available is the abstract class <b> AbstractMessagesSource </b>, whose implementation checks if the template message received is the standard format of search key - "key.for.mymessage {}" - or, optionally, the observed variation by "[...]", before attempting to retrieve the message at a defined source.
+				</p>
+				<p>
+				If you use the abstract class and the template defined in the constraint is not compatible with the default search key, the text of the template itself is returned by the <b> MessagesSource </b>. It is important that the same behaviour is adopted by own implementations, both for this case as when the key used does not retrieve any messages.
+				</p>
+			</div>
+			<div class="cleared"></div>
+			<div class="art-postfootericons art-metadata-icons">
+				<span class="art-posttagicon"><a href="mailto:leandro.deitos@gmail.com" title="link">Leandro Deitos</a> - 2014</span>
+			</div>
+		</div>
+		<div class="cleared"></div>
+	</div>	
+</div>	

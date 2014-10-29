@@ -19,13 +19,12 @@
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
 	<script type="text/javascript" src="js/shCore.js"></script>
-	<script type="text/javascript" src="js/shBrushXml.js"></script>
+		<script type="text/javascript" src="js/shBrushXml.js"></script>
 	<script type="text/javascript" src="js/contentApplier.js"></script>
 	
 	<script type="text/javascript">
 		addMetaExpires();
 		importContentFiles(["header", "sideBar", "configuracaoContent"]);
-		SyntaxHighlighter.all();
 	</script>
 </head>
 <body>
@@ -37,6 +36,7 @@
 				<script rel="content" type="text/javascript">
 					applyContent($(".art-header"), ".header-content");
 					activeMenu("menu_conf");
+					SyntaxHighlighter.all();
 				</script>				
 				<div class="cleared reset-box"></div>
 				<div class="art-layout-wrapper">

@@ -1,0 +1,59 @@
+<div class="content">
+	<div class="art-box-body art-post-body">
+		<div class="art-post-inner art-article">
+			<h2 class="art-postheader">
+				Integrated to CDI
+			</h2>
+			<div class="art-postmetadataheader">
+				<div class="art-postheadericons art-metadata-icons">
+				</div>
+			</div>
+			<div class="art-postcontent">
+			<p>
+				The ExtendedValidation has an implementation of <b>ConstraintValidatorFactory</b> integrated to the dependency context  
+				of <a href="http://cdi-spec.org/" target="_blank">CDI API</a>, permitting that the instance of the validator declared by  
+				<b>Constraint</b> to be retrieved from an interface, making possible to uncouple those elements.
+				</p>
+				<p>
+				The specification of <a href="http://beanvalidation.org/1.1/spec/"><b>BeanValidation API 1.1</b></a> relates the description of 
+				<b>Constraint</b> with its validator directly by the class of this validator, as exemplified below: 
+				</p>
+				<div align="center" class="art-box art-blockcontent">
+					<img src="./images/ConstraintValidation1.png" class="gsc-branding-img-noclear" alt="" />
+				</div>
+				<p>
+				In order to make possible the detachment between the <b>Constraint</b> and the implementation of its validator, the <b>factory</b> of validators implemented by <b>ExtendedValidation</b> allows to set an interface to the <b>Constraint</b> which will be implemented by the validator, which will be able or not to be physically in the same component, as follow:   
+				</p>
+				<div align="center" class="art-box art-blockcontent">
+					<img src="./images/ConstraintValidation2.png" class="gsc-branding-img-noclear" alt="" />
+				</div>
+				<p>
+				<b>Enterprise</b> projects composed by a large number of modules, and have interdependent data, tend to exhibit increased complexity at dependency managing proportional to its growing, especially in scenarios that have distinct teams working simultaneously at related modules.
+				</p>
+				<p>
+				The diagram below shows the traditional scenario, where each business component  which has a relationship with another, has with it a direct dependency with the origin component of elements to be shared. 
+				</p>
+				<div align="center" class="art-box art-blockcontent">
+					<img src="./images/Tradicional.png" class="gsc-branding-img-noclear" alt="" />
+				</div>
+				<p>
+				This model can lead to circular dependency situations, generally undesirable scenario due to fragility resulting from complexity increasing in the management, maintenance and evolution of the components involved.
+				</p>
+				<p>
+				Having in mind that the services interfaces changes less than the business behavior, the decoupling afforded by the <b>ExtendedValidation</b> enables the adoption of an architecture segmented in components with more cohesive and independent responsibilities, in order to allow dependencies to be established between the elements with the lowest possibility of changing over the life of the system, as shown in the following diagram:
+				</p>
+				<div align="center" class="art-box art-blockcontent">
+					<img src="./images/Desacoplado.png" class="gsc-branding-img-noclear" alt="" />
+				</div>
+				<p>
+				The <b>Factory</b> implemented allows the coexistence between the suggested model and the pattern defined by the <a href="http://beanvalidation.org/1.1/spec/"><i>BeanValidation API 1.1</i></a>, ie it is possible to have definitions of <b>Constraint</b> related to interfaces and others defining concrete classes, both will be treated equally in the resolution phase of validator to be applied.
+				</p>	
+			</div>
+			<div class="cleared"></div>
+			<div class="art-postfootericons art-metadata-icons">
+				<span class="art-posttagicon"><a href="mailto:leandro.deitos@gmail.com" title="link">Leandro Deitos</a> - 2014</span>
+			</div>
+		</div>
+		<div class="cleared"></div>
+	</div>	
+</div>						
