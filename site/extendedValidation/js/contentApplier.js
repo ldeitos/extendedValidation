@@ -34,7 +34,7 @@ function importContentFiles(files, language) {
 function applyContent(element, contentSelector) {
 	$("link[rel='import']").each(function(){
 		var content = this.import;
-	   
+
 		if(content == null) {
 			$.get(this.href, function(data){
 				var div = document.createElement("div");
