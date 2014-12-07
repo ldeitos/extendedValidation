@@ -1,6 +1,6 @@
 package com.github.ldeitos.validation.impl.interpolator;
 
-import static com.github.ldeitos.constants.Constants.KEY_PATTERN;
+import static com.github.ldeitos.constants.Constants.MESSAGE_KEY_PATTERN;
 
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -11,7 +11,7 @@ import com.github.ldeitos.validation.MessagesSource;
 
 /**
  * Abstract implementation to {@link MessagesSource}.<br/>
- * Provide a {@link Pattern} compiled by {@link Constants#KEY_PATTERN}, a key group index in regex pattern, 
+ * Provide a {@link Pattern} compiled by {@link Constants#MESSAGE_KEY_PATTERN}, a key group index in regex pattern, 
  * a {@link Matcher} provider method and default implementation to {@link MessagesSource#getMessage(String)} 
  * and {@link MessagesSource#getMessage(String, Locale)}
  * 
@@ -21,9 +21,9 @@ import com.github.ldeitos.validation.MessagesSource;
 public abstract class AbstractMessagesSource implements MessagesSource {
 	
 	/**
-	 * Pattern compiled by {@link Constants#KEY_PATTERN} pattern.
+	 * Pattern compiled by {@link Constants#MESSAGE_KEY_PATTERN} pattern.
 	 */
-	protected static final Pattern PATTERN_BUNDLE_KEY = Pattern.compile(KEY_PATTERN);
+	protected static final Pattern PATTERN_BUNDLE_KEY = Pattern.compile(MESSAGE_KEY_PATTERN);
 	
 	/**
 	 * Key content group index in regex key pattern.

@@ -1,11 +1,15 @@
 package com.github.ldeitos.test.base;
 
+import javax.inject.Inject;
+import javax.validation.Validator;
+
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
+import com.github.ldeitos.qualifier.ExtendedValidator;
 import com.github.ldeitos.util.ManualContext;
 import com.github.ldeitos.validation.impl.ValidatorImpl;
 import com.github.ldeitos.validation.impl.interpolator.MultipleBundlesSource;
@@ -13,6 +17,10 @@ import com.github.ldeitos.validation.impl.interpolator.MultipleBundlesSource;
 @RunWith(CdiRunner.class)
 @AdditionalClasses({ ValidatorImpl.class, MultipleBundlesSource.class, ManualContext.class })
 public abstract class BaseTest {
+
+	@Inject
+	@ExtendedValidator
+	private Validator validador;
 
 	@BeforeClass
 	public static void setup() {
@@ -29,8 +37,7 @@ public abstract class BaseTest {
 		return BaseTest.class;
 	}
 
-	// @Rule
-	// public TestLoggerFactoryResetRule resetLogRule() {
-	// return testLoggerFactoryResetRule;
-	// }
+	public Validator getValidador() {
+		return validador;
+	}
 }

@@ -37,13 +37,42 @@ public interface Constants {
 	/**
 	 * Patter to message key: "^(\\{|\\[)(.*)(\\}|\\])$".
 	 */
-	String KEY_PATTERN = "^(\\{|\\[)(.*)(\\}|\\])$";
+	String MESSAGE_KEY_PATTERN = "^(\\{|\\[)(.*)(\\}|\\])$";
 
 	/**
 	 * Pattern to informed parameter to be interpolated in constraint message:
 	 * "(.*)(:|=)(.*)".
 	 */
-	String PARAMETER_PATTERN = "(.*)(:|=)(.*)";
+	String INTERPOLATE_PARAMETER_PATTERN = "(.*)(:|=)(.*)";
+
+	/**
+	 * Pattern to informed parameter in constraint message:
+	 * "(\\{|\\[)(.*)(\\}|\\])".
+	 */
+	String PARAMETER_PATTERN = "(\\{|\\[)(.*)(\\}|\\])";
+
+	/**
+	 * Parameter group index in regex {@link Constants#PARAMETER_PATTERN}.
+	 */
+	int PARAMETER_GROUP = 0;
+
+	/**
+	 * Parameter content group index in regex
+	 * {@link Constants#PARAMETER_PATTERN}.
+	 */
+	int PARAMETER_CONTENT_GROUP = 2;
+
+	/**
+	 * Parameter key group index in regex
+	 * {@link Constants#INTERPOLATE_PARAMETER_PATTERN}.
+	 */
+	int PARAMETER_KEY_GROUP = 1;
+
+	/**
+	 * Parameter value group index in regex
+	 * {@link Constants#INTERPOLATE_PARAMETER_PATTERN}.
+	 */
+	int PARAMETER_VALUE_GROUP = 3;
 
 	/**
 	 * Path to MessagesSource in xml configuration file.

@@ -9,9 +9,21 @@ import org.junit.runner.RunWith;
 import com.github.ldeitos.util.ManualContext;
 import com.github.ldeitos.validation.impl.ValidatorImpl;
 import com.github.ldeitos.validation.impl.interpolator.MultipleBundlesSource;
+import com.github.ldeitos.validators.DigitsValidatorImpl;
+import com.github.ldeitos.validators.EmptyValidatorImpl;
+import com.github.ldeitos.validators.MaxDecimalValidatorImpl;
+import com.github.ldeitos.validators.MaxValidatorImpl;
+import com.github.ldeitos.validators.MinDecimalValidatorImpl;
+import com.github.ldeitos.validators.MinValidatorImpl;
+import com.github.ldeitos.validators.NotEmptyValidatorImpl;
+import com.github.ldeitos.validators.PatternValidatorImpl;
+import com.github.ldeitos.validators.SizeValidatorImpl;
 
 @RunWith(CdiRunner.class)
-@AdditionalClasses({ ValidatorImpl.class, MultipleBundlesSource.class, ManualContext.class })
+@AdditionalClasses({ ValidatorImpl.class, MultipleBundlesSource.class, ManualContext.class,
+    NotEmptyValidatorImpl.class, EmptyValidatorImpl.class, PatternValidatorImpl.class,
+    DigitsValidatorImpl.class, SizeValidatorImpl.class, MinDecimalValidatorImpl.class,
+    MinValidatorImpl.class, MaxDecimalValidatorImpl.class, MaxValidatorImpl.class })
 public class ExtendedValidationBaseTest {
 
 	@BeforeClass
