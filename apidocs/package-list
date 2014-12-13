@@ -8,4 +8,5 @@ com.github.ldeitos.validation.impl.configuration
 com.github.ldeitos.validation.impl.configuration.dto
 com.github.ldeitos.validation.impl.factory
 com.github.ldeitos.validation.impl.interpolator
+com.github.ldeitos.validation.impl.util
 com.github.ldeitos.validators
