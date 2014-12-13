@@ -10,10 +10,34 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.github.ldeitos.validation.MessagesSource;
+import com.github.ldeitos.validators.AbstractExtendedValidator;
+
+/**
+ * Pre-interpolator called by {@link AbstractExtendedValidator} to make
+ * interpolation from parameters informated during violation register.
+ *
+ * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
+ *
+ * @since 0.8.0
+ */
 public class PreInterpolator extends BaseInterpolator {
 
 	private static final Pattern PARAM_PATTERN = Pattern.compile(PARAMETER_PATTERN);
 
+	/**
+	 * @param msg
+	 *            Message text template or key to retrieve message template in
+	 *            configured {@link MessagesSource}.
+	 * @param parameters
+	 *            Parameters to be interpolated in message template. Can be
+	 *            informed in "value" pattern, to be interpolated in indexed
+	 *            parameter like "My {0} message" or in "key=value" pattern, to
+	 *            be interpolated in defined parameter like "My {par} message".
+	 * @return Resolved message by message template and parameters informed.
+	 *
+	 * @since 0.8.0
+	 */
 	public String interpolate(String msg, String... parameters) {
 		String resolvedMsg = getMessageSource().getMessage(msg);
 
