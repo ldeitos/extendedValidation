@@ -1,10 +1,15 @@
 package com.github.ldeitos.validators;
 
+import static java.lang.String.format;
+
 import java.lang.annotation.Annotation;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.ldeitos.validation.MessagesSource;
 import com.github.ldeitos.validation.impl.interpolator.PreInterpolator;
@@ -19,10 +24,12 @@ import com.github.ldeitos.validation.impl.interpolator.PreInterpolator;
  *            Constraint annotation
  * @param <T>
  *            Type in validation.
- * 
+ *
  * @since 0.8.0
  */
 public abstract class AbstractExtendedValidator<A extends Annotation, T> implements ConstraintValidator<A, T> {
+
+	private Logger log = LoggerFactory.getLogger(AbstractExtendedValidator.class);
 
 	private boolean isValid = true;
 
@@ -31,11 +38,21 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	@Inject
 	private PreInterpolator preInterpolator;
 
+	/**
+	 * {@inheritDoc}<br>
+	 * <b>P.S.:</b> Do not subscribe, unless on your override you make
+	 * {@link #doValidation(Object)} call;
+	 */
 	@Override
 	public final boolean isValid(T value, ConstraintValidatorContext context) {
 		this.context = context;
 
 		doValidation(value);
+
+		if (!isValid) {
+			String logMsg = "[%s] value are invalided by [%s] validator call.";
+			log.info(format(logMsg, value, this.getClass().getName()));
+		}
 
 		return isValid;
 	}
@@ -75,6 +92,9 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 		String msg = context.getDefaultConstraintMessageTemplate();
 		String msgInterpolated = preInterpolator.interpolate(msg, msgParameters);
 
+		log.debug("Adding violation with default template.");
+		doTraceLog(msgParameters);
+
 		makeInvalid();
 
 		context.buildConstraintViolationWithTemplate(msgInterpolated).addConstraintViolation();
@@ -103,15 +123,28 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	protected void addViolation(String msgTemplate, String... msgParameters) {
 		String msgInterpolated = preInterpolator.interpolate(msgTemplate, msgParameters);
 
+		log.debug(format("Adding violation with [%s] template.", msgTemplate));
+		doTraceLog(msgParameters);
+
 		makeInvalid();
 
 		context.buildConstraintViolationWithTemplate(msgInterpolated).addConstraintViolation();
+	}
+
+	private void doTraceLog(String[] msgParameters) {
+		if (log.isTraceEnabled()) {
+			for (int i = 0; i < msgParameters.length; i++) {
+				String parameter = msgParameters[i];
+				log.trace(format("Parameter #%d: %s", i, parameter));
+			}
+		}
 	}
 
 	private void makeInvalid() {
 		if (isValid) {
 			isValid = false;
 			context.disableDefaultConstraintViolation();
+			log.debug("Value marked as invalid.");
 		}
 	}
 }
