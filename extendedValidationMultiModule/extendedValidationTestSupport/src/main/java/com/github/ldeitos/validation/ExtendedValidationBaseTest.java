@@ -17,13 +17,14 @@ import com.github.ldeitos.validators.MinDecimalValidatorImpl;
 import com.github.ldeitos.validators.MinValidatorImpl;
 import com.github.ldeitos.validators.NotEmptyValidatorImpl;
 import com.github.ldeitos.validators.PatternValidatorImpl;
+import com.github.ldeitos.validators.RangeValidatorImpl;
 import com.github.ldeitos.validators.SizeValidatorImpl;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({ ValidatorImpl.class, MultipleBundlesSource.class, ManualContext.class,
-    NotEmptyValidatorImpl.class, EmptyValidatorImpl.class, PatternValidatorImpl.class,
-    DigitsValidatorImpl.class, SizeValidatorImpl.class, MinDecimalValidatorImpl.class,
-    MinValidatorImpl.class, MaxDecimalValidatorImpl.class, MaxValidatorImpl.class })
+	NotEmptyValidatorImpl.class, EmptyValidatorImpl.class, PatternValidatorImpl.class,
+	DigitsValidatorImpl.class, SizeValidatorImpl.class, MinDecimalValidatorImpl.class,
+	MinValidatorImpl.class, MaxDecimalValidatorImpl.class, MaxValidatorImpl.class, RangeValidatorImpl.class })
 public class ExtendedValidationBaseTest {
 
 	@BeforeClass
