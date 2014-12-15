@@ -40,7 +40,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 
 	/**
 	 * {@inheritDoc}<br>
-	 * <b>P.S.:</b> Do not subscribe, unless on your override you make
+	 * <b>P.S.:</b> Do not override, unless on your override you make
 	 * {@link #doValidation(Object)} call;
 	 */
 	@Override
