@@ -31,30 +31,39 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 
 	private Logger log = LoggerFactory.getLogger(AbstractExtendedValidator.class);
 
-	private boolean isValid = true;
+	private ThreadLocal<Boolean> validMap = new ThreadLocal<Boolean>();
 
-	private ConstraintValidatorContext context;
+	private ThreadLocal<ConstraintValidatorContext> contextMap = new ThreadLocal<ConstraintValidatorContext>();
 
 	@Inject
 	private PreInterpolator preInterpolator;
 
 	/**
 	 * {@inheritDoc}<br>
-	 * <b>P.S.:</b> Do not override, unless on your override you make
-	 * {@link #doValidation(Object)} call;
+	 * <b>P.S.:</b> Caution, don't override this method.
 	 */
 	@Override
 	public final boolean isValid(T value, ConstraintValidatorContext context) {
-		this.context = context;
+		contextMap.set(context);
+		validMap.set(true);
 
 		doValidation(value);
 
-		if (!isValid) {
+		Boolean valid = validMap.get();
+
+		if (!valid) {
 			String logMsg = "[%s] value are invalided by [%s] validator call.";
 			log.info(format(logMsg, value, this.getClass().getName()));
 		}
 
-		return isValid;
+		release();
+
+		return valid;
+	}
+
+	private void release() {
+		validMap.remove();
+		contextMap.remove();
 	}
 
 	/**
@@ -89,6 +98,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * @since 0.8.0
 	 */
 	protected void addViolationWithDefaultTemplate(String... msgParameters) {
+		ConstraintValidatorContext context = contextMap.get();
 		String msg = context.getDefaultConstraintMessageTemplate();
 		String msgInterpolated = preInterpolator.interpolate(msg, msgParameters);
 
@@ -121,6 +131,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * @since 0.8.0
 	 */
 	protected void addViolation(String msgTemplate, String... msgParameters) {
+		ConstraintValidatorContext context = contextMap.get();
 		String msgInterpolated = preInterpolator.interpolate(msgTemplate, msgParameters);
 
 		log.debug(format("Adding violation with [%s] template.", msgTemplate));
@@ -141,8 +152,10 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	}
 
 	private void makeInvalid() {
-		if (isValid) {
-			isValid = false;
+		if (validMap.get()) {
+			ConstraintValidatorContext context = contextMap.get();
+
+			validMap.set(false);
 			context.disableDefaultConstraintViolation();
 			log.debug("Value marked as invalid.");
 		}
