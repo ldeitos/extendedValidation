@@ -22,6 +22,10 @@ public abstract class BaseTest {
 	@ExtendedValidator
 	private Validator validador;
 
+	@Inject
+	@ExtendedValidator
+	private com.github.ldeitos.validation.Validator extendedValidator;
+
 	@BeforeClass
 	public static void setup() {
 		System.setProperty("org.jboss.weld.nonPortableMode", "true");
@@ -39,5 +43,9 @@ public abstract class BaseTest {
 
 	public Validator getValidador() {
 		return validador;
+	}
+
+	public com.github.ldeitos.validation.Validator getExtendedValidator() {
+		return extendedValidator;
 	}
 }

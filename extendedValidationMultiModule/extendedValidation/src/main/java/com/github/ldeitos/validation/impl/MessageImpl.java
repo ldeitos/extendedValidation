@@ -33,7 +33,7 @@ public class MessageImpl implements Message {
 		Severity severity = Severity.ERROR;
 
 		for (Class<? extends Payload> payload : descriptor.getPayload()) {
-			if (payload.isAssignableFrom(ConstraintSeverity.class)) {
+			if (ConstraintSeverity.class.isAssignableFrom(payload)) {
 				severity = Severity.fromConstraintSeverity((Class<ConstraintSeverity>) payload);
 				break;
 			}
