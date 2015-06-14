@@ -18,9 +18,11 @@ import org.junit.Test;
 import com.github.ldeitos.test.base.BaseTest;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 import com.github.ldeitos.validator.stubs.Bean;
+import com.github.ldeitos.validator.stubs.PathBean;
+import com.github.ldeitos.validator.stubs.PathTestValidatorImpl;
 import com.github.ldeitos.validator.stubs.TestValidatorImpl;
 
-@AdditionalClasses({ TestMessageSource.class, TestValidatorImpl.class })
+@AdditionalClasses({ TestMessageSource.class, PathTestValidatorImpl.class, TestValidatorImpl.class })
 public class AbstractExtendedValidatorTest extends BaseTest {
 
 	@BeforeClass
@@ -77,8 +79,8 @@ public class AbstractExtendedValidatorTest extends BaseTest {
 	@Test
 	public void testAddMultimpleViolation() {
 		String[] expected = { "Not Default constraint: parameter1, parameter2, valueParametrized",
-		    "Test Indexed parmeter test with parameters: Test, param2, param3",
-		    "NotNull defaultConstraintParameter" };
+			"Test Indexed parmeter test with parameters: Test, param2, param3",
+		"NotNull defaultConstraintParameter" };
 		Bean bean = new Bean();
 
 		bean.setBooleanField(true);
@@ -95,6 +97,17 @@ public class AbstractExtendedValidatorTest extends BaseTest {
 		assertTrue(ArrayUtils.contains(expected, violation1.getMessage()));
 		assertTrue(ArrayUtils.contains(expected, violation2.getMessage()));
 		assertTrue(ArrayUtils.contains(expected, violation3.getMessage()));
+	}
+
+	@Test
+	public void testAddViolationWithDefaultTemplateAndPathSimpleField() {
+		String expected = "NotNull defaultConstraintParameter";
+		PathBean bean = new PathBean();
+		Set<ConstraintViolation<PathBean>> violations = getValidador().validate(bean);
+
+		assertEquals(1, violations.size());
+		ConstraintViolation<PathBean> violation = violations.iterator().next();
+		assertEquals(expected, violation.getMessage());
 	}
 
 }

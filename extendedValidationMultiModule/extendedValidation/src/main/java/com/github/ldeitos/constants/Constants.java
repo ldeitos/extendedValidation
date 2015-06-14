@@ -75,17 +75,17 @@ public interface Constants {
 	int PARAMETER_VALUE_GROUP = 3;
 
 	/**
-	 * Path to MessagesSource in xml configuration file.
+	 * SimplePath to MessagesSource in xml configuration file.
 	 */
 	String PATH_CONF_MESSAGE_SOURCE = "message-source";
 
 	/**
-	 * Path to message file collection in xml configuration file.
+	 * SimplePath to message file collection in xml configuration file.
 	 */
 	String PATH_CONF_MESSAGE_FILES = "message-files";
 
 	/**
-	 * Path to each message file in collection.
+	 * SimplePath to each message file in collection.
 	 */
 	String PATH_CONF_MESSAGE_FILE = "message-file";
 

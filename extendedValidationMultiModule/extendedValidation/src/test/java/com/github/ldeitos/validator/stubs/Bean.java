@@ -1,6 +1,5 @@
 package com.github.ldeitos.validator.stubs;
 
-
 @TestConstraint(value = "valueParametrized")
 public class Bean {
 	private String stringField;
