@@ -22,7 +22,7 @@ import org.apache.commons.lang.RandomStringUtils;
 @RequestScoped
 public class AuditContext {
 
-	private static final int DEFAULT_ID_SIZE = 10;
+	private static final int DEFAULT_ID_SIZE = 6;
 
 	private final Date contextCreateInstant = new Date();
 

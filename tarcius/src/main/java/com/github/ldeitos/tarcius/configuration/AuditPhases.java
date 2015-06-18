@@ -1,4 +1,4 @@
-package com.github.ldeitos.tarcius.config;
+package com.github.ldeitos.tarcius.configuration;
 
 /**
  * Defines auditing process phases.

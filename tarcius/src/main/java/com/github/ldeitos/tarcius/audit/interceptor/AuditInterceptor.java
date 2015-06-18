@@ -1,5 +1,8 @@
 package com.github.ldeitos.tarcius.audit.interceptor;
 
+import static com.github.ldeitos.tarcius.configuration.Configuration.getConfiguration;
+import static com.github.ldeitos.tarcius.configuration.TranslateType.STRING_VALUE;
+import static java.lang.String.format;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -20,6 +23,7 @@ import org.slf4j.Logger;
 import com.github.ldeitos.tarcius.api.AuditDataContainer;
 import com.github.ldeitos.tarcius.api.AuditDataDispatcher;
 import com.github.ldeitos.tarcius.api.AuditDataFormatter;
+import com.github.ldeitos.tarcius.api.ParameterFormattedResolver;
 import com.github.ldeitos.tarcius.api.ParameterResolver;
 import com.github.ldeitos.tarcius.api.annotation.Audit;
 import com.github.ldeitos.tarcius.api.annotation.Audited;
@@ -28,6 +32,7 @@ import com.github.ldeitos.tarcius.audit.AuditDataSource;
 import com.github.ldeitos.tarcius.audit.factory.AuditDataDispatcherFactory;
 import com.github.ldeitos.tarcius.audit.factory.AuditDataFormatterFactory;
 import com.github.ldeitos.tarcius.audit.factory.ResolverFactory;
+import com.github.ldeitos.tarcius.exception.InvalidConfigurationException;
 import com.github.ldeitos.tarcius.qualifier.CustomResolver;
 
 @Audit
@@ -55,7 +60,14 @@ public class AuditInterceptor {
 			AuditDataContainer<?> auditData = formatAuditData(auditDataSource);
 			dispatchAuditData(auditData);
 		} catch (Exception e) {
-			logger.warn("", e);
+			String msg = format("Unable to the audit process. Cause: [%s] ", e.getMessage());
+
+			if (getConfiguration().mustInterruptOnError()) {
+				logger.error(msg, e);
+				throw e;
+			} else {
+				logger.warn(msg, e);
+			}
 		}
 
 		return invCtx.proceed();
@@ -65,6 +77,8 @@ public class AuditInterceptor {
 		String auditRef = parseAuditReference(invCtx);
 		List<AuditedParameter> toAudit = getParametersToAudit(invCtx);
 		AuditDataSource auditDataSource = new AuditDataSource(auditRef);
+
+		context.get().addAuditEntry(auditRef, auditDataSource);
 
 		resolveAndFillParametersValues(auditDataSource, toAudit);
 
@@ -109,18 +123,35 @@ public class AuditInterceptor {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void resolveAndFillParametersValues(AuditDataSource auditDataSource,
 		List<AuditedParameter> toAudit) {
 		for (AuditedParameter auditedParameter : toAudit) {
-			Audited auditedParameterConfig = auditedParameter.getConf();
+			Audited auditedParameterConfig = auditedParameter.getConfig();
 			String auditRef = auditedParameterConfig.auditRef();
-			CustomResolver resolverQualifier = getResolverQualifier(auditedParameterConfig);
+
+			ParameterResolver<Object> resolver = getResolver(auditedParameterConfig);
+
+			auditDataSource.addParameterValue(auditRef,
+				resolver.resolve(auditedParameter.getAuditedParameter()));
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private ParameterResolver<Object> getResolver(Audited auditedParameterConfig) {
+		CustomResolver resolverQualifier = getResolverQualifier(auditedParameterConfig);
+
+		if (STRING_VALUE.equals(auditedParameterConfig.translator())
+			&& isNotBlank(auditedParameterConfig.format())) {
+			ParameterFormattedResolver<Object> resolver = (ParameterFormattedResolver<Object>) resolverFactory
+			    .getFormattedResolver(resolverQualifier);
+			resolver.applyFormat(auditedParameterConfig.format());
+			return resolver;
+		} else {
 			ParameterResolver<Object> resolver = (ParameterResolver<Object>) resolverFactory
 			    .getResolver(resolverQualifier);
-
-			auditDataSource.addParameterValue(auditRef, resolver.resolve(auditedParameter.getParameter()));
+			return resolver;
 		}
+
 	}
 
 	private CustomResolver getResolverQualifier(Audited auditedParameterConfig) {
@@ -136,35 +167,37 @@ public class AuditInterceptor {
 		return qualifier;
 	}
 
-	private AuditDataContainer<?> formatAuditData(AuditDataSource auditDataSource) {
+	private AuditDataContainer<?> formatAuditData(AuditDataSource auditDataSource)
+	    throws InvalidConfigurationException {
 		AuditDataFormatter<?> auditDataFormatter = auditDataFormatterFactory.getCurrentFormatter();
 		AuditDataContainer<?> formattedAuditData = auditDataFormatter.format(auditDataSource);
 		return formattedAuditData;
 	}
 
 	@SuppressWarnings("unchecked")
-	private void dispatchAuditData(AuditDataContainer<?> auditDataContainer) {
+	private void dispatchAuditData(AuditDataContainer<?> auditDataContainer)
+	    throws InvalidConfigurationException {
 		AuditDataDispatcher<?> dispatcher = auditDataDispatcherFactory.getCurrentDispatcher();
 
 		((AuditDataDispatcher<Object>) dispatcher).dispatch(auditDataContainer.getAuditData());
 	}
 
 	private class AuditedParameter {
-		private Audited conf;
+		private Audited config;
 
-		private Object parameter;
+		private Object auditedParameter;
 
 		AuditedParameter(Audited conf, Object parameter) {
-			this.conf = conf;
-			this.parameter = parameter;
+			config = conf;
+			auditedParameter = parameter;
 		}
 
-		public Audited getConf() {
-			return conf;
+		public Audited getConfig() {
+			return config;
 		}
 
-		public Object getParameter() {
-			return parameter;
+		public Object getAuditedParameter() {
+			return auditedParameter;
 		}
 	}
 }

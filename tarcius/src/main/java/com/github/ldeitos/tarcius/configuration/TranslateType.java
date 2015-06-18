@@ -1,9 +1,9 @@
-package com.github.ldeitos.tarcius.config;
+package com.github.ldeitos.tarcius.configuration;
 
-import static com.github.ldeitos.tarcius.config.ConfigConstants.CUSTOM_RESOLVER;
-import static com.github.ldeitos.tarcius.config.ConfigConstants.JSON_RESOLVER;
-import static com.github.ldeitos.tarcius.config.ConfigConstants.STRING_RESOLVER;
-import static com.github.ldeitos.tarcius.config.ConfigConstants.XML_RESOLVER;
+import static com.github.ldeitos.tarcius.configuration.Constants.CUSTOM_RESOLVER;
+import static com.github.ldeitos.tarcius.configuration.Constants.JSON_RESOLVER;
+import static com.github.ldeitos.tarcius.configuration.Constants.STRING_RESOLVER;
+import static com.github.ldeitos.tarcius.configuration.Constants.XML_RESOLVER;
 
 import com.github.ldeitos.tarcius.api.ParameterResolver;
 import com.github.ldeitos.tarcius.qualifier.CustomResolver;

@@ -1,7 +1,7 @@
 package com.github.ldeitos.tarcius.api.annotation;
 
-import static com.github.ldeitos.tarcius.config.ConfigConstants.STRING_RESOLVER_ID;
-import static com.github.ldeitos.tarcius.config.TranslateType.STRING_VALUE;
+import static com.github.ldeitos.tarcius.configuration.Constants.STRING_RESOLVER_ID;
+import static com.github.ldeitos.tarcius.configuration.TranslateType.STRING_VALUE;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.github.ldeitos.tarcius.config.TranslateType;
+import com.github.ldeitos.tarcius.configuration.TranslateType;
 import com.github.ldeitos.tarcius.qualifier.CustomResolver;
 
 /**

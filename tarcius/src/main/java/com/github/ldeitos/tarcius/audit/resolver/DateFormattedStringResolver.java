@@ -1,6 +1,6 @@
 package com.github.ldeitos.tarcius.audit.resolver;
 
-import static com.github.ldeitos.tarcius.config.ConfigConstants.FORMATTED_DATE_RESOLVER_ID;
+import static com.github.ldeitos.tarcius.configuration.Constants.FORMATTED_DATE_RESOLVER_ID;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

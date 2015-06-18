@@ -1,6 +1,6 @@
 package com.github.ldeitos.tarcius.audit.resolver;
 
-import static com.github.ldeitos.tarcius.config.ConfigConstants.STRING_RESOLVER_ID;
+import static com.github.ldeitos.tarcius.configuration.Constants.STRING_RESOLVER_ID;
 
 import javax.enterprise.context.ApplicationScoped;
 

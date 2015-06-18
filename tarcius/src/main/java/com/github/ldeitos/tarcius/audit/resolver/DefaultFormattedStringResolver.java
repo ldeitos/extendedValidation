@@ -1,6 +1,6 @@
 package com.github.ldeitos.tarcius.audit.resolver;
 
-import static com.github.ldeitos.tarcius.config.ConfigConstants.FORMATTED_STRING_RESOLVER_ID;
+import static com.github.ldeitos.tarcius.configuration.Constants.FORMATTED_STRING_RESOLVER_ID;
 import static java.lang.String.format;
 
 import com.github.ldeitos.tarcius.qualifier.CustomResolver;
