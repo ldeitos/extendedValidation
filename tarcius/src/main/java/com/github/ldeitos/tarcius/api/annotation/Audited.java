@@ -34,7 +34,8 @@ public @interface Audited {
 	 * @return Translator type to be applied in translate parameter phase. This
 	 *         configuration is mandatory over
 	 *         {@link #customResolverQualifier()}, in ambiguity case between
-	 *         this two parameters, the value configure here is considered.
+	 *         this two parameters, the value configure here is considered.<br>
+	 *         Default value is {@link TranslateType#STRING_VALUE}
 	 */
 	TranslateType translator() default STRING_VALUE;
 

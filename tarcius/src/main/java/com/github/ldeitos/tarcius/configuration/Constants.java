@@ -20,12 +20,12 @@ public interface Constants {
 	/**
 	 * SimplePath to {@link AuditDataFormatter} in xml configuration file.
 	 */
-	String PATH_CONF_FORMATTER_CLASS = "message-source";
+	String PATH_CONF_FORMATTER_CLASS = "formatter-class";
 
 	/**
 	 * SimplePath to {@link AuditDataDispatcher} in xml configuration file.
 	 */
-	String PATH_CONF_DISPATCHER_CLASS = "message-files";
+	String PATH_CONF_DISPATCHER_CLASS = "dispatcher-class";
 
 	/**
 	 * SimplePath to "interrupt on error" in xml configuration file.
@@ -40,15 +40,27 @@ public interface Constants {
 
 	String XML_RESOLVER_ID = "com.github.ldeitos.tarcius.XML";
 
+	String XML_FORMATTED_RESOLVER_ID = "com.github.ldeitos.tarcius.XML.formatted";
+
 	String JSON_RESOLVER_ID = "com.github.ldeitos.tarcius.JSON";
+
+	String JSON_FORMATTED_RESOLVER_ID = "com.github.ldeitos.tarcius.JSON.fomatted";
 
 	String CUSTOM_RESOLVER_ID = "com.github.ldeitos.tarcius.CUSTOM";
 
 	CustomResolver STRING_RESOLVER = new CustomResolverLiteral(STRING_RESOLVER_ID);
 
+	CustomResolver FORMATTED_DATE_RESOLVER = new CustomResolverLiteral(FORMATTED_DATE_RESOLVER_ID);
+
+	CustomResolver FORMATTED_STRING_RESOLVER = new CustomResolverLiteral(FORMATTED_STRING_RESOLVER_ID);
+
 	CustomResolver XML_RESOLVER = new CustomResolverLiteral(XML_RESOLVER_ID);
 
+	CustomResolver XML_FORMATTED_RESOLVER = new CustomResolverLiteral(XML_FORMATTED_RESOLVER_ID);
+
 	CustomResolver JSON_RESOLVER = new CustomResolverLiteral(JSON_RESOLVER_ID);
+
+	CustomResolver JSON_FORMATTED_RESOLVER = new CustomResolverLiteral(JSON_FORMATTED_RESOLVER_ID);
 
 	CustomResolver CUSTOM_RESOLVER = new CustomResolverLiteral(CUSTOM_RESOLVER_ID);
 

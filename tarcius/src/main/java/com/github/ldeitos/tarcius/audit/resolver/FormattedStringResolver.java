@@ -1,11 +1,16 @@
 package com.github.ldeitos.tarcius.audit.resolver;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import com.github.ldeitos.tarcius.api.ParameterFormattedResolver;
 import com.github.ldeitos.tarcius.api.ParameterResolver;
 
-@ApplicationScoped
+/**
+ * Abstract class to {@link ParameterResolver} that will apply format to
+ * {@link String} output.
+ *
+ * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
+ *
+ * @param <T>
+ */
 public abstract class FormattedStringResolver<T> implements ParameterFormattedResolver<T> {
 	private String format;
 

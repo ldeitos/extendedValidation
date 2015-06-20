@@ -75,8 +75,7 @@ public class AuditContext {
 	}
 
 	/**
-	 * @return {@link Date} instance to represent instant of time of context
-	 *         creation.
+	 * @return {@link Date} instance to represent context creation moment.
 	 */
 	public Date getContextCreateInstant() {
 		return contextCreateInstant;

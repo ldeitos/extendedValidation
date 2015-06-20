@@ -4,7 +4,7 @@
 	<artifactId>tarcius</artifactId>
 	<parent>
 		<groupId>com.github.ldeitos</groupId>
-		<artifactId>tarsius-parent</artifactId>
+		<artifactId>tarcius-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<name>Tarsius Activities Audit</name>
@@ -28,13 +28,24 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-impl</artifactId>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
@@ -76,5 +87,10 @@
 			<artifactId>slf4j-nop</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+
 	</dependencies>
 </project>

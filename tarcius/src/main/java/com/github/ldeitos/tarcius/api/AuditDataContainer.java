@@ -6,6 +6,7 @@ package com.github.ldeitos.tarcius.api;
  * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
  *
  * @param <AD>
+ *            Type of audit data model defined by component user.
  */
 public class AuditDataContainer<AD> {
 	private AD auditData;

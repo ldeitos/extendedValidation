@@ -7,6 +7,13 @@ import javax.enterprise.context.ApplicationScoped;
 import com.github.ldeitos.tarcius.api.ParameterResolver;
 import com.github.ldeitos.tarcius.qualifier.CustomResolver;
 
+/**
+ * Default implementation to {@link ParameterResolver} to {@link String#valueOf}
+ * output.
+ *
+ * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
+ *
+ */
 @ApplicationScoped
 @CustomResolver(STRING_RESOLVER_ID)
 public class DefaultStringResolver implements ParameterResolver<Object> {

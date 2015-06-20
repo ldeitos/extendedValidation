@@ -1,7 +1,9 @@
 package com.github.ldeitos.tarcius.audit.interceptor;
 
 import static com.github.ldeitos.tarcius.configuration.Configuration.getConfiguration;
-import static com.github.ldeitos.tarcius.configuration.TranslateType.STRING_VALUE;
+import static com.github.ldeitos.tarcius.configuration.Constants.FORMATTED_DATE_RESOLVER;
+import static com.github.ldeitos.tarcius.configuration.Constants.FORMATTED_STRING_RESOLVER;
+import static com.github.ldeitos.tarcius.configuration.Constants.STRING_RESOLVER;
 import static java.lang.String.format;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -9,6 +11,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.inject.Any;
@@ -36,6 +39,7 @@ import com.github.ldeitos.tarcius.exception.InvalidConfigurationException;
 import com.github.ldeitos.tarcius.qualifier.CustomResolver;
 
 @Audit
+@Any
 @Interceptor
 public class AuditInterceptor {
 	private Logger logger = getLogger(getClass());
@@ -124,51 +128,67 @@ public class AuditInterceptor {
 	}
 
 	private void resolveAndFillParametersValues(AuditDataSource auditDataSource,
-		List<AuditedParameter> toAudit) {
+	    List<AuditedParameter> toAudit) {
 		for (AuditedParameter auditedParameter : toAudit) {
 			Audited auditedParameterConfig = auditedParameter.getConfig();
 			String auditRef = auditedParameterConfig.auditRef();
 
-			ParameterResolver<Object> resolver = getResolver(auditedParameterConfig);
+			if (auditDataSource.getResolvedParameterValues().containsKey(auditRef)) {
+				logger.warn(format("More than one parameter have a same reference [%s]. "
+				    + "Only the first will be considered.", auditRef));
+				continue;
+			}
 
-			auditDataSource.addParameterValue(auditRef,
-				resolver.resolve(auditedParameter.getAuditedParameter()));
+			ParameterResolver<Object> resolver = getResolver(auditedParameter);
+			auditDataSource.addParameterValue(auditRef, resolver.resolve(auditedParameter.getParameter()));
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private ParameterResolver<Object> getResolver(Audited auditedParameterConfig) {
-		CustomResolver resolverQualifier = getResolverQualifier(auditedParameterConfig);
-
-		if (STRING_VALUE.equals(auditedParameterConfig.translator())
-			&& isNotBlank(auditedParameterConfig.format())) {
-			ParameterFormattedResolver<Object> resolver = (ParameterFormattedResolver<Object>) resolverFactory
-			    .getFormattedResolver(resolverQualifier);
-			resolver.applyFormat(auditedParameterConfig.format());
-			return resolver;
-		} else {
-			ParameterResolver<Object> resolver = (ParameterResolver<Object>) resolverFactory
-			    .getResolver(resolverQualifier);
-			return resolver;
+	private ParameterResolver<Object> getResolver(AuditedParameter auditedParameter) {
+		Audited auditedParameterConfig = auditedParameter.getConfig();
+		CustomResolver resolverQualifier = getResolverQualifier(auditedParameter);
+		if (resolverQualifier.equals(STRING_RESOLVER) && isNotBlank(auditedParameterConfig.format())) {
+			return getFormattedResolver(auditedParameter);
 		}
+
+		ParameterResolver<Object> resolver = (ParameterResolver<Object>) resolverFactory
+		    .getResolver(resolverQualifier);
+		return resolver;
 
 	}
 
-	private CustomResolver getResolverQualifier(Audited auditedParameterConfig) {
-		CustomResolver qualifier;
+	@SuppressWarnings("unchecked")
+	private ParameterResolver<Object> getFormattedResolver(AuditedParameter auditedParameter) {
+		Audited config = auditedParameter.getConfig();
+		CustomResolver resolverQualifier = FORMATTED_STRING_RESOLVER;
 
-		switch (auditedParameterConfig.translator()) {
+		if (auditedParameter.getParameter() instanceof Date) {
+			resolverQualifier = FORMATTED_DATE_RESOLVER;
+		}
+
+		ParameterFormattedResolver<Object> resolver = (ParameterFormattedResolver<Object>) resolverFactory
+		    .getFormattedResolver(resolverQualifier).applyFormat(config.format());
+
+		return resolver;
+	}
+
+	private CustomResolver getResolverQualifier(AuditedParameter auditedParameter) {
+		CustomResolver qualifier;
+		Audited config = auditedParameter.getConfig();
+
+		switch (config.translator()) {
 		case CUSTOM:
-			qualifier = auditedParameterConfig.customResolverQualifier();
+			qualifier = config.customResolverQualifier();
 		default:
-			qualifier = auditedParameterConfig.translator().getResolverQualifier();
+			qualifier = config.translator().getResolverQualifier();
 		}
 
 		return qualifier;
 	}
 
 	private AuditDataContainer<?> formatAuditData(AuditDataSource auditDataSource)
-	    throws InvalidConfigurationException {
+		throws InvalidConfigurationException {
 		AuditDataFormatter<?> auditDataFormatter = auditDataFormatterFactory.getCurrentFormatter();
 		AuditDataContainer<?> formattedAuditData = auditDataFormatter.format(auditDataSource);
 		return formattedAuditData;
@@ -176,7 +196,7 @@ public class AuditInterceptor {
 
 	@SuppressWarnings("unchecked")
 	private void dispatchAuditData(AuditDataContainer<?> auditDataContainer)
-	    throws InvalidConfigurationException {
+		throws InvalidConfigurationException {
 		AuditDataDispatcher<?> dispatcher = auditDataDispatcherFactory.getCurrentDispatcher();
 
 		((AuditDataDispatcher<Object>) dispatcher).dispatch(auditDataContainer.getAuditData());
@@ -196,7 +216,7 @@ public class AuditInterceptor {
 			return config;
 		}
 
-		public Object getAuditedParameter() {
+		public Object getParameter() {
 			return auditedParameter;
 		}
 	}

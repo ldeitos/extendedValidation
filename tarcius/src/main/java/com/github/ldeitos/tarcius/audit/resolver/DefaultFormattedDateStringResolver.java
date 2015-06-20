@@ -6,10 +6,21 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.enterprise.context.ApplicationScoped;
+
+import com.github.ldeitos.tarcius.api.ParameterResolver;
 import com.github.ldeitos.tarcius.qualifier.CustomResolver;
 
+/**
+ * Default implementation to {@link ParameterResolver} to apply format to
+ * {@link Date} values.
+ *
+ * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
+ *
+ */
+@ApplicationScoped
 @CustomResolver(FORMATTED_DATE_RESOLVER_ID)
-public class DateFormattedStringResolver extends FormattedStringResolver<Date> {
+public class DefaultFormattedDateStringResolver extends FormattedStringResolver<Date> {
 
 	@Override
 	public String resolve(Date input) {

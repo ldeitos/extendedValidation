@@ -1,6 +1,6 @@
 package com.github.ldeitos.tarcius.audit.resolver;
 
-import static com.github.ldeitos.tarcius.configuration.Constants.JSON_RESOLVER_ID;
+import static com.github.ldeitos.tarcius.configuration.Constants.JSON_FORMATTED_RESOLVER_ID;
 import static org.eclipse.persistence.oxm.MediaType.APPLICATION_JSON;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -13,15 +13,14 @@ import com.github.ldeitos.tarcius.api.ParameterResolver;
 import com.github.ldeitos.tarcius.qualifier.CustomResolver;
 
 /**
- * Default implementation to {@link ParameterResolver} to unformatted JSON
- * output.
+ * Default implementation to {@link ParameterResolver} to formatted JSON output.
  *
  * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
  *
  */
 @ApplicationScoped
-@CustomResolver(JSON_RESOLVER_ID)
-public class DefaultJSONResolver extends JaxbBasedResolver {
+@CustomResolver(JSON_FORMATTED_RESOLVER_ID)
+public class DefaultFormattedJSONResolver extends JaxbBasedResolver {
 
 	@Override
 	protected String getMediaType() {
@@ -36,6 +35,6 @@ public class DefaultJSONResolver extends JaxbBasedResolver {
 
 	@Override
 	protected boolean isOutputFormatted() {
-		return false;
+		return true;
 	}
 }

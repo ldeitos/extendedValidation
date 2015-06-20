@@ -9,5 +9,10 @@ package com.github.ldeitos.tarcius.api;
  *            Generic type of input parameter to be audited.
  */
 public interface ParameterResolver<I> {
+	/**
+	 * @param input
+	 *            Parameter to be resolved.
+	 * @return {@link String} representation of input value.
+	 */
 	String resolve(I input);
 }

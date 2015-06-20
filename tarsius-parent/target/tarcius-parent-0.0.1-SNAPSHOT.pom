@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ldeitos</groupId>
-	<artifactId>tarsius-parent</artifactId>
+	<artifactId>tarcius-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Tarsius Parent</name>
@@ -185,8 +185,21 @@
 			</dependency>
 
 			<dependency>
-				<groupId>com.sun.xml.bind</groupId>
-				<artifactId>jaxb-impl</artifactId>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>3.2.1</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>2.2.11</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.glassfish.jaxb</groupId>
+				<artifactId>jaxb-runtime</artifactId>
 				<version>2.2.11</version>
 			</dependency>
 
@@ -199,7 +212,7 @@
 			<dependency>
 				<groupId>org.jglue.cdi-unit</groupId>
 				<artifactId>cdi-unit</artifactId>
-				<version>2.0.8</version>
+				<version>3.1.2</version>
 				<scope>test</scope>
 			</dependency>
 
@@ -223,6 +236,14 @@
 				<version>1.7.7</version>
 				<scope>test</scope>
 			</dependency>
+
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.1.0</version>
+				<scope>test</scope>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 </project>
