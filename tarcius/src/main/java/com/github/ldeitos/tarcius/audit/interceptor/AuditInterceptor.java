@@ -64,7 +64,7 @@ public class AuditInterceptor {
 			AuditDataContainer<?> auditData = formatAuditData(auditDataSource);
 			dispatchAuditData(auditData);
 		} catch (Exception e) {
-			String msg = format("Unable to the audit process. Cause: [%s] ", e.getMessage());
+			String msg = format("Unable to do audit process. Cause: [%s] ", e.getMessage());
 
 			if (getConfiguration().mustInterruptOnError()) {
 				logger.error(msg, e);

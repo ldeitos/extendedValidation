@@ -30,10 +30,10 @@ import com.github.ldeitos.tarcius.support.ToAudit;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({ ToAudit.class, DefaultStringResolver.class, DefaultFormattedXMLResolver.class,
-	DefaultJSONResolver.class, DefaultFormattedJSONResolver.class, DefaultXMLResolver.class,
-	DefaultFormattedXMLResolver.class, DefaultFormattedDateStringResolver.class,
-	DefaultFormattedStringResolver.class, AuditContext.class, AuditInterceptor.class,
-	TestAuditDataDispatcher.class, TestAuditDataFormatter.class })
+    DefaultJSONResolver.class, DefaultFormattedJSONResolver.class, DefaultXMLResolver.class,
+    DefaultFormattedXMLResolver.class, DefaultFormattedDateStringResolver.class,
+    DefaultFormattedStringResolver.class, AuditContext.class, AuditInterceptor.class,
+    TestAuditDataDispatcher.class, TestAuditDataFormatter.class })
 @InRequestScope
 public class AuditTest {
 
@@ -70,14 +70,14 @@ public class AuditTest {
 	public void testAuditoriaComParametroStringAuditado() {
 		test.testStringParam("valorParametro");
 		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: parName" + QUEBRA
-			+ "Valor: valorParametro");
+		    + "Valor: valorParametro");
 	}
 
 	@Test
 	public void testAuditoriaComParametroStringNumericoAuditado() {
 		test.testStringIntParam("valorParametro", 10);
 		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: par1" + QUEBRA
-			+ "Valor: valorParametro" + QUEBRA + "Parâmetro auditado: par2" + QUEBRA + "Valor: 10");
+		    + "Valor: valorParametro" + QUEBRA + "Parâmetro auditado: par2" + QUEBRA + "Valor: 10");
 	}
 
 	@Test
@@ -87,14 +87,22 @@ public class AuditTest {
 		String dataFormatada = sdf.format(hoje);
 		test.testFormattedDateIntParam(hoje, 100);
 		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: par1" + QUEBRA
-			+ "Valor: " + dataFormatada + QUEBRA + "Parâmetro auditado: par2" + QUEBRA + "Valor: 00100");
+		    + "Valor: " + dataFormatada + QUEBRA + "Parâmetro auditado: par2" + QUEBRA + "Valor: 00100");
 	}
 
-	// @Test
+	@Test
 	public void testAuditoriaComParametroXML() {
 		test.testXML(new Teste("valPar"));
 		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: xmlPar" + QUEBRA
-			+ "Valor: <Teste><field>valPar</field></Teste>");
+			+ "Valor: <?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+			+ "<teste><field>valPar</field></teste>");
+	}
+
+	@Test
+	public void testAuditoriaComParametroJSON() {
+		test.testJSON(new Teste("valPar"));
+		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: jsonPar" + QUEBRA
+			+ "Valor: {\"field\":\"valPar\"}");
 	}
 
 	private void assertAudit(String string) {
