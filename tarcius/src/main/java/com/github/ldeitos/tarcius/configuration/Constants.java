@@ -44,8 +44,6 @@ public interface Constants {
 
 	String JSON_RESOLVER_ID = "com.github.ldeitos.tarcius.JSON";
 
-	String JSON_FORMATTED_RESOLVER_ID = "com.github.ldeitos.tarcius.JSON.fomatted";
-
 	String CUSTOM_RESOLVER_ID = "com.github.ldeitos.tarcius.CUSTOM";
 
 	CustomResolver STRING_RESOLVER = new CustomResolverLiteral(STRING_RESOLVER_ID);
@@ -59,8 +57,6 @@ public interface Constants {
 	CustomResolver XML_FORMATTED_RESOLVER = new CustomResolverLiteral(XML_FORMATTED_RESOLVER_ID);
 
 	CustomResolver JSON_RESOLVER = new CustomResolverLiteral(JSON_RESOLVER_ID);
-
-	CustomResolver JSON_FORMATTED_RESOLVER = new CustomResolverLiteral(JSON_FORMATTED_RESOLVER_ID);
 
 	CustomResolver CUSTOM_RESOLVER = new CustomResolverLiteral(CUSTOM_RESOLVER_ID);
 

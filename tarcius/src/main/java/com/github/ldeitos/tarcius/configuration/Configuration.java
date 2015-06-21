@@ -36,16 +36,22 @@ public class Configuration {
 
 	private AuditDataDispatcher<?> dispatcher;
 
-	private Configuration() {
-		configuration = ConfigurationLoader.loadConfiguration();
+	/**
+	 * @param configFile
+	 *            Configuration file name.
+	 */
+	private Configuration(ConfigurationProvider cp) {
+		configuration = ConfigurationLoader.loadConfiguration(cp);
 	};
 
 	/**
+	 * @param cp
+	 *            Configuration provider.
 	 * @return Unique instance to {@link Configuration} to application use.
 	 */
-	public static Configuration getConfiguration() {
-		if (instance == null) {
-			instance = new Configuration();
+	public static Configuration getConfiguration(ConfigurationProvider cp) {
+		if (instance == null || cp.isInTest()) {
+			instance = new Configuration(cp);
 		}
 
 		return instance;
@@ -63,7 +69,7 @@ public class Configuration {
 	 *             classpath;<br>
 	 */
 	@SuppressWarnings("unchecked")
-	public AuditDataFormatter<?> getAuditDataForrmatter() throws InvalidConfigurationException {
+	public AuditDataFormatter<?> getAuditDataFormatter() throws InvalidConfigurationException {
 		validate(configuration);
 		if (formatter == null) {
 			Class<? extends AuditDataFormatter<?>> beanType = null;
@@ -139,8 +145,8 @@ public class Configuration {
 
 	private <C> C getByReflection(Class<C> beanType) throws InvalidConfigurationException {
 		C bean = null;
-		String msgError = format("Error to obtain MessagesSource instance from [%s] by reflection.",
-		    configuration.getFormatterClass());
+		String msgError = format("Error to obtain %s instance from [%s] by reflection.",
+			beanType.getSimpleName(), configuration.getFormatterClass());
 		try {
 			bean = ConstructorUtils.invokeConstructor(beanType);
 		} catch (NoSuchMethodException e) {

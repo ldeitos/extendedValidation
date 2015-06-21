@@ -16,12 +16,13 @@ import org.junit.runner.RunWith;
 import com.github.ldeitos.tarcius.audit.AuditContext;
 import com.github.ldeitos.tarcius.audit.interceptor.AuditInterceptor;
 import com.github.ldeitos.tarcius.audit.resolver.DefaultFormattedDateStringResolver;
-import com.github.ldeitos.tarcius.audit.resolver.DefaultFormattedJSONResolver;
 import com.github.ldeitos.tarcius.audit.resolver.DefaultFormattedStringResolver;
 import com.github.ldeitos.tarcius.audit.resolver.DefaultFormattedXMLResolver;
 import com.github.ldeitos.tarcius.audit.resolver.DefaultJSONResolver;
 import com.github.ldeitos.tarcius.audit.resolver.DefaultStringResolver;
 import com.github.ldeitos.tarcius.audit.resolver.DefaultXMLResolver;
+import com.github.ldeitos.tarcius.configuration.ConfigurationProvider;
+import com.github.ldeitos.tarcius.support.CustomResolverImpl;
 import com.github.ldeitos.tarcius.support.MessageDestination;
 import com.github.ldeitos.tarcius.support.TestAuditDataDispatcher;
 import com.github.ldeitos.tarcius.support.TestAuditDataFormatter;
@@ -30,10 +31,10 @@ import com.github.ldeitos.tarcius.support.ToAudit;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({ ToAudit.class, DefaultStringResolver.class, DefaultFormattedXMLResolver.class,
-    DefaultJSONResolver.class, DefaultFormattedJSONResolver.class, DefaultXMLResolver.class,
-    DefaultFormattedXMLResolver.class, DefaultFormattedDateStringResolver.class,
-    DefaultFormattedStringResolver.class, AuditContext.class, AuditInterceptor.class,
-    TestAuditDataDispatcher.class, TestAuditDataFormatter.class })
+    DefaultJSONResolver.class, DefaultXMLResolver.class, DefaultFormattedXMLResolver.class,
+    DefaultFormattedDateStringResolver.class, DefaultFormattedStringResolver.class, CustomResolverImpl.class,
+    AuditContext.class, AuditInterceptor.class, TestAuditDataDispatcher.class, TestAuditDataFormatter.class,
+	ConfigurationProvider.class })
 @InRequestScope
 public class AuditTest {
 
@@ -76,7 +77,7 @@ public class AuditTest {
 	@Test
 	public void testAuditoriaComParametroStringNumericoAuditado() {
 		test.testStringIntParam("valorParametro", 10);
-		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: par1" + QUEBRA
+		assertAudit("Método auditado: parameterTest2" + QUEBRA + "Parâmetro auditado: par1" + QUEBRA
 		    + "Valor: valorParametro" + QUEBRA + "Parâmetro auditado: par2" + QUEBRA + "Valor: 10");
 	}
 
@@ -94,19 +95,33 @@ public class AuditTest {
 	public void testAuditoriaComParametroXML() {
 		test.testXML(new Teste("valPar"));
 		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: xmlPar" + QUEBRA
-			+ "Valor: <?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-			+ "<teste><field>valPar</field></teste>");
+		    + "Valor: <?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+		    + "<teste><field>valPar</field></teste>");
+	}
+
+	@Test
+	public void testAuditoriaComParametroXMLFormatado() {
+		test.testFormattedXML(new Teste("valPar"));
+		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: xmlPar" + QUEBRA
+		    + "Valor: <?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<teste>\n"
+		    + "    <field>valPar</field>\n</teste>\n");
 	}
 
 	@Test
 	public void testAuditoriaComParametroJSON() {
 		test.testJSON(new Teste("valPar"));
 		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: jsonPar" + QUEBRA
-			+ "Valor: {\"field\":\"valPar\"}");
+		    + "Valor: {\"field\":\"valPar\"}");
+	}
+
+	@Test
+	public void testAuditoriaCustomResolver() {
+		test.testCustomResolver(new Teste("valPar"));
+		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: custom" + QUEBRA
+		    + "Valor: CustomResolver: [valPar]");
 	}
 
 	private void assertAudit(String string) {
 		assertEquals(string, MessageDestination.getMessage());
 	}
-
 }

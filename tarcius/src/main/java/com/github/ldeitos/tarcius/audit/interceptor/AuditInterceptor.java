@@ -1,6 +1,5 @@
 package com.github.ldeitos.tarcius.audit.interceptor;
 
-import static com.github.ldeitos.tarcius.configuration.Configuration.getConfiguration;
 import static com.github.ldeitos.tarcius.configuration.Constants.FORMATTED_DATE_RESOLVER;
 import static com.github.ldeitos.tarcius.configuration.Constants.FORMATTED_STRING_RESOLVER;
 import static com.github.ldeitos.tarcius.configuration.Constants.STRING_RESOLVER;
@@ -35,6 +34,9 @@ import com.github.ldeitos.tarcius.audit.AuditDataSource;
 import com.github.ldeitos.tarcius.audit.factory.AuditDataDispatcherFactory;
 import com.github.ldeitos.tarcius.audit.factory.AuditDataFormatterFactory;
 import com.github.ldeitos.tarcius.audit.factory.ResolverFactory;
+import com.github.ldeitos.tarcius.configuration.Configuration;
+import com.github.ldeitos.tarcius.configuration.ConfigurationProvider;
+import com.github.ldeitos.tarcius.exception.AuditException;
 import com.github.ldeitos.tarcius.exception.InvalidConfigurationException;
 import com.github.ldeitos.tarcius.qualifier.CustomResolver;
 
@@ -57,6 +59,9 @@ public class AuditInterceptor {
 	@Inject
 	private ResolverFactory resolverFactory;
 
+	@Inject
+	private ConfigurationProvider configFileNameProvider;
+
 	@AroundInvoke
 	public Object doAudit(InvocationContext invCtx) throws Exception {
 		try {
@@ -68,13 +73,18 @@ public class AuditInterceptor {
 
 			if (getConfiguration().mustInterruptOnError()) {
 				logger.error(msg, e);
-				throw e;
+
+				throw new AuditException(msg, e);
 			} else {
 				logger.warn(msg, e);
 			}
 		}
 
 		return invCtx.proceed();
+	}
+
+	private Configuration getConfiguration() {
+		return Configuration.getConfiguration(configFileNameProvider);
 	}
 
 	private AuditDataSource resolveAuditDataSource(InvocationContext invCtx) {
@@ -139,28 +149,38 @@ public class AuditInterceptor {
 				continue;
 			}
 
-			ParameterResolver<Object> resolver = getResolver(auditedParameter);
-			auditDataSource.addParameterValue(auditRef, resolver.resolve(auditedParameter.getParameter()));
+			String resolvedValue = resolveParameterValue(auditedParameter);
+			auditDataSource.addParameterValue(auditRef, auditedParameter.getParameter(),
+			    resolvedValue);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	private ParameterResolver<Object> getResolver(AuditedParameter auditedParameter) {
+	private String resolveParameterValue(AuditedParameter auditedParameter) {
 		Audited auditedParameterConfig = auditedParameter.getConfig();
 		CustomResolver resolverQualifier = getResolverQualifier(auditedParameter);
+
 		if (resolverQualifier.equals(STRING_RESOLVER) && isNotBlank(auditedParameterConfig.format())) {
-			return getFormattedResolver(auditedParameter);
+			return getFormattedResolver(auditedParameter).resolve(auditedParameterConfig.format(),
+			    auditedParameter.getParameter());
 		}
+
+		ParameterResolver<Object> resolver = getResolver(resolverQualifier);
+
+		return resolver.resolve(auditedParameter.getParameter());
+	}
+
+	@SuppressWarnings("unchecked")
+	private ParameterResolver<Object> getResolver(CustomResolver resolverQualifier) {
 
 		ParameterResolver<Object> resolver = (ParameterResolver<Object>) resolverFactory
 		    .getResolver(resolverQualifier);
+
 		return resolver;
 
 	}
 
 	@SuppressWarnings("unchecked")
-	private ParameterResolver<Object> getFormattedResolver(AuditedParameter auditedParameter) {
-		Audited config = auditedParameter.getConfig();
+	private ParameterFormattedResolver<Object> getFormattedResolver(AuditedParameter auditedParameter) {
 		CustomResolver resolverQualifier = FORMATTED_STRING_RESOLVER;
 
 		if (auditedParameter.getParameter() instanceof Date) {
@@ -168,7 +188,7 @@ public class AuditInterceptor {
 		}
 
 		ParameterFormattedResolver<Object> resolver = (ParameterFormattedResolver<Object>) resolverFactory
-		    .getFormattedResolver(resolverQualifier).applyFormat(config.format());
+		    .getFormattedResolver(resolverQualifier);
 
 		return resolver;
 	}
@@ -180,6 +200,7 @@ public class AuditInterceptor {
 		switch (config.translator()) {
 		case CUSTOM:
 			qualifier = config.customResolverQualifier();
+			break;
 		default:
 			qualifier = config.translator().getResolverQualifier();
 		}

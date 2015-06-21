@@ -5,6 +5,7 @@ import static java.lang.String.format;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import com.github.ldeitos.tarcius.api.ParameterFormattedResolver;
 import com.github.ldeitos.tarcius.api.ParameterResolver;
 import com.github.ldeitos.tarcius.qualifier.CustomResolver;
 
@@ -17,10 +18,12 @@ import com.github.ldeitos.tarcius.qualifier.CustomResolver;
  */
 @ApplicationScoped
 @CustomResolver(FORMATTED_STRING_RESOLVER_ID)
-public class DefaultFormattedStringResolver extends FormattedStringResolver<Object> {
+public class DefaultFormattedStringResolver extends DefaultStringResolver implements
+    ParameterFormattedResolver<Object> {
 
 	@Override
-	public String resolve(Object input) {
-		return format(getFormat(), input);
+	public String resolve(String format, Object input) {
+		return format(format, input);
 	}
+
 }

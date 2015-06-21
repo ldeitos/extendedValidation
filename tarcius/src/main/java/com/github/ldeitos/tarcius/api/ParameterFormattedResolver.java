@@ -11,9 +11,11 @@ package com.github.ldeitos.tarcius.api;
 public interface ParameterFormattedResolver<I> extends ParameterResolver<I> {
 	/**
 	 * @param format
-	 *            Format string to be applied to resolver.
+	 *            Format string to be applied when input is resolved.
+	 * @param input
+	 *            Value to be resolved.
 	 * @return Current resolver instance, enabling {@link #resolve(Object)}
 	 *         nested call.
 	 */
-	ParameterResolver<I> applyFormat(String format);
+	String resolve(String format, I input);
 }

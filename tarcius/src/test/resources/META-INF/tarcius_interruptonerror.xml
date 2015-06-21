@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tarcius>
+	<formatter-class>com.github.ldeitos.tarcius.support.TestAuditDataFormatter</formatter-class>
+	<dispatcher-class>com.github.ldeitos.tarcius.support.TestAuditDataDispatcher</dispatcher-class>
+	<interrupt-on-error>true</interrupt-on-error>	
+</tarcius>

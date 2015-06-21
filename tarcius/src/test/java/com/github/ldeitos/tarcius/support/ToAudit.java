@@ -1,5 +1,7 @@
 package com.github.ldeitos.tarcius.support;
 
+import static com.github.ldeitos.tarcius.configuration.TranslateType.CUSTOM;
+import static com.github.ldeitos.tarcius.configuration.TranslateType.JAXB_FORMATTED_XML;
 import static com.github.ldeitos.tarcius.configuration.TranslateType.JAXB_JSON;
 import static com.github.ldeitos.tarcius.configuration.TranslateType.JAXB_XML;
 
@@ -7,6 +9,7 @@ import java.util.Date;
 
 import com.github.ldeitos.tarcius.api.annotation.Audit;
 import com.github.ldeitos.tarcius.api.annotation.Audited;
+import com.github.ldeitos.tarcius.qualifier.CustomResolver;
 
 public class ToAudit {
 
@@ -35,7 +38,7 @@ public class ToAudit {
 
 	}
 
-	@Audit(auditRef = "parameterTest")
+	@Audit(auditRef = "parameterTest2")
 	public void testStringIntParam(@Audited(auditRef = "par1") String par1,
 		@Audited(auditRef = "par2") int par2) {
 
@@ -53,7 +56,24 @@ public class ToAudit {
 	}
 
 	@Audit(auditRef = "parameterTest")
+	public void testFormattedXML(@Audited(auditRef = "xmlPar", translator = JAXB_FORMATTED_XML) Teste par) {
+
+	}
+
+	@Audit(auditRef = "parameterTest")
 	public void testJSON(@Audited(auditRef = "jsonPar", translator = JAXB_JSON) Teste par) {
+
+	}
+
+	@Audit(auditRef = "parameterTest")
+	public void testCustomResolver(
+	    @Audited(auditRef = "custom", translator = CUSTOM, customResolverQualifier = @CustomResolver("customTeste")) Teste par) {
+
+	}
+
+	@Audit(auditRef = "parameterTest")
+	public void testInvalidCustomResolver(
+	    @Audited(auditRef = "custom", translator = CUSTOM, customResolverQualifier = @CustomResolver("foo")) Teste par) {
 
 	}
 

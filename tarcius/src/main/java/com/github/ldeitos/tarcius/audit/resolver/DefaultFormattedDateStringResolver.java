@@ -8,6 +8,7 @@ import java.util.Date;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import com.github.ldeitos.tarcius.api.ParameterFormattedResolver;
 import com.github.ldeitos.tarcius.api.ParameterResolver;
 import com.github.ldeitos.tarcius.qualifier.CustomResolver;
 
@@ -20,11 +21,16 @@ import com.github.ldeitos.tarcius.qualifier.CustomResolver;
  */
 @ApplicationScoped
 @CustomResolver(FORMATTED_DATE_RESOLVER_ID)
-public class DefaultFormattedDateStringResolver extends FormattedStringResolver<Date> {
+public class DefaultFormattedDateStringResolver implements ParameterFormattedResolver<Date> {
 
 	@Override
 	public String resolve(Date input) {
-		DateFormat formatter = new SimpleDateFormat(getFormat());
+		return resolve("dd/MM/yyyy", input);
+	}
+
+	@Override
+	public String resolve(String format, Date input) {
+		DateFormat formatter = new SimpleDateFormat(format);
 		return formatter.format(input);
 	}
 

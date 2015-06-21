@@ -1,7 +1,6 @@
 package com.github.ldeitos.tarcius.configuration;
 
 import static com.github.ldeitos.tarcius.configuration.Constants.CUSTOM_RESOLVER;
-import static com.github.ldeitos.tarcius.configuration.Constants.JSON_FORMATTED_RESOLVER;
 import static com.github.ldeitos.tarcius.configuration.Constants.JSON_RESOLVER;
 import static com.github.ldeitos.tarcius.configuration.Constants.STRING_RESOLVER;
 import static com.github.ldeitos.tarcius.configuration.Constants.XML_FORMATTED_RESOLVER;
@@ -33,10 +32,6 @@ public enum TranslateType {
 	 * Audited parameter value is resolved to unformatted JSON by JAXB API
 	 */
 	JAXB_JSON(JSON_RESOLVER),
-	/**
-	 * Audited parameter value is resolved to formatted JSON by JAXB API
-	 */
-	JAXB_FORMATTED_JSON(JSON_FORMATTED_RESOLVER),
 	/**
 	 * Audited parameter values is resolved by custom {@link ParameterResolver}
 	 */

@@ -22,6 +22,8 @@ public class AuditDataSource {
 
 	private String auditReference;
 
+	private Map<String, Object> parameterValues = new HashMap<String, Object>();
+
 	private Map<String, String> resolvedParameterValues = new HashMap<String, String>();
 
 	private Queue<String> auditRefs = new LinkedList<String>();
@@ -30,13 +32,18 @@ public class AuditDataSource {
 		auditReference = ref;
 	}
 
-	public void addParameterValue(String key, String value) {
+	public void addParameterValue(String key, Object parameter, String resolvedValue) {
 		auditRefs.offer(key);
-		resolvedParameterValues.put(key, value);
+		resolvedParameterValues.put(key, resolvedValue);
+		parameterValues.put(key, parameter);
 	}
 
 	public Map<String, String> getResolvedParameterValues() {
 		return unmodifiableMap(resolvedParameterValues);
+	}
+
+	public Map<String, Object> getParameterValues() {
+		return unmodifiableMap(parameterValues);
 	}
 
 	public String getAuditReference() {

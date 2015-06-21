@@ -26,22 +26,24 @@ class ConfigurationLoader {
 	private static Logger log = LoggerFactory.getLogger(ConfigurationLoader.class);
 
 	/**
-	 * @return DTO with configuration content from any
-	 *         {@link Constants#CONFIGURATION_FILE} in application class path.
+	 * @param cp
+	 *            Configuration provider.
+	 * @return DTO with configuration content from specified configuration file
+	 *         in application class path.
 	 */
-	static ConfigurationDTO loadConfiguration() {
-		if (configuration == null) {
-			load();
+	static ConfigurationDTO loadConfiguration(ConfigurationProvider cp) {
+		if (configuration == null || cp.isInTest()) {
+			load(cp.getConfigFileName());
 		}
 
 		return configuration;
 	}
 
-	private static void load() {
+	private static void load(String configFile) {
 		try {
-			log.info(format("Loading configuration by %s files in class path.", CONFIGURATION_FILE));
+			log.info(format("Loading configuration by %s files in class path.", configFile));
 
-			DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(CONFIGURATION_FILE);
+			DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(configFile);
 			confBuilder.load();
 			loadFromXMLFiles(confBuilder);
 			traceConfiguration(configuration);
@@ -62,7 +64,7 @@ class ConfigurationLoader {
 		configuration.setDispatcherClass(confBuilder.getString(PATH_CONF_DISPATCHER_CLASS));
 
 		if (confBuilder.containsKey(PATH_CONF_INTERRUPT_ON_ERROR)) {
-			configuration.setInterruptOnError(confBuilder.getBoolean(PATH_CONF_FORMATTER_CLASS));
+			configuration.setInterruptOnError(confBuilder.getBoolean(PATH_CONF_INTERRUPT_ON_ERROR));
 		}
 	}
 
