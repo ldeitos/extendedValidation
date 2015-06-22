@@ -115,6 +115,11 @@ public class ManualContext implements Extension {
 				log.error(errorMsg, e);
 				InvalidCDIContextException.throwNew(errorMsg, e);
 			}
+
+			if (beanManager == null) {
+				InvalidCDIContextException
+				.throwNew("Invalid BeanManager state. Cannot locate by container initilization even JDNI loockup.");
+			}
 		}
 
 		log.debug("BeanManager disponible to CDI lookup.");
