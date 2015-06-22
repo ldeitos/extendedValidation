@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 
 import com.github.ldeitos.tarcius.audit.AuditContext;
 import com.github.ldeitos.tarcius.audit.interceptor.AuditInterceptor;
-import com.github.ldeitos.tarcius.configuration.ConfigurationProvider;
+import com.github.ldeitos.tarcius.configuration.ConfigInfoProvider;
 import com.github.ldeitos.tarcius.support.TestAuditDataDispatcher;
 import com.github.ldeitos.tarcius.support.TestAuditDataFormatter;
 import com.github.ldeitos.tarcius.support.Teste;
@@ -29,7 +29,7 @@ public class AuditNoInterruptOnErrorTest {
 
 	@Produces
 	@ProducesAlternative
-	private ConfigurationProvider provider = new ConfigurationProvider() {
+	private ConfigInfoProvider provider = new ConfigInfoProvider() {
 		@Override
 		protected boolean isInTest() {
 			return true;

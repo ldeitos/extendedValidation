@@ -5,7 +5,7 @@ import static com.github.ldeitos.tarcius.configuration.Constants.CONFIGURATION_F
 import javax.inject.Singleton;
 
 @Singleton
-public class ConfigurationProvider {
+public class ConfigInfoProvider {
 
 	public String getConfigFileName() {
 		return CONFIGURATION_FILE;

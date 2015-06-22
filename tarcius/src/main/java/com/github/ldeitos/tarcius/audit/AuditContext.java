@@ -33,7 +33,7 @@ public class AuditContext {
 	private Queue<String> auditRefs = new LinkedList<String>();
 
 	/**
-	 * Default constructor defines size 10 to random string id generated to
+	 * Default constructor defines size 6 to random string id generated to
 	 * context.
 	 */
 	public AuditContext() {

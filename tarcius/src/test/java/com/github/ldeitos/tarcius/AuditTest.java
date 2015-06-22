@@ -5,11 +5,13 @@ import static org.junit.Assert.assertEquals;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
 import org.jglue.cdiunit.InRequestScope;
+import org.jglue.cdiunit.ProducesAlternative;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -21,7 +23,7 @@ import com.github.ldeitos.tarcius.audit.resolver.DefaultFormattedXMLResolver;
 import com.github.ldeitos.tarcius.audit.resolver.DefaultJSONResolver;
 import com.github.ldeitos.tarcius.audit.resolver.DefaultStringResolver;
 import com.github.ldeitos.tarcius.audit.resolver.DefaultXMLResolver;
-import com.github.ldeitos.tarcius.configuration.ConfigurationProvider;
+import com.github.ldeitos.tarcius.configuration.ConfigInfoProvider;
 import com.github.ldeitos.tarcius.support.CustomResolverImpl;
 import com.github.ldeitos.tarcius.support.MessageDestination;
 import com.github.ldeitos.tarcius.support.TestAuditDataDispatcher;
@@ -31,10 +33,9 @@ import com.github.ldeitos.tarcius.support.ToAudit;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({ ToAudit.class, DefaultStringResolver.class, DefaultFormattedXMLResolver.class,
-    DefaultJSONResolver.class, DefaultXMLResolver.class, DefaultFormattedXMLResolver.class,
-    DefaultFormattedDateStringResolver.class, DefaultFormattedStringResolver.class, CustomResolverImpl.class,
-    AuditContext.class, AuditInterceptor.class, TestAuditDataDispatcher.class, TestAuditDataFormatter.class,
-	ConfigurationProvider.class })
+	DefaultJSONResolver.class, DefaultXMLResolver.class, DefaultFormattedXMLResolver.class,
+	DefaultFormattedDateStringResolver.class, DefaultFormattedStringResolver.class, CustomResolverImpl.class,
+	AuditContext.class, AuditInterceptor.class, TestAuditDataDispatcher.class, TestAuditDataFormatter.class })
 @InRequestScope
 public class AuditTest {
 
@@ -42,6 +43,10 @@ public class AuditTest {
 
 	@Inject
 	private ToAudit test;
+
+	@Produces
+	@ProducesAlternative
+	private ConfigInfoProvider configInfoProvier = new ConfigInfoProvider();
 
 	@Test
 	public void testAuditoriaSemParametroReferenciaNomeMetodo() {
@@ -71,14 +76,14 @@ public class AuditTest {
 	public void testAuditoriaComParametroStringAuditado() {
 		test.testStringParam("valorParametro");
 		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: parName" + QUEBRA
-		    + "Valor: valorParametro");
+			+ "Valor: valorParametro");
 	}
 
 	@Test
 	public void testAuditoriaComParametroStringNumericoAuditado() {
 		test.testStringIntParam("valorParametro", 10);
 		assertAudit("Método auditado: parameterTest2" + QUEBRA + "Parâmetro auditado: par1" + QUEBRA
-		    + "Valor: valorParametro" + QUEBRA + "Parâmetro auditado: par2" + QUEBRA + "Valor: 10");
+			+ "Valor: valorParametro" + QUEBRA + "Parâmetro auditado: par2" + QUEBRA + "Valor: 10");
 	}
 
 	@Test
@@ -88,37 +93,37 @@ public class AuditTest {
 		String dataFormatada = sdf.format(hoje);
 		test.testFormattedDateIntParam(hoje, 100);
 		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: par1" + QUEBRA
-		    + "Valor: " + dataFormatada + QUEBRA + "Parâmetro auditado: par2" + QUEBRA + "Valor: 00100");
+			+ "Valor: " + dataFormatada + QUEBRA + "Parâmetro auditado: par2" + QUEBRA + "Valor: 00100");
 	}
 
 	@Test
 	public void testAuditoriaComParametroXML() {
 		test.testXML(new Teste("valPar"));
 		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: xmlPar" + QUEBRA
-		    + "Valor: <?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-		    + "<teste><field>valPar</field></teste>");
+			+ "Valor: <?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+			+ "<teste><field>valPar</field></teste>");
 	}
 
 	@Test
 	public void testAuditoriaComParametroXMLFormatado() {
 		test.testFormattedXML(new Teste("valPar"));
 		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: xmlPar" + QUEBRA
-		    + "Valor: <?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<teste>\n"
-		    + "    <field>valPar</field>\n</teste>\n");
+			+ "Valor: <?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<teste>\n"
+			+ "    <field>valPar</field>\n</teste>\n");
 	}
 
 	@Test
 	public void testAuditoriaComParametroJSON() {
 		test.testJSON(new Teste("valPar"));
 		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: jsonPar" + QUEBRA
-		    + "Valor: {\"field\":\"valPar\"}");
+			+ "Valor: {\"field\":\"valPar\"}");
 	}
 
 	@Test
 	public void testAuditoriaCustomResolver() {
 		test.testCustomResolver(new Teste("valPar"));
 		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: custom" + QUEBRA
-		    + "Valor: CustomResolver: [valPar]");
+			+ "Valor: CustomResolver: [valPar]");
 	}
 
 	private void assertAudit(String string) {

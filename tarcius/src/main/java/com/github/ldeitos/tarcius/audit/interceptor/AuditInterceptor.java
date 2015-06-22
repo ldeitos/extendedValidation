@@ -34,8 +34,8 @@ import com.github.ldeitos.tarcius.audit.AuditDataSource;
 import com.github.ldeitos.tarcius.audit.factory.AuditDataDispatcherFactory;
 import com.github.ldeitos.tarcius.audit.factory.AuditDataFormatterFactory;
 import com.github.ldeitos.tarcius.audit.factory.ResolverFactory;
+import com.github.ldeitos.tarcius.configuration.ConfigInfoProvider;
 import com.github.ldeitos.tarcius.configuration.Configuration;
-import com.github.ldeitos.tarcius.configuration.ConfigurationProvider;
 import com.github.ldeitos.tarcius.exception.AuditException;
 import com.github.ldeitos.tarcius.exception.InvalidConfigurationException;
 import com.github.ldeitos.tarcius.qualifier.CustomResolver;
@@ -60,7 +60,7 @@ public class AuditInterceptor {
 	private ResolverFactory resolverFactory;
 
 	@Inject
-	private ConfigurationProvider configFileNameProvider;
+	private ConfigInfoProvider configInfoProvider;
 
 	@AroundInvoke
 	public Object doAudit(InvocationContext invCtx) throws Exception {
@@ -83,8 +83,8 @@ public class AuditInterceptor {
 		return invCtx.proceed();
 	}
 
-	private Configuration getConfiguration() {
-		return Configuration.getConfiguration(configFileNameProvider);
+	private Configuration getConfiguration() throws InvalidConfigurationException {
+		return Configuration.getConfiguration(configInfoProvider);
 	}
 
 	private AuditDataSource resolveAuditDataSource(InvocationContext invCtx) {
@@ -150,8 +150,7 @@ public class AuditInterceptor {
 			}
 
 			String resolvedValue = resolveParameterValue(auditedParameter);
-			auditDataSource.addParameterValue(auditRef, auditedParameter.getParameter(),
-			    resolvedValue);
+			auditDataSource.addParameterValue(auditRef, auditedParameter.getParameter(), resolvedValue);
 		}
 	}
 

@@ -39,8 +39,9 @@ public class Configuration {
 	/**
 	 * @param configFile
 	 *            Configuration file name.
+	 * @throws InvalidConfigurationException
 	 */
-	private Configuration(ConfigurationProvider cp) {
+	private Configuration(ConfigInfoProvider cp) throws InvalidConfigurationException {
 		configuration = ConfigurationLoader.loadConfiguration(cp);
 	};
 
@@ -48,8 +49,9 @@ public class Configuration {
 	 * @param cp
 	 *            Configuration provider.
 	 * @return Unique instance to {@link Configuration} to application use.
+	 * @throws InvalidConfigurationException
 	 */
-	public static Configuration getConfiguration(ConfigurationProvider cp) {
+	public static Configuration getConfiguration(ConfigInfoProvider cp) throws InvalidConfigurationException {
 		if (instance == null || cp.isInTest()) {
 			instance = new Configuration(cp);
 		}
@@ -75,9 +77,9 @@ public class Configuration {
 			Class<? extends AuditDataFormatter<?>> beanType = null;
 			try {
 				log.debug(format("Getting AuditDataFormatter instance from class %s.",
-				    configuration.getFormatterClass()));
+					configuration.getFormatterClass()));
 				beanType = (Class<? extends AuditDataFormatter<?>>) Class.forName(configuration
-				    .getFormatterClass());
+					.getFormatterClass());
 			} catch (ClassNotFoundException e) {
 				log.error(format("Class %s not found in classpath.", configuration.getFormatterClass()), e);
 				InvalidConfigurationException.throwNew(e.getMessage(), e);
@@ -107,9 +109,9 @@ public class Configuration {
 			Class<? extends AuditDataDispatcher<?>> beanType = null;
 			try {
 				log.debug(format("Getting AuditDataDispatcher instance from class %s.",
-				    configuration.getFormatterClass()));
+					configuration.getFormatterClass()));
 				beanType = (Class<? extends AuditDataDispatcher<?>>) Class.forName(configuration
-				    .getDispatcherClass());
+					.getDispatcherClass());
 			} catch (ClassNotFoundException e) {
 				log.error(format("Class %s not found in classpath.", configuration.getDispatcherClass()), e);
 				InvalidConfigurationException.throwNew(e.getMessage(), e);
@@ -122,31 +124,35 @@ public class Configuration {
 	}
 
 	private <C> C resolveBean(Class<C> beanType) throws InvalidConfigurationException {
-		C formatter = null;
+		C bean = null;
 		String className = beanType.getSimpleName();
 
 		try {
-			formatter = getByCDIContext(beanType);
+			bean = getByCDIContext(beanType);
 			log.debug(format("Reference from [%s] obtained by CDI Context.", className));
 		} catch (InvalidCDIContextException e) {
 			String warnMsg = format("Error to obtain [%s] reference by CDI Context. Cause: %s.", className,
-				e.getMessage());
+			    e.getMessage());
 			log.warn(warnMsg);
-			log.warn("Trying by reflection...");
 
-			formatter = getByReflection(beanType);
-			log.debug(format("Reference from [%s] obtained by reflection.", className));
+		} finally {
+			if (bean == null) {
+				log.warn("Trying by reflection...");
+
+				bean = getByReflection(beanType);
+				log.debug(format("Reference from [%s] obtained by reflection.", className));
+			}
 		}
 
 		log.info(format("Using [%s] as message source.", className));
 
-		return formatter;
+		return bean;
 	}
 
 	private <C> C getByReflection(Class<C> beanType) throws InvalidConfigurationException {
 		C bean = null;
 		String msgError = format("Error to obtain %s instance from [%s] by reflection.",
-			beanType.getSimpleName(), configuration.getFormatterClass());
+		    beanType.getSimpleName(), configuration.getFormatterClass());
 		try {
 			bean = ConstructorUtils.invokeConstructor(beanType);
 		} catch (NoSuchMethodException e) {
@@ -184,6 +190,11 @@ public class Configuration {
 
 	public boolean mustInterruptOnError() {
 		return configuration.isInterruptOnError();
+	}
+
+	public static void reset() {
+		Configuration.instance = null;
+		ConfigurationLoader.reset();
 	}
 
 }

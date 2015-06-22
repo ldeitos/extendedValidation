@@ -30,8 +30,9 @@ class ConfigurationLoader {
 	 *            Configuration provider.
 	 * @return DTO with configuration content from specified configuration file
 	 *         in application class path.
+	 * @throws InvalidConfigurationException
 	 */
-	static ConfigurationDTO loadConfiguration(ConfigurationProvider cp) {
+	static ConfigurationDTO loadConfiguration(ConfigInfoProvider cp) throws InvalidConfigurationException {
 		if (configuration == null || cp.isInTest()) {
 			load(cp.getConfigFileName());
 		}
@@ -39,25 +40,26 @@ class ConfigurationLoader {
 		return configuration;
 	}
 
-	private static void load(String configFile) {
+	private static void load(String configFile) throws InvalidConfigurationException {
 		try {
 			log.info(format("Loading configuration by %s files in class path.", configFile));
 
 			DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(configFile);
-			confBuilder.load();
 			loadFromXMLFiles(confBuilder);
 			traceConfiguration(configuration);
 		} catch (Exception e) {
 			String msg = format("Error on obtain %s files in class path: [%s], maybe it's misplaced.",
-				CONFIGURATION_FILE, e.getMessage());
+			    CONFIGURATION_FILE, e.getMessage());
 			log.warn(msg);
+			InvalidConfigurationException.throwNew(msg, e);
 		}
 	}
 
 	private static void loadFromXMLFiles(DefaultConfigurationBuilder confBuilder)
-	    throws ConfigurationException, InvalidConfigurationException {
+		throws ConfigurationException, InvalidConfigurationException {
 		configuration = new ConfigurationDTO();
 
+		confBuilder.load();
 		validateConfiguration(confBuilder);
 
 		configuration.setFormatterClass(confBuilder.getString(PATH_CONF_FORMATTER_CLASS));
@@ -69,13 +71,13 @@ class ConfigurationLoader {
 	}
 
 	private static void validateConfiguration(DefaultConfigurationBuilder confBuilder)
-	    throws InvalidConfigurationException {
+		throws InvalidConfigurationException {
 		String invalidMsg = "Invalid configuration: missing %s class definition (<%s> tag)";
 		throwIfTrue(confBuilder.isEmpty(), "Configuration file is apparently empty.");
 		throwIfTrue(!confBuilder.containsKey(PATH_CONF_FORMATTER_CLASS),
-		    format(invalidMsg, "formatter", PATH_CONF_FORMATTER_CLASS));
+			format(invalidMsg, "formatter", PATH_CONF_FORMATTER_CLASS));
 		throwIfTrue(!confBuilder.containsKey(PATH_CONF_DISPATCHER_CLASS),
-		    format(invalidMsg, "dispatcher", PATH_CONF_DISPATCHER_CLASS));
+			format(invalidMsg, "dispatcher", PATH_CONF_DISPATCHER_CLASS));
 	}
 
 	private static void throwIfTrue(boolean toAssert, String msg) throws InvalidConfigurationException {
@@ -86,6 +88,10 @@ class ConfigurationLoader {
 
 	private static void traceConfiguration(ConfigurationDTO configuration) {
 		log.trace(format("Configuration content: [%s]", configuration));
+	}
+
+	public static void reset() {
+		configuration = null;
 	}
 
 }

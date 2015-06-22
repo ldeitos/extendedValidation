@@ -23,14 +23,14 @@ import com.github.ldeitos.tarcius.audit.AuditContext;
 import com.github.ldeitos.tarcius.audit.AuditDataSource;
 import com.github.ldeitos.tarcius.audit.interceptor.AuditInterceptor;
 import com.github.ldeitos.tarcius.audit.resolver.DefaultStringResolver;
-import com.github.ldeitos.tarcius.configuration.ConfigurationProvider;
+import com.github.ldeitos.tarcius.configuration.ConfigInfoProvider;
 import com.github.ldeitos.tarcius.support.TestAuditDataDispatcher;
 import com.github.ldeitos.tarcius.support.TestAuditDataFormatter;
 import com.github.ldeitos.tarcius.support.ToAudit;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({ ToAudit.class, DefaultStringResolver.class, AuditContext.class, AuditInterceptor.class,
-    TestAuditDataDispatcher.class, TestAuditDataFormatter.class, ConfigurationProvider.class })
+    TestAuditDataDispatcher.class, TestAuditDataFormatter.class, ConfigInfoProvider.class })
 @InRequestScope
 public class AuditContextTest {
 
