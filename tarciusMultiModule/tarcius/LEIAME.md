@@ -11,11 +11,11 @@ Concebido para ser adaptável às necessidades e particularidades de cada aplicaçã
 ### Modelo de uso
 O mecanismo baseia-se na interceptação da chamada de métodos identificados com a anotação *@Audited* através de um *interceptor* CDI que deve ser ativado com a inclusão do seguinte trecho no arquivo beans.xml:
 
-´´´xml
+```xml
 <interceptors>
     <class>com.github.ldeitos.tarcius.audit.interceptor. AuditInterceptor</class>
 </interceptors>
-´´´
+```
 
 Cabe a observação de que *interceptors* do CDI somente são acionados quando um método público é invocado por outra classe, mas nunca quando esta chamada é realizada internamente da própria classe que tenha o método anotado. Para maiores informações sobre *interceptors* do CDI consulte a [documentação oficial](https://docs.oracle.com/javaee/6/tutorial/doc/gkhjx.html).
 
