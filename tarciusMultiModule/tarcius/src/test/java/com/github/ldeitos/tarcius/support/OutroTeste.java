@@ -1,30 +1,17 @@
 package com.github.ldeitos.tarcius.support;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.github.ldeitos.tarcius.api.annotation.Audited;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@Audited(auditRef = "entity")
 public class OutroTeste {
-	private String field;
-
-	private Teste teste;
 
 	public OutroTeste() {
 
 	}
 
-	public OutroTeste(Teste teste, String str) {
-		field = str;
-		this.teste = teste;
+	@Override
+	public String toString() {
+		return "teste anotação entidade.";
 	}
 
-	public String getField() {
-		return field;
-	}
-
-	public Teste getTeste() {
-		return teste;
-	}
 }

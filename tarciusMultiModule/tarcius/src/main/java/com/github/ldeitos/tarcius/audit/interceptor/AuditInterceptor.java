@@ -4,6 +4,7 @@ import static com.github.ldeitos.tarcius.configuration.Constants.FORMATTED_DATE_
 import static com.github.ldeitos.tarcius.configuration.Constants.FORMATTED_STRING_RESOLVER;
 import static com.github.ldeitos.tarcius.configuration.Constants.STRING_RESOLVER;
 import static java.lang.String.format;
+import static org.apache.commons.lang3.ArrayUtils.addAll;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -117,10 +118,13 @@ public class AuditInterceptor {
 		Annotation[][] parameterAnnotations = invokedMethod.getParameterAnnotations();
 
 		for (int i = 0; i < parameterAnnotations.length; i++) {
-			Audited audited = getAuditedAnnotation(parameterAnnotations[i]);
+			Object parameter = parameters[i];
+			Class<? extends Object> parameterClass = parameter.getClass();
+			Audited audited = getAuditedAnnotation(addAll(parameterAnnotations[i],
+			    parameterClass.getAnnotations()));
 
 			if (audited != null) {
-				result.add(new AuditedParameter(audited, parameters[i]));
+				result.add(new AuditedParameter(audited, parameter));
 			}
 		}
 

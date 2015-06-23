@@ -26,6 +26,7 @@ import com.github.ldeitos.tarcius.audit.resolver.DefaultXMLResolver;
 import com.github.ldeitos.tarcius.configuration.ConfigInfoProvider;
 import com.github.ldeitos.tarcius.support.CustomResolverImpl;
 import com.github.ldeitos.tarcius.support.MessageDestination;
+import com.github.ldeitos.tarcius.support.OutroTeste;
 import com.github.ldeitos.tarcius.support.TestAuditDataDispatcher;
 import com.github.ldeitos.tarcius.support.TestAuditDataFormatter;
 import com.github.ldeitos.tarcius.support.Teste;
@@ -124,6 +125,13 @@ public class AuditTest {
 		test.testCustomResolver(new Teste("valPar"));
 		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: custom" + QUEBRA
 			+ "Valor: CustomResolver: [valPar]");
+	}
+
+	@Test
+	public void testAuditoriaParametroAnotadoEntidade() {
+		test.testEntityAnnotation(new OutroTeste());
+		assertAudit("Método auditado: parameterTest" + QUEBRA + "Parâmetro auditado: entity" + QUEBRA
+			+ "Valor: teste anotação entidade.");
 	}
 
 	private void assertAudit(String string) {
