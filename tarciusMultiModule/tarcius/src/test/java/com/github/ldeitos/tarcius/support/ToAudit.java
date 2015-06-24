@@ -9,6 +9,7 @@ import java.util.Date;
 
 import com.github.ldeitos.tarcius.api.annotation.Audit;
 import com.github.ldeitos.tarcius.api.annotation.Audited;
+import com.github.ldeitos.tarcius.api.annotation.NotAudited;
 import com.github.ldeitos.tarcius.qualifier.CustomResolver;
 
 public class ToAudit {
@@ -40,13 +41,13 @@ public class ToAudit {
 
 	@Audit(auditRef = "parameterTest2")
 	public void testStringIntParam(@Audited(auditRef = "par1") String par1,
-	    @Audited(auditRef = "par2") int par2) {
+		@Audited(auditRef = "par2") int par2) {
 
 	}
 
 	@Audit(auditRef = "parameterTest")
 	public void testFormattedDateIntParam(@Audited(auditRef = "par1", format = "yyyyMMdd") Date par1,
-	    @Audited(auditRef = "par2", format = "%05d") int par2) {
+		@Audited(auditRef = "par2", format = "%05d") int par2) {
 
 	}
 
@@ -67,18 +68,23 @@ public class ToAudit {
 
 	@Audit(auditRef = "parameterTest")
 	public void testCustomResolver(
-		@Audited(auditRef = "custom", translator = CUSTOM, customResolverQualifier = @CustomResolver("customTeste")) Teste par) {
+	    @Audited(auditRef = "custom", translator = CUSTOM, customResolverQualifier = @CustomResolver("customTeste")) Teste par) {
 
 	}
 
 	@Audit(auditRef = "parameterTest")
 	public void testInvalidCustomResolver(
-		@Audited(auditRef = "custom", translator = CUSTOM, customResolverQualifier = @CustomResolver("foo")) Teste par) {
+	    @Audited(auditRef = "custom", translator = CUSTOM, customResolverQualifier = @CustomResolver("foo")) Teste par) {
 
 	}
 
 	@Audit(auditRef = "parameterTest")
 	public void testEntityAnnotation(OutroTeste par) {
+
+	}
+
+	@Audit(auditRef = "parameterTest")
+	public void testIgnoredEntityAnnotation(@NotAudited OutroTeste par) {
 
 	}
 
