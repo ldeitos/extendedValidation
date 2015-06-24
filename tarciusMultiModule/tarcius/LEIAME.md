@@ -74,7 +74,7 @@ Nesta fase é aplicada a tradução dos parâmetros anteriormente identificados para
 ```java
 TranslateType.STRING_VALUE
 ```
-Tradutor que resolve o valor do parâmetro auditado para uma *String* representativa do objeto, através do método **String**.*valueOf()*.
+Tradutor que resolve o valor do parâmetro auditado para uma *String* representativa do objeto, através do método String.*valueOf()*.
 ```java
 TranslateType.JAXB_XML
 ```
