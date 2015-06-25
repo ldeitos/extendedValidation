@@ -108,11 +108,12 @@ public class PedidoResolver implements ParameterResolver<Pedido> {
 public class VendasBC {
 
     @Audit(auditRef="Processar venda")
-    public void processar(
-       @Audited(auditRef="pedido", translator=TranslateType.CUSTOM, customResolverQualifier=@CustomResolver("resolve_pedido")) Pedido pedido){}
+    public void processar(@Audited(auditRef="pedido", 
+                                   translator=TranslateType.CUSTOM, 
+                                   customResolverQualifier=@CustomResolver("resolve_pedido")) Pedido pedido){}
 
 }
 ```
-Recomenda-se que as implementações de *ParameterResolver* sejam definidas para o escopo de aplicação, porém esta característica não tratamento não é obrigatório.
+Recomenda-se que as implementações de *ParameterResolver* sejam definidas para o escopo de aplicação, porém este tratamento não é obrigatório.
 
-Cabe esclarecer que, apesar de obrigatório, a ausência da configuração do atributo *customResolverQualifier* não causa erro no processo de auditoria; neste caso, será aplicado o tradutor *default* para resolver o valor auditado obtendo, portanto, o valor do método *toString()* do objeto.
+Cabe esclarecer que, apesar de obrigatório, a ausência da configuração do atributo *customResolverQualifier* não causa erro no processo de auditoria; neste caso, será aplicado o tradutor *default* para resolver o valor auditado, obtendo assim o valor do método *toString()* do objeto.
