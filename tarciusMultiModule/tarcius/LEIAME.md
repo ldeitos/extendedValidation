@@ -94,7 +94,7 @@ TranslateType.CUSTOM
 ```
 Quando o atributo *translator* está valorizado com este tipo, significa que a tradução do parâmetro deve ser resolvida por um tradutor especializado. Quando utilizado este valor, é **obrigatório** informar no atributo *customResolverQualifier* com o qualificador *@CustomResolver* que identifica o tradutor a ser instanciado, através do CDI, para resolver o valor do parâmetro. 
 
-As implementações especializadas dos tradutores devem implementar a interface *ParameterResolver&ltI&gt*, além de ser devidamente qualificado com *@CustomResolver*, como no exemplo abaixo:
+As implementações especializadas dos tradutores devem implementar a interface *ParameterResolver*, além de ser devidamente qualificado com *@CustomResolver*, como no exemplo abaixo:
 ```java
 @CustomResolver("resolve_pedido")
 public class PedidoResolver implements ParameterResolver<Pedido> {
@@ -108,8 +108,10 @@ public class VendasBC {
 
     @Audit(auditRef="Processar venda")
     public void processar(
-       @Audited(auditRef="pedido", translator = TranslateType.CUSTOM, customResolverQualifier=@CustomResolver("resolve_pedido")) Pedido pedido){}
+       @Audited(auditRef="pedido", translator=TranslateType.CUSTOM, customResolverQualifier=@CustomResolver("resolve_pedido")) Pedido pedido){}
 
 }
 ```
+Recomenda-se que as implementações de *ParameterResolver* sejam definidas para o escopo de aplicação, porém esta característica não tratamento não é obrigatório.
+
 Cabe esclarecer que, apesar de obrigatório, a ausência da configuração do atributo *customResolverQualifier* não causa erro no processo de auditoria; neste caso, será aplicado o tradutor *default* para resolver o valor auditado obtendo, portanto, o valor do método *toString()* do objeto.
