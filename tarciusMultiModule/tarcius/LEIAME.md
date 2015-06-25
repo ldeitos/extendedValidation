@@ -96,6 +96,7 @@ Quando o atributo *translator* está valorizado com este tipo, significa que a tr
 
 As implementações especializadas dos tradutores devem implementar a interface *ParameterResolver*, além de ser devidamente qualificado com *@CustomResolver*, como no exemplo abaixo:
 ```java
+@ApplicationScope
 @CustomResolver("resolve_pedido")
 public class PedidoResolver implements ParameterResolver<Pedido> {
 
