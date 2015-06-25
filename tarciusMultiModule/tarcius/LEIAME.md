@@ -94,7 +94,7 @@ TranslateType.CUSTOM
 ```
 Quando o atributo *translator* está valorizado com este tipo, significa que a tradução do parâmetro deve ser resolvida por um tradutor especializado. Quando utilizado este valor, é **obrigatório** informar no atributo *customResolverQualifier* com o qualificador *@CustomResolver* que identifica o tradutor a ser instanciado, através do CDI, para resolver o valor do parâmetro. 
 
-As implementações especializadas dos tradutores devem implementar a interface *ParameterResolver<I>*, além de ser devidamente qualificado com *@CustomResolver*, como no exemplo abaixo:
+As implementações especializadas dos tradutores devem implementar a interface *ParameterResolver&ltI&gt*, além de ser devidamente qualificado com *@CustomResolver*, como no exemplo abaixo:
 ```java
 @CustomResolver("resolve_pedido")
 public class PedidoResolver implements ParameterResolver<Pedido> {
