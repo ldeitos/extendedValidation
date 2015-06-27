@@ -36,6 +36,10 @@ public class Path {
 		return hasKey() || hasIndex();
 	}
 
+	public boolean isRootIterablePath() {
+		return isIterable() && getPath() == null;
+	}
+
 	public boolean hasIndex() {
 		return index != null;
 	}
@@ -54,6 +58,10 @@ public class Path {
 
 	public Integer getIndex() {
 		return index;
+	}
+
+	public boolean hasNext() {
+		return nextPath != null;
 	}
 
 }

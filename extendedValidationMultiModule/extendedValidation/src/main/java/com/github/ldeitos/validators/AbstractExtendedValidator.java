@@ -8,13 +8,15 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder;
-import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder.NodeBuilderCustomizableContext;
+import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder.LeafNodeBuilderCustomizableContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.ldeitos.validation.MessagesSource;
 import com.github.ldeitos.validation.impl.interpolator.PreInterpolator;
+import com.github.ldeitos.validators.util.ConstraintBuilderAdapter;
+import com.github.ldeitos.validators.util.NodeBuilderCustomizableContextAdapter;
 import com.github.ldeitos.validators.util.Path;
 import com.github.ldeitos.validators.util.PathBuilder;
 
@@ -145,7 +147,32 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 
 		ConstraintViolationBuilder cvBuilder = context.buildConstraintViolationWithTemplate(msgInterpolated);
 
-		buildPath(cvBuilder, atPath).addConstraintViolation();
+		if (atPath.isRootIterablePath()) {
+			buildIterablePathAndAddConstraint(cvBuilder, atPath);
+		} else {
+			buildPath(cvBuilder, atPath).addConstraintViolation();
+		}
+	}
+
+	/**
+	 * Makes value on validation invalid and add a violation with default
+	 * message template, defined in Constraint annotation, and parameters to
+	 * interpolate.
+	 *
+	 * @param pathBuilder
+	 *            {@link PathBuilder} to build {@link Path} reference.
+	 *
+	 * @param msgParameters
+	 *            Parameters to be interpolated in message violation.<br>
+	 *            Can be informed in "value" pattern, to be interpolated in
+	 *            indexed parameter like "My {0} message" or in "key=value"
+	 *            pattern, to be interpolated in defined parameter like
+	 *            "My {par} message".
+	 *
+	 * @since 0.9.0
+	 */
+	protected void addViolationWithDefaultTemplate(PathBuilder pathBuilder, String... msgParameters) {
+		addViolationWithDefaultTemplate(pathBuilder.getPath(), msgParameters);
 	}
 
 	/**
@@ -215,7 +242,38 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 
 		ConstraintViolationBuilder vBuilder = context.buildConstraintViolationWithTemplate(msgInterpolated);
 
-		buildPath(vBuilder, path).addConstraintViolation();
+		if (path.isRootIterablePath()) {
+			buildIterablePathAndAddConstraint(vBuilder, path);
+		} else {
+			buildPath(vBuilder, path).addConstraintViolation();
+		}
+	}
+
+	/**
+	 * Makes value on validation invalid and add a violation with informed
+	 * message template and parameters to interpolate.
+	 *
+	 * @param pathBuilder
+	 *            {@link PathBuilder} to build {@link Path} reference.
+	 *
+	 * @param msgTemplate
+	 *            Message template can be:<br>
+	 *            - Just message text, like "My message";<br>
+	 *            - Message text with parameters, like "My {0} message" or
+	 *            "My {par} message";<br>
+	 *            - Message key to get message in parameterized
+	 *            {@link MessagesSource}, like {my.message.key}.
+	 * @param msgParameters
+	 *            Parameters to be interpolated in message violation.<br>
+	 *            Can be informed in "value" pattern, to be interpolated in
+	 *            indexed parameter like "My {0} message" or in "key=value"
+	 *            pattern, to be interpolated in defined parameter like
+	 *            "My {par} message".
+	 *
+	 * @since 0.9.0
+	 */
+	protected void addViolation(PathBuilder path, String msgTemplate, String... msgParameters) {
+		addViolation(pathBuilder.getPath(), msgTemplate, msgParameters);
 	}
 
 	private void doTraceLog(String[] msgParameters) {
@@ -237,6 +295,32 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 		}
 	}
 
+	/**
+	 * Builder to describe a simple {@link Path} to violation origin.
+	 *
+	 * Usage examples:
+	 *
+	 * <pre>
+	 * //assuming the following domain model
+	 * public class Address {
+	 *     public String getStreet() { ... }
+	 *     public Country getCountry() { ... }
+	 * }
+	 *
+	 * //From a class level constraint on Address
+	 * //Build a constraint violation on the default path + "street"
+	 * //i.e. the street property of Address
+	 * buildPath("street");
+	 *
+	 * @param path
+	 * 		String representation of path to property to register violation.
+	 * @param index
+	 * 		Index to indexed collection content to registered violation.
+	 * @return
+	 * 		{@link PathBuilder} to build a {@link Path} reference.
+	 *
+	 * @since 0.9.0
+	 */
 	protected PathBuilder buildPath(String path) {
 		if (pathBuilder == null) {
 			pathBuilder = new PathBuilder();
@@ -245,6 +329,40 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 		return pathBuilder.add(path);
 	}
 
+	/**
+	 * Builder to describe a mapped {@link Path} to violation origin.
+	 *
+	 * Usage examples:
+	 *
+	 * <pre>
+	 * //assuming the following domain model
+	 * public class User {
+	 *     public Map<String, Address> getAddresses() { ... }
+	 * }
+	 * 
+	 * public class Address {
+	 *     public String getStreet() { ... }
+	 *     public Country getCountry() { ... }
+	 * }
+	 * 
+	 * public class Country {
+	 *     public String getName() { ... }
+	 * }
+	 * 
+	 * //From a class level constraint on User
+	 * //Build a constraint violation on the default path + addresses["home"].country.name
+	 * //i.e. property "country.name" on the object stored under "home" in the map
+	 * buildPath("addresses").add("country", "home").add("name")
+	 * 
+	 * @param path
+	 * 		String representation of path to property to register violation.
+	 * @param index
+	 * 		Index to indexed collection content to registered violation.
+	 * @return
+	 * 		{@link PathBuilder} to build a {@link Path} reference.
+	 *
+	 * @since 0.9.0
+	 */
 	protected PathBuilder buildPath(String path, String key) {
 		if (pathBuilder == null) {
 			pathBuilder = new PathBuilder();
@@ -253,6 +371,71 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 		return pathBuilder.add(path, key);
 	}
 
+	/**
+	 * Return a {@link Path} to property level mapped content.<br>
+	 * Usage examples:
+	 *
+	 * <pre>
+	 * //assuming the following domain model
+	 * public class User {
+	 *     public Map<String, Address> getAddresses() { ... }
+	 * }
+	 * 
+	 * public class Address {
+	 *     public String getStreet() { ... }
+	 *     public Country getCountry() { ... }
+	 * }
+	 * 
+	 * //From a property-level constraint on User.addresses
+	 * //Build a constraint violation on the default path + the bean stored
+	 * //under the "home" key on map:
+	 *  atKey("home")
+	 * 
+	 * @param index
+	 * 		Index to indexed collection content to registered violation.
+	 * @return
+	 * 		Correspondent {@link Path}.
+	 *
+	 * @since 0.9.0
+	 */
+	protected Path atKey(String key) {
+		if (pathBuilder == null) {
+			pathBuilder = new PathBuilder();
+		}
+
+		return pathBuilder.addAtKey(key).getPath();
+	}
+
+	/**
+	 * Builder to describe a indexed {@link Path} to violation origin.
+	 *
+	 * Usage examples:
+	 *
+	 * <pre>
+	 * //assuming the following domain model
+	 * public class User {
+	 *     public List<Address> getAddresses() { ... }
+	 * }
+	 * 
+	 * public class Address {
+	 *     public String getStreet() { ... }
+	 *     public Country getCountry() { ... }
+	 * }
+	 * 
+	 * //From a class level constraint on User
+	 * //Build a constraint violation on the default path + addresses["home"].country.name
+	 * //i.e. property "country.name" on the object stored under index 2 in the list
+	 * buildPath("addresses").add("country", 2).add("name")
+	 * 
+	 * @param path
+	 * 		String representation of path to property to register violation.
+	 * @param index
+	 * 		Index to indexed collection content to registered violation.
+	 * @return
+	 * 		{@link PathBuilder} to build a {@link Path} reference.
+	 *
+	 * @since 0.9.0
+	 */
 	protected PathBuilder buildPath(String path, Integer index) {
 		if (pathBuilder == null) {
 			pathBuilder = new PathBuilder();
@@ -261,35 +444,60 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 		return pathBuilder.add(path, index);
 	}
 
-	private NodeBuilderCustomizableContext buildPath(ConstraintViolationBuilder cvBuilder, Path path) {
-		return buildPath(cvBuilder.addPropertyNode(path.getPath()), path.getNext());
-	}
-
-	private NodeBuilderCustomizableContext buildPath(NodeBuilderCustomizableContext builder, Path path) {
-		if (path == null) {
-			return builder;
+	/**
+	 * Return a {@link Path} to property level indexed collection content.<br>
+	 * Usage examples:
+	 *
+	 * <pre>
+	 * //assuming the following domain model
+	 * public class User {
+	 *     public List<Address> getAddresses() { ... }
+	 * }
+	 * 
+	 * public class Address {
+	 *     public String getStreet() { ... }
+	 *     public Country getCountry() { ... }
+	 * }
+	 * 
+	 * //From a property-level constraint on User.addresses
+	 * //Build a constraint violation on the default path + the bean stored
+	 * //under the index 2 on list:
+	 *  atIndex(2)
+	 * 
+	 * @param index
+	 * 		Index to indexed collection content to registered violation.
+	 * @return
+	 * 		Correspondent {@link Path}.
+	 *
+	 * @since 0.9.0
+	 */
+	protected Path atIndex(Integer index) {
+		if (pathBuilder == null) {
+			pathBuilder = new PathBuilder();
 		}
 
-		NodeBuilderCustomizableContext propertyNodeBuilder;
-
-		if (path.isIterable()) {
-			propertyNodeBuilder = buildIterablePath(builder, path);
-		} else {
-			propertyNodeBuilder = builder.addPropertyNode(path.getPath());
-		}
-
-		return buildPath(propertyNodeBuilder, path.getNext());
+		return pathBuilder.addAtIndex(index).getPath();
 	}
 
-	private NodeBuilderCustomizableContext buildIterablePath(NodeBuilderCustomizableContext builder, Path path) {
-		NodeBuilderCustomizableContext propertyNodeBuilder = builder.addPropertyNode(path.getPath());
+	private ConstraintBuilderAdapter buildPath(ConstraintViolationBuilder cvBuilder, Path path) {
+		ConstraintBuilderAdapter constraintBuilderAdapter = new NodeBuilderCustomizableContextAdapter(
+			cvBuilder.addPropertyNode(path.getPath()));
+
+		while (path.hasNext()) {
+			path = path.getNext();
+			constraintBuilderAdapter = constraintBuilderAdapter.addPropertyNode(path);
+		}
+
+		return constraintBuilderAdapter;
+	}
+
+	private void buildIterablePathAndAddConstraint(ConstraintViolationBuilder vBuilder, Path path) {
+		LeafNodeBuilderCustomizableContext leafNodeBCxt = vBuilder.addBeanNode();
 
 		if (path.hasKey()) {
-			propertyNodeBuilder.inIterable().atKey(path.getKey());
+			leafNodeBCxt.inIterable().atKey(path.getKey()).addConstraintViolation();
 		} else if (path.hasIndex()) {
-			propertyNodeBuilder.inIterable().atIndex(path.getIndex());
+			leafNodeBCxt.inIterable().atIndex(path.getIndex()).addConstraintViolation();
 		}
-
-		return propertyNodeBuilder;
 	}
 }

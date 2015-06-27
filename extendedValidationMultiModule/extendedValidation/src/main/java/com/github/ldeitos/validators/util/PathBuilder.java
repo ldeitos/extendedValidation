@@ -19,8 +19,18 @@ public class PathBuilder {
 		return this;
 	}
 
+	public PathBuilder addAtKey(String atKey) {
+		addPath(new Path(null, atKey));
+		return this;
+	}
+
 	public PathBuilder add(String path, Integer atIndex) {
 		addPath(new Path(path, atIndex));
+		return this;
+	}
+
+	public PathBuilder addAtIndex(Integer atIndex) {
+		addPath(new Path(null, atIndex));
 		return this;
 	}
 
