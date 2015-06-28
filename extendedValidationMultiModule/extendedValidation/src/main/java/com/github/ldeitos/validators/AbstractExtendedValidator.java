@@ -306,12 +306,12 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 *     public String getStreet() { ... }
 	 *     public Country getCountry() { ... }
 	 * }
-	 *
+	 * 
 	 * //From a class level constraint on Address
 	 * //Build a constraint violation on the default path + "street"
 	 * //i.e. the street property of Address
 	 * buildPath("street");
-	 *
+	 * 
 	 * @param path
 	 * 		String representation of path to property to register violation.
 	 * @param index
@@ -339,21 +339,28 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * public class User {
 	 *     public Map<String, Address> getAddresses() { ... }
 	 * }
-	 * 
+	 *
 	 * public class Address {
 	 *     public String getStreet() { ... }
 	 *     public Country getCountry() { ... }
 	 * }
-	 * 
+	 *
 	 * public class Country {
 	 *     public String getName() { ... }
 	 * }
-	 * 
+	 *
 	 * //From a class level constraint on User
 	 * //Build a constraint violation on the default path + addresses["home"].country.name
 	 * //i.e. property "country.name" on the object stored under "home" in the map
-	 * buildPath("addresses").add("country", "home").add("name")
-	 * 
+	 * buildPath("addresses", "home").add("country").add("name")<br>
+	 * or <br>
+	 * buildPath("addresses[home].country.name")<br><br>
+	 *
+	 * <b>P.S.:</b> A full path build like buildPath("addresses[home].country.name"), when refers a map,
+	 * only can be used when a map key is a String, in other way, uses a fluent model, like
+	 * buildPath("addresses", aObject).add("country").add("name").
+	 *
+	 *
 	 * @param path
 	 * 		String representation of path to property to register violation.
 	 * @param index
@@ -380,17 +387,17 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * public class User {
 	 *     public Map<String, Address> getAddresses() { ... }
 	 * }
-	 * 
+	 *
 	 * public class Address {
 	 *     public String getStreet() { ... }
 	 *     public Country getCountry() { ... }
 	 * }
-	 * 
+	 *
 	 * //From a property-level constraint on User.addresses
 	 * //Build a constraint violation on the default path + the bean stored
 	 * //under the "home" key on map:
 	 *  atKey("home")
-	 * 
+	 *
 	 * @param index
 	 * 		Index to indexed collection content to registered violation.
 	 * @return
@@ -416,17 +423,20 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * public class User {
 	 *     public List<Address> getAddresses() { ... }
 	 * }
-	 * 
+	 *
 	 * public class Address {
 	 *     public String getStreet() { ... }
 	 *     public Country getCountry() { ... }
 	 * }
-	 * 
+	 *
 	 * //From a class level constraint on User
 	 * //Build a constraint violation on the default path + addresses["home"].country.name
 	 * //i.e. property "country.name" on the object stored under index 2 in the list
-	 * buildPath("addresses").add("country", 2).add("name")
-	 * 
+	 * buildPath("addresses", 2).add("country").add("name")<br>
+	 * or <br>
+	 * buildPath("addresses(2).country.name")<br><br>
+	 *
+	 *
 	 * @param path
 	 * 		String representation of path to property to register violation.
 	 * @param index
@@ -453,17 +463,17 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * public class User {
 	 *     public List<Address> getAddresses() { ... }
 	 * }
-	 * 
+	 *
 	 * public class Address {
 	 *     public String getStreet() { ... }
 	 *     public Country getCountry() { ... }
 	 * }
-	 * 
+	 *
 	 * //From a property-level constraint on User.addresses
 	 * //Build a constraint violation on the default path + the bean stored
 	 * //under the index 2 on list:
 	 *  atIndex(2)
-	 * 
+	 *
 	 * @param index
 	 * 		Index to indexed collection content to registered violation.
 	 * @return
@@ -481,7 +491,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 
 	private ConstraintBuilderAdapter buildPath(ConstraintViolationBuilder cvBuilder, Path path) {
 		ConstraintBuilderAdapter constraintBuilderAdapter = new NodeBuilderCustomizableContextAdapter(
-			cvBuilder.addPropertyNode(path.getPath()));
+		    cvBuilder.addPropertyNode(path.getPath()));
 
 		while (path.hasNext()) {
 			path = path.getNext();

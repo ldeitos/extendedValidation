@@ -1,5 +1,7 @@
 package com.github.ldeitos.validators.util;
 
+import static com.github.ldeitos.validators.util.PathDecoder.shiftIterables;
+
 public class PathBuilder {
 	private Path path;
 
@@ -10,7 +12,7 @@ public class PathBuilder {
 	}
 
 	public PathBuilder add(String path) {
-		addPath(new Path(path));
+		addPath(PathDecoder.decodePath(path));
 		return this;
 	}
 
@@ -34,7 +36,7 @@ public class PathBuilder {
 		return this;
 	}
 
-	private void addPath(Path path) {
+	void addPath(Path path) {
 		if (this.path == null) {
 			this.path = path;
 		}
@@ -47,6 +49,7 @@ public class PathBuilder {
 	}
 
 	public Path getPath() {
+		shiftIterables(path);
 		return path;
 	}
 

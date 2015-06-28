@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.ValidationException;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.jglue.cdiunit.AdditionalClasses;
@@ -25,10 +26,16 @@ import com.github.ldeitos.validator.stubs.GrupoAddressClassLevelDefault;
 import com.github.ldeitos.validator.stubs.GrupoAddressClassLevelExtended;
 import com.github.ldeitos.validator.stubs.GrupoClassLevelUserDefault;
 import com.github.ldeitos.validator.stubs.GrupoClassLevelUserExtended;
+import com.github.ldeitos.validator.stubs.GrupoClassLevelUserFullPathExtended;
+import com.github.ldeitos.validator.stubs.GrupoClassLevelUserFullPathListExtended;
+import com.github.ldeitos.validator.stubs.GrupoInvalidList;
+import com.github.ldeitos.validator.stubs.GrupoInvalidMapped;
 import com.github.ldeitos.validator.stubs.GrupoPropertyLevelDefault;
 import com.github.ldeitos.validator.stubs.GrupoPropertyLevelExtended;
 import com.github.ldeitos.validator.stubs.GrupoPropertyLevelMappedDefault;
 import com.github.ldeitos.validator.stubs.GrupoPropertyLevelMappedExtended;
+import com.github.ldeitos.validator.stubs.InvalidListValidatorImpl;
+import com.github.ldeitos.validator.stubs.InvalidMappedValidatorImpl;
 import com.github.ldeitos.validator.stubs.PathTestValidatorImpl;
 import com.github.ldeitos.validator.stubs.PropertyMappedValidatorDefaultImpl;
 import com.github.ldeitos.validator.stubs.PropertyMappedValidatorExtendedImpl;
@@ -38,12 +45,16 @@ import com.github.ldeitos.validator.stubs.TestValidatorImpl;
 import com.github.ldeitos.validator.stubs.User;
 import com.github.ldeitos.validator.stubs.UserValidatorDefaultImpl;
 import com.github.ldeitos.validator.stubs.UserValidatorExtendedImpl;
+import com.github.ldeitos.validator.stubs.UserValidatorFullPathExtendedImpl;
+import com.github.ldeitos.validator.stubs.UserValidatorFullPathListExtendedImpl;
 
 @AdditionalClasses({ TestMessageSource.class, PathTestValidatorImpl.class, TestValidatorImpl.class,
     PropertyValidatorDefaultImpl.class, PropertyValidatorExtendedImpl.class,
 	AddressValidatorDefaultImpl.class, AddressValidatorExtendedImpl.class,
     PropertyMappedValidatorDefaultImpl.class, PropertyMappedValidatorExtendedImpl.class,
-    UserValidatorDefaultImpl.class, UserValidatorExtendedImpl.class })
+    UserValidatorDefaultImpl.class, UserValidatorExtendedImpl.class, UserValidatorFullPathExtendedImpl.class,
+	UserValidatorFullPathListExtendedImpl.class, InvalidMappedValidatorImpl.class,
+	InvalidListValidatorImpl.class })
 public class AbstractExtendedValidatorTest extends BaseTest {
 
 	@BeforeClass
@@ -178,5 +189,47 @@ public class AbstractExtendedValidatorTest extends BaseTest {
 		ConstraintViolation<User> cExtended = extendedConstraint.iterator().next();
 
 		assertEquals(cDefault.getPropertyPath(), cExtended.getPropertyPath());
+	}
+
+	@Test
+	public void testAddViolationClassLevelWithDeepMappedFullPath() {
+		User user = new User();
+
+		Set<ConstraintViolation<User>> defaultConstraint = getValidador().validate(user,
+			GrupoClassLevelUserExtended.class);
+		Set<ConstraintViolation<User>> extendedConstraint = getValidador().validate(user,
+			GrupoClassLevelUserFullPathExtended.class);
+
+		ConstraintViolation<User> cDefault = defaultConstraint.iterator().next();
+		ConstraintViolation<User> cExtended = extendedConstraint.iterator().next();
+
+		assertEquals(cDefault.getPropertyPath(), cExtended.getPropertyPath());
+	}
+
+	@Test(expected = ValidationException.class)
+	public void testAddViolationIvalidMappedPath() {
+		User user = new User();
+
+		getValidador().validate(user, GrupoInvalidMapped.class);
+
+	}
+
+	@Test(expected = ValidationException.class)
+	public void testAddViolationIvalidListPath() {
+		User user = new User();
+
+		getValidador().validate(user, GrupoInvalidList.class);
+	}
+
+	@Test
+	public void testAddViolationListPath() {
+		User user = new User();
+
+		Set<ConstraintViolation<User>> extendedConstraint = getValidador().validate(user,
+		    GrupoClassLevelUserFullPathListExtended.class);
+
+		ConstraintViolation<User> cExtended = extendedConstraint.iterator().next();
+
+		assertEquals("addresses[0].country.name", cExtended.getPropertyPath().toString());
 	}
 }

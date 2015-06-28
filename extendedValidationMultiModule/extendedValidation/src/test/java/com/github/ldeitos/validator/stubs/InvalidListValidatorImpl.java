@@ -4,14 +4,14 @@ import com.github.ldeitos.validators.AbstractExtendedValidator;
 import com.github.ldeitos.validators.util.Path;
 import com.github.ldeitos.validators.util.PathBuilder;
 
-public class UserValidatorExtendedImpl extends AbstractExtendedValidator<UserConstraintExtended, User> {
+public class InvalidListValidatorImpl extends AbstractExtendedValidator<InvalidListConstraint, User> {
 	@Override
-	public void initialize(UserConstraintExtended constraintAnnotation) {
+	public void initialize(InvalidListConstraint constraintAnnotation) {
 	}
 
 	@Override
 	public void doValidation(User value) {
-		PathBuilder pathBuilder = buildPath("addresses", "home").add("country").add("name");
+		PathBuilder pathBuilder = buildPath("addresses(home).country.name");
 		Path path = pathBuilder.getPath();
 		addViolation(path, "erro de validação");
 	}

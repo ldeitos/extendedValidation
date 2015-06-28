@@ -1,20 +1,33 @@
 package com.github.ldeitos.validators.util;
 
+import static java.lang.String.format;
+
+/**
+ * A path, or path chain, representation.<br>
+ * - A single path have just a path name;<br>
+ * - Iterable path have path name, key or index;<br>
+ * - A path chain have a next path reference;
+ *
+ * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
+ *
+ */
 public class Path {
 
 	private final String path;
 
 	private Path nextPath;
 
-	private String key;
+	private Object key;
 
 	private Integer index;
+
+	private boolean shifted;
 
 	Path(String path) {
 		this.path = path;
 	}
 
-	Path(String path, String key) {
+	Path(String path, Object key) {
 		this(path);
 		this.key = key;
 	}
@@ -52,8 +65,16 @@ public class Path {
 		return path;
 	}
 
-	public String getKey() {
+	void setKey(Object key) {
+		this.key = key;
+	}
+
+	public Object getKey() {
 		return key;
+	}
+
+	void setIndex(Integer index) {
+		this.index = index;
 	}
 
 	public Integer getIndex() {
@@ -62,6 +83,39 @@ public class Path {
 
 	public boolean hasNext() {
 		return nextPath != null;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(formatPath(this));
+		Path nextPath = this.nextPath;
+
+		while (nextPath != null) {
+			sb.append(".").append(formatPath(nextPath));
+			nextPath = nextPath.nextPath;
+		}
+
+		return sb.toString();
+	}
+
+	private String formatPath(Path pathInstance) {
+		StringBuilder sb = new StringBuilder(pathInstance.getPath());
+
+		if (pathInstance.getKey() != null) {
+			sb.append(format("[%s]", pathInstance.getKey().toString()));
+		} else if (pathInstance.getIndex() != null) {
+			sb.append(format("(%d)", pathInstance.getIndex()));
+		}
+
+		return sb.toString();
+	}
+
+	boolean isShifted() {
+		return shifted;
+	}
+
+	public void setShifted(boolean shifted) {
+		this.shifted = shifted;
 	}
 
 }
