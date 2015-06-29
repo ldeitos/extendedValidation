@@ -16,12 +16,12 @@ public class PathBuilder {
 		return this;
 	}
 
-	public PathBuilder add(String path, String atKey) {
+	public PathBuilder add(String path, Object atKey) {
 		addPath(new Path(path, atKey));
 		return this;
 	}
 
-	public PathBuilder addAtKey(String atKey) {
+	public PathBuilder addAtKey(Object atKey) {
 		addPath(new Path(null, atKey));
 		return this;
 	}
