@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Alternative;
 
 import org.apache.commons.lang.RandomStringUtils;
 
@@ -19,7 +19,7 @@ import org.apache.commons.lang.RandomStringUtils;
  * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
  *
  */
-@RequestScoped
+@Alternative
 public class AuditContext {
 
 	private static final int DEFAULT_ID_SIZE = 6;

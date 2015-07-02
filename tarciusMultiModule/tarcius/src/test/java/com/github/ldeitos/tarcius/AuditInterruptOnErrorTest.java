@@ -14,6 +14,7 @@ import com.github.ldeitos.tarcius.audit.AuditContext;
 import com.github.ldeitos.tarcius.audit.interceptor.AuditInterceptor;
 import com.github.ldeitos.tarcius.configuration.ConfigInfoProvider;
 import com.github.ldeitos.tarcius.exception.AuditException;
+import com.github.ldeitos.tarcius.producer.TarciusProducer;
 import com.github.ldeitos.tarcius.support.TestAuditDataDispatcher;
 import com.github.ldeitos.tarcius.support.TestAuditDataFormatter;
 import com.github.ldeitos.tarcius.support.Teste;
@@ -21,7 +22,7 @@ import com.github.ldeitos.tarcius.support.ToAudit;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({ ToAudit.class, AuditContext.class, AuditInterceptor.class,
-    TestAuditDataDispatcher.class, TestAuditDataFormatter.class })
+	TestAuditDataDispatcher.class, TestAuditDataFormatter.class, TarciusProducer.class })
 @InRequestScope
 public class AuditInterruptOnErrorTest {
 

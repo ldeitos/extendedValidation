@@ -1,5 +1,6 @@
 package com.github.ldeitos.tarcius.producer;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Produces;
 
@@ -9,6 +10,7 @@ public class TarciusProducer {
 
 	@Produces
 	@Default
+	@RequestScoped
 	public AuditContext producesAuditContext() {
 		return new AuditContext();
 	}

@@ -145,14 +145,14 @@ public class AuditInterceptor {
 	}
 
 	private void resolveAndFillParametersValues(AuditDataSource auditDataSource,
-		List<AuditedParameter> toAudit) {
+	    List<AuditedParameter> toAudit) {
 		for (AuditedParameter auditedParameter : toAudit) {
 			Audited auditedParameterConfig = auditedParameter.getConfig();
 			String auditRef = auditedParameterConfig.auditRef();
 
 			if (auditDataSource.getResolvedParameterValues().containsKey(auditRef)) {
 				logger.warn(format("More than one parameter have a same reference [%s]. "
-					+ "Only the first will be considered.", auditRef));
+				    + "Only the first will be considered.", auditRef));
 				continue;
 			}
 
@@ -167,7 +167,7 @@ public class AuditInterceptor {
 
 		if (resolverQualifier.equals(STRING_RESOLVER) && isNotBlank(auditedParameterConfig.format())) {
 			return getFormattedResolver(auditedParameter).resolve(auditedParameterConfig.format(),
-				auditedParameter.getParameter());
+			    auditedParameter.getParameter());
 		}
 
 		ParameterResolver<Object> resolver = getResolver(resolverQualifier);
@@ -179,7 +179,7 @@ public class AuditInterceptor {
 	private ParameterResolver<Object> getResolver(CustomResolver resolverQualifier) {
 
 		ParameterResolver<Object> resolver = (ParameterResolver<Object>) resolverFactory
-			.getResolver(resolverQualifier);
+		    .getResolver(resolverQualifier);
 
 		return resolver;
 
@@ -194,7 +194,7 @@ public class AuditInterceptor {
 		}
 
 		ParameterFormattedResolver<Object> resolver = (ParameterFormattedResolver<Object>) resolverFactory
-			.getFormattedResolver(resolverQualifier);
+		    .getFormattedResolver(resolverQualifier);
 
 		return resolver;
 	}
@@ -215,7 +215,7 @@ public class AuditInterceptor {
 	}
 
 	private AuditDataContainer<?> formatAuditData(AuditDataSource auditDataSource)
-	    throws InvalidConfigurationException {
+		throws InvalidConfigurationException {
 		AuditDataFormatter<?> auditDataFormatter = auditDataFormatterFactory.getCurrentFormatter();
 		AuditDataContainer<?> formattedAuditData = auditDataFormatter.format(auditDataSource);
 		return formattedAuditData;
@@ -223,7 +223,7 @@ public class AuditInterceptor {
 
 	@SuppressWarnings("unchecked")
 	private void dispatchAuditData(AuditDataContainer<?> auditDataContainer)
-	    throws InvalidConfigurationException {
+		throws InvalidConfigurationException {
 		AuditDataDispatcher<?> dispatcher = auditDataDispatcherFactory.getCurrentDispatcher();
 
 		((AuditDataDispatcher<Object>) dispatcher).dispatch(auditDataContainer.getAuditData());
