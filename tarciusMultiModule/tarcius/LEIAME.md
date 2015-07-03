@@ -59,6 +59,7 @@ public class VendasBC {
 
 }
 ```
+
 Quando anotado no *bean*, sempre que esse for utilizado como parâmetro em um método interceptado ele será considerado como parte do conteúdo a ser auditado. Entretanto, caso seja necessário ignorar em algum caso específico um parâmetro cuja classe está anotada, basta identifica-lo com a anotação *@NotAudited*, como abaixo:
 
 ```java
@@ -76,7 +77,14 @@ Nesta fase é aplicada a tradução dos parâmetros anteriormente identificados para
 ```java
 TranslateType.STRING_VALUE
 ```
+
 Aplica o tradutor que resolve o valor do parâmetro auditado para uma *String* representativa do objeto, através do método String.*valueOf()*. Este tipo é o valor *default* do atributo.
+
+Quando o uso deste tipo de tradutor é associado à configuração do atributo *format* o resultado obtido da tradução do parâmetro para *String* é formatado de acordo com a seguinte regra:
+ - Quando o parâmetro for do tipo *Date* ou extensões desse a formatação é realizada pelo *SimpleDateFormat* configurado com o formato definido em *format*;
+ - Quando o parâmetro for de tipo diferente de *Date*, a formatação é realizada de acordo com a especificação do método String.*format()*;
+
+ A associação do atributo *format* com os demais tipos de tradutores **não produz nenhum efeito**.
 ```java
 TranslateType.JAXB_XML
 ```
@@ -117,3 +125,47 @@ public class VendasBC {
 Recomenda-se que as implementações de *ParameterResolver* sejam definidas para o escopo de aplicação, porém este tratamento não é obrigatório.
 
 Cabe esclarecer que, apesar de obrigatório, a ausência da configuração do atributo *customResolverQualifier* não causa erro no processo de auditoria; neste caso, será aplicado o tradutor *default* para resolver o valor auditado, obtendo assim o valor do método *toString()* do objeto.
+
+####Formatação dos dados coletados
+A fase de formatação dos dados coletados compreende a composição dos dados obtidos e traduzidos para texto nas duas fases anteriores dentro do modelo definido pelo usuário do componente.
+
+Para o correto funcionamento do componente, é necessário que seu usuário implemente a interface *AuditDataFormatter<AD>*, aonde **AD** refere-se ao tipo genérico do modelo de dados da auditoria, também definido pelo usuário do componente. 
+
+Abaixo segue exemplo de implementação do formatador dos dados de auditoria:
+```java
+public class MeuAuditDataFormatter implements AuditDataFormatter<AuditData> {
+
+	@Override
+	public AuditDataContainer<AuditData> format(AuditDataSource preAuditData) {
+		AuditData auditData = new AuditData();
+		StringBuilder messageBuilder = auditData.getMessage();
+		String quebraLinha = System.getProperty("line.separator");
+
+		messageBuilder.append("Método auditado: ");
+		messageBuilder.append(preAuditData.getAuditReference());
+
+		for (String entrada : preAuditData.getAuditParameterReferences()) {
+			messageBuilder.append(quebraLinha).append("Parâmetro auditado: ");
+			messageBuilder.append(entrada).append(quebraLinha);
+			messageBuilder.append("Valor: ").append(preAuditData.getResolvedParameterValues().get(entrada));
+		}
+
+		return new AuditDataContainer<AuditData>(auditData);
+	}
+}
+```
+O parâmetro de entrada do método *AuditDataFormatter.format*, do tipo *AuditDataSource*, contém todos os dados coletados durante as fases de identificação e tradução de dados de auditoria, e podem ser acessados através dos seguintes métodos:
+
+ - *getAuditReference()*: Retorna a referência atribuída na anotação *@Audit* através do atributo *auditRef*, ou, quando este não é informado, o nome do método auditado;
+ - *getAuditParameterReferences()*: Retorna uma fila (*Queue*) contendo as referências atribuídas aos parâmetros auditados no método, obedecendo a mesma ordem apresentada nesse;
+ - *getResolvedParameterValues()*: Retorna um mapa dos valores obtidos através da aplicação dos tradutores dos parâmetros configurados no atributo *translator* da anotação *@Audited*, que identifica cada parâmetro do método auditado que deve ser considerado na coleta dos dados, conforme já explicado anteriormente. A chave do mapa é a referência atribuída a cada parâmetro, citado no item acima;
+ - *getParameterValues()*: Retorna um mapa das instâncias dos parâmetros auditados. A chave do mapa também é a referência atribuída a cada parâmetro;
+
+ Além de implementar a interface, deve-se explicitar no arquivo de configuração *tarcius.xml*, o qual deverá estar abaixo do diretório META-INF, o nome qualificado da implementação a ser utilizada pelo componente, conforme abaixo:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<tarcius>
+	<formatter-class>com.minhaapp.MeuAuditDataFormatter</formatter-class>
+	...	
+</tarcius>
+```
