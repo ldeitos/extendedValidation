@@ -161,7 +161,9 @@ O parâmetro de entrada do método *AuditDataFormatter.format*, do tipo *AuditData
  - *getResolvedParameterValues()*: Retorna um mapa dos valores obtidos através da aplicação dos tradutores dos parâmetros configurados no atributo *translator* da anotação *@Audited*, que identifica cada parâmetro do método auditado que deve ser considerado na coleta dos dados, conforme já explicado anteriormente. A chave do mapa é a referência atribuída a cada parâmetro, citado no item acima;
  - *getParameterValues()*: Retorna um mapa das instâncias dos parâmetros auditados. A chave do mapa também é a referência atribuída a cada parâmetro;
 
- Além de implementar a interface, deve-se explicitar no arquivo de configuração *tarcius.xml*, o qual deverá estar abaixo do diretório META-INF, o nome qualificado da implementação a ser utilizada pelo componente, conforme abaixo:
+Deve-se observar que o exemplo é apenas representativo, uma vez que tanto o modelo quanto o preenchimento é de decisão exclusiva do usuário do componente.
+
+Além de implementar a interface, deve-se explicitar no arquivo de configuração *tarcius.xml*, o qual deverá estar localizado no diretório META-INF do projeto, o nome qualificado da implementação a ser utilizada pelo componente, conforme abaixo:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <tarcius>
