@@ -42,16 +42,15 @@ class ConfigurationLoader {
 
 	private static void load(String configFile) throws InvalidConfigurationException {
 		try {
-			log.info(format("Loading configuration by %s files in class path.", configFile));
+			log.info(format("Loading configuration by %s file in class path.", configFile));
 
 			DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(configFile);
 			loadFromXMLFiles(confBuilder);
 			traceConfiguration(configuration);
 		} catch (Exception e) {
-			String msg = format("Error on obtain %s files in class path: [%s], maybe it's misplaced.",
-			    CONFIGURATION_FILE, e.getMessage());
+			String msg = format("Unable to on obtain %s file in class path: [%s], "
+			    + "default configurations will be used.", CONFIGURATION_FILE, e.getMessage());
 			log.warn(msg);
-			InvalidConfigurationException.throwNew(msg, e);
 		}
 	}
 
@@ -60,29 +59,20 @@ class ConfigurationLoader {
 		configuration = new ConfigurationDTO();
 
 		confBuilder.load();
-		validateConfiguration(confBuilder);
+		if (confBuilder.isEmpty()) {
+			return;
+		}
 
-		configuration.setFormatterClass(confBuilder.getString(PATH_CONF_FORMATTER_CLASS));
-		configuration.setDispatcherClass(confBuilder.getString(PATH_CONF_DISPATCHER_CLASS));
+		if (confBuilder.containsKey(PATH_CONF_FORMATTER_CLASS)) {
+			configuration.setFormatterClass(confBuilder.getString(PATH_CONF_FORMATTER_CLASS));
+		}
+
+		if (confBuilder.containsKey(PATH_CONF_DISPATCHER_CLASS)) {
+			configuration.setDispatcherClass(confBuilder.getString(PATH_CONF_DISPATCHER_CLASS));
+		}
 
 		if (confBuilder.containsKey(PATH_CONF_INTERRUPT_ON_ERROR)) {
 			configuration.setInterruptOnError(confBuilder.getBoolean(PATH_CONF_INTERRUPT_ON_ERROR));
-		}
-	}
-
-	private static void validateConfiguration(DefaultConfigurationBuilder confBuilder)
-		throws InvalidConfigurationException {
-		String invalidMsg = "Invalid configuration: missing %s class definition (<%s> tag)";
-		throwIfTrue(confBuilder.isEmpty(), "Configuration file is apparently empty.");
-		throwIfTrue(!confBuilder.containsKey(PATH_CONF_FORMATTER_CLASS),
-			format(invalidMsg, "formatter", PATH_CONF_FORMATTER_CLASS));
-		throwIfTrue(!confBuilder.containsKey(PATH_CONF_DISPATCHER_CLASS),
-			format(invalidMsg, "dispatcher", PATH_CONF_DISPATCHER_CLASS));
-	}
-
-	private static void throwIfTrue(boolean toAssert, String msg) throws InvalidConfigurationException {
-		if (toAssert) {
-			InvalidConfigurationException.throwNew(msg);
 		}
 	}
 

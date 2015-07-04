@@ -28,7 +28,7 @@ public interface Constants {
 	String PATH_CONF_DISPATCHER_CLASS = "dispatcher-class";
 
 	/**
-	 * SimplePath to "interrupt on error" in xml configuration file.
+	 * SimplePath to "interrupt-on-error" in xml configuration file.
 	 */
 	String PATH_CONF_INTERRUPT_ON_ERROR = "interrupt-on-error";
 

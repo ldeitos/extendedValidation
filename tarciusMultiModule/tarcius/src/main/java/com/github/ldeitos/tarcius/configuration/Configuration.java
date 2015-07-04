@@ -1,12 +1,12 @@
 package com.github.ldeitos.tarcius.configuration;
 
-import static com.github.ldeitos.tarcius.configuration.Constants.PATH_CONF_DISPATCHER_CLASS;
-import static com.github.ldeitos.tarcius.configuration.Constants.PATH_CONF_FORMATTER_CLASS;
-import static com.github.ldeitos.tarcius.exception.InvalidConfigurationException.throwNew;
+import static com.github.ldeitos.util.ManualContext.lookupCDI;
 import static java.lang.String.format;
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.lang.reflect.InvocationTargetException;
+
+import javax.enterprise.inject.UnsatisfiedResolutionException;
 
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.slf4j.Logger;
@@ -16,8 +16,8 @@ import com.github.ldeitos.exception.InvalidCDIContextException;
 import com.github.ldeitos.tarcius.api.AuditDataDispatcher;
 import com.github.ldeitos.tarcius.api.AuditDataFormatter;
 import com.github.ldeitos.tarcius.configuration.dto.ConfigurationDTO;
+import com.github.ldeitos.tarcius.configuration.factory.TarciusComponentFactory;
 import com.github.ldeitos.tarcius.exception.InvalidConfigurationException;
-import com.github.ldeitos.util.ManualContext;
 
 /**
  * Class to access ExtendedValidation component configurations.
@@ -86,16 +86,12 @@ public class Configuration {
 	 *             {@link Constants#CONFIGURATION_FILE} doesn't exist in
 	 *             classpath;<br>
 	 */
-	@SuppressWarnings("unchecked")
 	public AuditDataFormatter<?> getAuditDataFormatter() throws InvalidConfigurationException {
-		validate(configuration);
 		if (formatter == null) {
-			Class<? extends AuditDataFormatter<?>> beanType = null;
+			@SuppressWarnings("rawtypes")
+			Class<? extends AuditDataFormatter> beanType = null;
 			try {
-				log.debug(format("Getting AuditDataFormatter instance from class %s.",
-					configuration.getFormatterClass()));
-				beanType = (Class<? extends AuditDataFormatter<?>>) Class.forName(configuration
-					.getFormatterClass());
+				beanType = getBeanType(AuditDataFormatter.class, configuration.getFormatterClass());
 			} catch (ClassNotFoundException e) {
 				log.error(format("Class %s not found in classpath.", configuration.getFormatterClass()), e);
 				InvalidConfigurationException.throwNew(e.getMessage(), e);
@@ -118,16 +114,12 @@ public class Configuration {
 	 *             {@link Constants#CONFIGURATION_FILE} doesn't exist in
 	 *             classpath;<br>
 	 */
-	@SuppressWarnings("unchecked")
 	public AuditDataDispatcher<?> getAuditDataDispatcher() throws InvalidConfigurationException {
-		validate(configuration);
 		if (dispatcher == null) {
-			Class<? extends AuditDataDispatcher<?>> beanType = null;
+			@SuppressWarnings("rawtypes")
+			Class<? extends AuditDataDispatcher> beanType = null;
 			try {
-				log.debug(format("Getting AuditDataDispatcher instance from class %s.",
-					configuration.getFormatterClass()));
-				beanType = (Class<? extends AuditDataDispatcher<?>>) Class.forName(configuration
-					.getDispatcherClass());
+				beanType = getBeanType(AuditDataDispatcher.class, configuration.getDispatcherClass());
 			} catch (ClassNotFoundException e) {
 				log.error(format("Class %s not found in classpath.", configuration.getDispatcherClass()), e);
 				InvalidConfigurationException.throwNew(e.getMessage(), e);
@@ -139,17 +131,32 @@ public class Configuration {
 		return dispatcher;
 	}
 
+	@SuppressWarnings("unchecked")
+	private <T> Class<T> getBeanType(Class<T> interfaceType, String definedClass)
+		throws ClassNotFoundException {
+		Class<T> beanType = interfaceType;
+
+		if (isNotBlank(definedClass)) {
+			log.debug(format("Getting %s configurated class %s.", interfaceType.getSimpleName(),
+				configuration.getFormatterClass()));
+			beanType = (Class<T>) Class.forName(definedClass);
+		}
+
+		return beanType;
+	}
+
 	private <C> C resolveBean(Class<C> beanType) throws InvalidConfigurationException {
 		C bean = null;
 		String className = beanType.getSimpleName();
 
 		try {
 			bean = getByCDIContext(beanType);
+			className = bean.getClass().getSimpleName();
 			log.debug(format("Reference from [%s] obtained by CDI Context.", className));
 		} catch (InvalidCDIContextException e) {
-			String warnMsg = format("Error to obtain [%s] reference by CDI Context. Cause: %s.", className,
-			    e.getMessage());
-			log.warn(warnMsg);
+			logWarnObtainCDIReference(className, e);
+		} catch (UnsatisfiedResolutionException e) {
+			logWarnObtainCDIReference(className, e);
 		} finally {
 			if (bean == null) {
 				log.warn("Trying by reflection...");
@@ -162,6 +169,12 @@ public class Configuration {
 		log.info(format("Using [%s] as message source.", className));
 
 		return bean;
+	}
+
+	private void logWarnObtainCDIReference(String className, Exception e) {
+		String warnMsg = format("Error to obtain [%s] reference by CDI Context. Cause: %s.", className,
+			e.getMessage());
+		log.warn(warnMsg);
 	}
 
 	private <C> C getByReflection(Class<C> beanType) throws InvalidConfigurationException {
@@ -188,19 +201,14 @@ public class Configuration {
 	}
 
 	private <C> C getByCDIContext(Class<C> type) {
-		return ManualContext.lookupCDI(type);
-	}
+		C bean = lookupCDI(type);
 
-	private static void validate(ConfigurationDTO configuration) throws InvalidConfigurationException {
-		String invalidMsg = "Invalid configuration: missing %s class definition (<%s> tag)";
-
-		if (isBlank(configuration.getFormatterClass())) {
-			throwNew(format(invalidMsg, "formatter", PATH_CONF_FORMATTER_CLASS));
+		if (bean == null) {
+			TarciusComponentFactory factory = lookupCDI(TarciusComponentFactory.class);
+			bean = factory.get(type);
 		}
 
-		if (isBlank(configuration.getDispatcherClass())) {
-			throwNew(format(invalidMsg, "dispatcher", PATH_CONF_DISPATCHER_CLASS));
-		}
+		return bean;
 	}
 
 	public boolean mustInterruptOnError() {
