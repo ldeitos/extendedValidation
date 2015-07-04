@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ldeitos</groupId>
 	<artifactId>tarcius-parent</artifactId>
-	<version>0.1.1</version>
+	<version>0.1.2</version>
 	<packaging>pom</packaging>
 	<name>Tarsius Parent</name>
 	<description>Tarcius parent project.</description>
@@ -152,7 +152,7 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>cdi-util</artifactId>
-				<version>0.6.1</version>
+				<version>0.6.2</version>
 				<scope>compile</scope>
 			</dependency>
 

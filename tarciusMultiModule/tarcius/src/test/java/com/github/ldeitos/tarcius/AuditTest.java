@@ -23,6 +23,7 @@ import com.github.ldeitos.tarcius.audit.resolver.DefaultFormattedXMLResolver;
 import com.github.ldeitos.tarcius.audit.resolver.DefaultJSONResolver;
 import com.github.ldeitos.tarcius.audit.resolver.DefaultStringResolver;
 import com.github.ldeitos.tarcius.audit.resolver.DefaultXMLResolver;
+import com.github.ldeitos.tarcius.bootstrap.TarciusBootstrap;
 import com.github.ldeitos.tarcius.configuration.ConfigInfoProvider;
 import com.github.ldeitos.tarcius.producer.TarciusProducer;
 import com.github.ldeitos.tarcius.support.CustomResolverImpl;
@@ -38,7 +39,7 @@ import com.github.ldeitos.tarcius.support.ToAudit;
 	DefaultJSONResolver.class, DefaultXMLResolver.class, DefaultFormattedXMLResolver.class,
 	DefaultFormattedDateStringResolver.class, DefaultFormattedStringResolver.class, CustomResolverImpl.class,
 	AuditContext.class, AuditInterceptor.class, TestAuditDataDispatcher.class, TestAuditDataFormatter.class,
-    TarciusProducer.class })
+    TarciusProducer.class, TarciusBootstrap.class })
 @InRequestScope
 public class AuditTest {
 

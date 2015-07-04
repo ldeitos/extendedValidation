@@ -49,14 +49,30 @@ public class Configuration {
 	 * @param cp
 	 *            Configuration provider.
 	 * @return Unique instance to {@link Configuration} to application use.
+	 *
 	 * @throws InvalidConfigurationException
+	 *             In case of invalid configurations at file
+	 *             {@link Constants#CONFIGURATION_FILE} or this is inexistent.
 	 */
 	public static Configuration getConfiguration(ConfigInfoProvider cp) throws InvalidConfigurationException {
-		if (instance == null || cp.isInTest()) {
+		load(cp);
+		return instance;
+	}
+
+	/**
+	 * Load Tarcius configuration.
+	 *
+	 * @param cp
+	 *            Configuration provider.
+	 * @throws InvalidConfigurationException
+	 *             In case of invalid configurations at file
+	 *             {@link Constants#CONFIGURATION_FILE} or this is inexistent.
+	 * @since 0.1.2
+	 */
+	public static void load(ConfigInfoProvider cp) throws InvalidConfigurationException {
+		if (isUnladed() || cp.isInTest()) {
 			instance = new Configuration(cp);
 		}
-
-		return instance;
 	}
 
 	/**
@@ -134,7 +150,6 @@ public class Configuration {
 			String warnMsg = format("Error to obtain [%s] reference by CDI Context. Cause: %s.", className,
 			    e.getMessage());
 			log.warn(warnMsg);
-
 		} finally {
 			if (bean == null) {
 				log.warn("Trying by reflection...");
@@ -190,6 +205,24 @@ public class Configuration {
 
 	public boolean mustInterruptOnError() {
 		return configuration.isInterruptOnError();
+	}
+
+	/**
+	 * @return true if configuration is loaded.
+	 *
+	 * @since 0.1.2
+	 */
+	public static boolean isLoaded() {
+		return !isUnladed();
+	}
+
+	/**
+	 * @return false if configuration is unloaded.
+	 *
+	 * @since 0.1.2
+	 */
+	public static boolean isUnladed() {
+		return instance == null;
 	}
 
 	public static void reset() {
