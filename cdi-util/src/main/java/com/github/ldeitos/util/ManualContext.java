@@ -62,6 +62,25 @@ public class ManualContext implements Extension {
 	}
 
 	/**
+	 * Returns the instance of the CDI managed bean obtained by BeanManager
+	 * lookup.
+	 *
+	 * @param <T>
+	 *            class type of the desired CDI managed bean
+	 * @param theClass
+	 *            class of the desired CDI manager bean
+	 * @param annotations
+	 *            CDI manager bean annotations/qualifiers
+	 * @return instance of the CDI managed bean
+	 *
+	 * @since 0.6.2
+	 */
+	public static <T> T lookupCDI(BeanManager bm, Class<T> theClass, Annotation... annotations) {
+		beanManager = bm;
+		return lookupByBeanManager(theClass, annotations);
+	}
+
+	/**
 	 * Returns the instance of the CDI managed bean, specified by its class type
 	 * and optionally by annotations/qualifiers.
 	 *
