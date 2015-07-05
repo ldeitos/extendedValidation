@@ -163,11 +163,37 @@ O parâmetro de entrada do método *AuditDataFormatter.format*, do tipo *AuditData
 
 Deve-se observar que o exemplo é apenas representativo, uma vez que tanto o modelo quanto o preenchimento é de decisão exclusiva do usuário do componente.
 
-Além de implementar a interface, deve-se explicitar no arquivo de configuração *tarcius.xml*, o qual deverá estar localizado no diretório META-INF do projeto, o nome qualificado da implementação a ser utilizada pelo componente, conforme abaixo:
+A partir da versão 0.1.2 basta implementar a interface *AuditDataFormatter* que o componente obterá a instância adequada através do CDI, entretanto é possível explicitar no arquivo de configuração *tarcius.xml*, o qual deverá estar localizado no diretório META-INF do projeto, o nome qualificado da implementação a ser utilizada pelo componente, conforme abaixo:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <tarcius>
 	<formatter-class>com.minhaapp.MeuAuditDataFormatter</formatter-class>
+	...	
+</tarcius>
+```
+Para as versões anteriores esta configuração é **obrigatória**.
+
+####Envio dos dados formatados para o repositório de auditoria
+A fase de envio dos dados formatados para o repositório de auditoria compreende a última fase do processo de auditoria. Nesta fase, o usuário do componente deve implementar a forma de persistência do modelo formatado na fase anterior, quer seja persistindo em banco de dados, em uma fila de mensageria, no log da aplicação ou qualquer outro meio que seja definido para o projeto.
+
+Para esta tarefa basta implementar a interface *AuditDataDispatcher<AD>* e nesta implementação dar destino ao objeto do tipo genérico *AD*, definido pelo usuário do componente, que foi formatado no passo anterior, como no exemplo abaixo:
+```java
+public class MeuAuditDataDispatcher implements AuditDataDispatcher<AuditData> {
+	@Inject
+	private EntityManager em;
+
+	@Override
+	public void dispatch(AuditData auditData) {
+		em.merge(auditData);
+	}
+}
+```
+A instância do *AuditDataDispatcher* será obtida através do CDI ou, como citado no tópico anterior, através da configuração do componente, como abaixo:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<tarcius>
+	...	
+	<dispatcher-class>com.minhaapp.MeuAuditDataDispatcher</dispatcher-class>
 	...	
 </tarcius>
 ```
