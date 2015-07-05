@@ -12,7 +12,9 @@ import static org.slf4j.LoggerFactory.getLogger;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
@@ -44,6 +46,8 @@ import com.github.ldeitos.tarcius.qualifier.CustomResolver;
  *
  * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
  *
+ * @see AuditProcessor
+ *
  * @since 0.1.2
  */
 public class AuditProcessorImpl implements AuditProcessor {
@@ -69,24 +73,9 @@ public class AuditProcessorImpl implements AuditProcessor {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void doAudit(String auditRef, Object... parameters) throws Exception {
-		Annotation[][] parameterAnnotations = new Annotation[parameters.length][];
-		try {
-			AuditDataSource auditDataSource = resolveAuditDataSource(auditRef, parameters,
-			    parameterAnnotations);
-			AuditDataContainer<?> auditData = formatAuditData(auditDataSource);
-			dispatchAuditData(auditData);
-		} catch (Exception e) {
-			String msg = format("Unable to do audit process. Cause: [%s] ", e.getMessage());
-
-			if (getConfiguration().mustInterruptOnError()) {
-				logger.error(msg, e);
-
-				throw new AuditException(msg, e);
-			} else {
-				logger.warn(msg, e);
-			}
-		}
+	public void doAudit(String auditRef, Object... parameters) throws AuditException {
+		Annotation[][] parameterAnnotations = new Annotation[parameters.length][0];
+		doAudit(auditRef, parameters, parameterAnnotations);
 	}
 
 	/**
@@ -94,10 +83,10 @@ public class AuditProcessorImpl implements AuditProcessor {
 	 */
 	@Override
 	public void doAudit(String auditRef, Object[] parameters, Annotation[][] parameterAnnotations)
-		throws Exception {
+	    throws AuditException {
 		try {
 			AuditDataSource auditDataSource = resolveAuditDataSource(auditRef, parameters,
-				parameterAnnotations);
+			    parameterAnnotations);
 			AuditDataContainer<?> auditData = formatAuditData(auditDataSource);
 			dispatchAuditData(auditData);
 		} catch (Exception e) {
@@ -114,12 +103,16 @@ public class AuditProcessorImpl implements AuditProcessor {
 		}
 	}
 
-	private Configuration getConfiguration() throws InvalidConfigurationException {
-		return Configuration.getConfiguration(configInfoProvider);
+	private Configuration getConfiguration() {
+		try {
+			return Configuration.getConfiguration(configInfoProvider);
+		} catch (InvalidConfigurationException e) {
+			throw new AuditException(e.getMessage(), e);
+		}
 	}
 
 	private AuditDataSource resolveAuditDataSource(String auditRef, Object[] parameters,
-	    Annotation[][] parameterAnnotations) {
+		Annotation[][] parameterAnnotations) {
 		AuditDataSource auditDataSource = new AuditDataSource(auditRef);
 		List<AuditedParameter> toAudit = getParametersToAudit(parameters, parameterAnnotations);
 
@@ -131,7 +124,7 @@ public class AuditProcessorImpl implements AuditProcessor {
 	}
 
 	private List<AuditedParameter> getParametersToAudit(Object[] parameters,
-	    Annotation[][] parameterAnnotations) {
+		Annotation[][] parameterAnnotations) {
 		List<AuditedParameter> result = new ArrayList<AuditedParameter>();
 
 		for (int i = 0; i < parameterAnnotations.length; i++) {
@@ -175,30 +168,47 @@ public class AuditProcessorImpl implements AuditProcessor {
 	}
 
 	private void resolveAndFillParametersValues(AuditDataSource auditDataSource,
-		List<AuditedParameter> toAudit) {
+	    List<AuditedParameter> toAudit) {
+		Map<String, Integer> keyOccurrence = new HashMap<String, Integer>();
+
 		for (AuditedParameter auditedParameter : toAudit) {
 			Audited auditedParameterConfig = auditedParameter.getConfig();
 			String auditRef = auditedParameterConfig.auditRef();
 
-			if (logger.isTraceEnabled()) {
-				String log = format("Audit reference to parameter [%s]: [%s]", auditedParameterConfig,
-				    auditRef);
-				logger.trace(log);
-			}
+			logTrace("Audit reference to parameter [%s]: [%s]", auditedParameterConfig, auditRef);
 
-			if (auditDataSource.getResolvedParameterValues().containsKey(auditRef)) {
-				logger.warn(format("More than one parameter have a same reference [%s]. "
-					+ "Only the first will be considered.", auditRef));
-				continue;
-			}
+			auditRef = adjustIfDupplicated(auditRef, keyOccurrence);
 
 			String resolvedValue = resolveParameterValue(auditedParameter);
 
-			if (logger.isTraceEnabled()) {
-				logger.trace(format("Parameter [%s] resoved to [%s]", auditedParameter, resolvedValue));
-			}
+			logTrace("Parameter [%s] resolved to [%s]", auditedParameter, resolvedValue);
 
 			auditDataSource.addParameterValue(auditRef, auditedParameter.getParameter(), resolvedValue);
+		}
+	}
+
+	private String adjustIfDupplicated(String auditRef, Map<String, Integer> keyOccurrence) {
+		if (keyOccurrence.containsKey(auditRef)) {
+			String oldReference = auditRef;
+			int occurrence = keyOccurrence.get(auditRef);
+
+			keyOccurrence.put(auditRef, ++occurrence);
+
+			auditRef += occurrence;
+
+			logger.warn(format("More than one parameter have a same reference [%s]. "
+			    + "The reference will be changed to [%s].", oldReference, auditRef));
+		} else {
+			keyOccurrence.put(auditRef, 0);
+		}
+
+		return auditRef;
+	}
+
+	private void logTrace(String logMsg, Object... params) {
+		if (logger.isTraceEnabled()) {
+			String log = format(logMsg, params);
+			logger.trace(log);
 		}
 	}
 
@@ -208,7 +218,7 @@ public class AuditProcessorImpl implements AuditProcessor {
 
 		if (resolverQualifier.equals(STRING_RESOLVER) && isNotBlank(auditedParameterConfig.format())) {
 			return getFormattedResolver(auditedParameter).resolve(auditedParameterConfig.format(),
-				auditedParameter.getParameter());
+			    auditedParameter.getParameter());
 		}
 
 		ParameterResolver<Object> resolver = getResolver(resolverQualifier);
@@ -220,7 +230,7 @@ public class AuditProcessorImpl implements AuditProcessor {
 	private ParameterResolver<Object> getResolver(Annotation resolverQualifier) {
 
 		ParameterResolver<Object> resolver = (ParameterResolver<Object>) resolverFactory
-			.getResolver(resolverQualifier);
+		    .getResolver(resolverQualifier);
 
 		return resolver;
 
@@ -235,7 +245,7 @@ public class AuditProcessorImpl implements AuditProcessor {
 		}
 
 		ParameterFormattedResolver<Object> resolver = (ParameterFormattedResolver<Object>) resolverFactory
-			.getFormattedResolver(resolverQualifier);
+		    .getFormattedResolver(resolverQualifier);
 
 		return resolver;
 	}
@@ -258,7 +268,7 @@ public class AuditProcessorImpl implements AuditProcessor {
 	}
 
 	private AuditDataContainer<?> formatAuditData(AuditDataSource auditDataSource)
-	    throws InvalidConfigurationException {
+		throws InvalidConfigurationException {
 		AuditDataFormatter<?> auditDataFormatter = auditDataFormatterFactory.getCurrentFormatter();
 		AuditDataContainer<?> formattedAuditData = auditDataFormatter.format(auditDataSource);
 		return formattedAuditData;
@@ -266,7 +276,7 @@ public class AuditProcessorImpl implements AuditProcessor {
 
 	@SuppressWarnings("unchecked")
 	private void dispatchAuditData(AuditDataContainer<?> auditDataContainer)
-	    throws InvalidConfigurationException {
+		throws InvalidConfigurationException {
 		AuditDataDispatcher<?> dispatcher = auditDataDispatcherFactory.getCurrentDispatcher();
 
 		((AuditDataDispatcher<Object>) dispatcher).dispatch(auditDataContainer.getAuditData());

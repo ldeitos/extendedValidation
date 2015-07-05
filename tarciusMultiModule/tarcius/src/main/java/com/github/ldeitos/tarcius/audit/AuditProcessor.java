@@ -5,6 +5,7 @@ import java.lang.annotation.Annotation;
 import com.github.ldeitos.tarcius.api.annotation.Audited;
 import com.github.ldeitos.tarcius.configuration.AuditPhases;
 import com.github.ldeitos.tarcius.configuration.Constants;
+import com.github.ldeitos.tarcius.exception.AuditException;
 
 /**
  * Interface to audit processor.<br>
@@ -25,15 +26,15 @@ public interface AuditProcessor {
 	 *            String to audit reference, normally will be a business
 	 *            reference.
 	 * @param parameters
-	 *            Parameters to be added to audit data. This must be identified
-	 *            with {@link Audited} annotation. If not, the parameter will be
-	 *            ignored.
-	 * @throws Exception
+	 *            Parameters to be added to audit data. Each one must be
+	 *            identified with {@link Audited} annotation. If not, the
+	 *            parameter will be ignored. AuditException
+	 * @throws AuditException
 	 *             In case of error on audit process. Occurs only in the case of
 	 *             {@link Constants#PATH_CONF_INTERRUPT_ON_ERROR} is tuned on in
 	 *             {@link Constants#CONFIGURATION_FILE}.
 	 */
-	void doAudit(String auditRef, Object... parameters) throws Exception;
+	void doAudit(String auditRef, Object... parameters) throws AuditException;
 
 	/**
 	 * @param auditRef
@@ -42,14 +43,16 @@ public interface AuditProcessor {
 	 * @param parameters
 	 *            Parameter array to be added in audit data.
 	 * @param parameterAnnotations
-	 *            Matrix where second dimension contains a annotation array.
-	 *            Each first dimension slot must be equivalent to a parameter in
-	 *            equivalent index on "parameters" array.
-	 * @throws Exception
+	 *            Matrix where second dimension contains a annotation array with
+	 *            one {@link Audited} configuration to a parameter in equivalent
+	 *            index on "parameters" array.
+	 *
+	 * @throws AuditException
 	 *             In case of error on audit process. Occurs only in the case of
 	 *             {@link Constants#PATH_CONF_INTERRUPT_ON_ERROR} is tuned on in
 	 *             {@link Constants#CONFIGURATION_FILE}.
 	 */
-	void doAudit(String auditRef, Object[] parameters, Annotation[][] parameterAnnotations) throws Exception;
+	void doAudit(String auditRef, Object[] parameters, Annotation[][] parameterAnnotations)
+	    throws AuditException;
 
 }
