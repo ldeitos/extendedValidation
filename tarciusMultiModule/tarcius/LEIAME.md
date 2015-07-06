@@ -8,6 +8,41 @@ Baseado nos conceitos e características disponibilizadas pelo CDI, possibilita o
 
 Concebido para ser adaptável às necessidades e particularidades de cada aplicação, delega ao usuário do componente a definição do modelo da auditoria, a composição dos dados coletados no modelo definido e o envio desses ao repositório escolhido para os dados de auditoria, além de possibilitar a definição de tradutores específicos para os parâmetros ou o uso de tradutores padrões disponibilizados.
 
+### Dependências e Configuração
+#### Dependências
+Para utilizar o componente basta adicioná-lo como dependência de seu projeto. A versão mais recente é a seguinte:
+```xml
+<dependency>
+    <groupId>com.github.ldeitos</groupId>
+    <artifactId>tarcius</artifactId>
+    <version>0.1.2</version>
+</dependency>
+```
+
+As principais dependências do componente são:
+ - [cdi-util 0.6.2](http://search.maven.org/#artifactdetails%7Ccom.github.ldeitos%7Ccdi-util%7C0.6.2%7Cjar)
+ - [commons-collections 3.2.1](http://search.maven.org/#artifactdetails%7Corg.lucee%7Ccommons-collections%7C3.2.1%7Cbundle)
+ - [commons-collections4 4.0](http://search.maven.org/#artifactdetails%7Corg.apache.commons%7Ccommons-collections4%7C4.0%7Cjar)
+ - [commons-configuration 1.0](http://search.maven.org/#artifactdetails%7Ccom.github.testdriven.guice%7Ccommons-configuration%7C1.0%7Cjar)
+ - [commons-lang3 3.3.2](http://search.maven.org/#artifactdetails%7Corg.apache.commons%7Ccommons-lang3%7C3.3.2%7Cjar)
+ - [jaxb-api 2.2.11](http://search.maven.org/#artifactdetails%7Cjavax.xml.bind%7Cjaxb-api%7C2.2.11%7Cjar)
+ - [jersey-json 1.19](http://search.maven.org/#artifactdetails%7Ccom.sun.jersey%7Cjersey-json%7C1.19%7Cjar)
+ 
+#### Configuração
+As configurações do componente são efetuadas através do arquivo **tarcius.xml**, que deve ficar localizado no diretório META-INF do projeto. Segue exemplo do arquivo:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<tarcius>
+	<formatter-class></formatter-class>
+	<dispatcher-class></dispatcher-class>
+	<interrupt-on-error></interrupt-on-error>
+</tarcius>
+```
+As configurações possíveis são:
+- **formatter-class**: define a classe que implementa o formatador da auditoria, conforme poderá ser visto com mais detalhes mais adiante. Esta configuração é obrigatória até a versão 0.1.2; a partir dessa pode-se suprimir esta configuração desde que haja apenas uma implementação do formatador disponível no *classpath*. Nesta situação esse será carregado automaticamente através do CDI.
+- **dispatcher-class**: define a classe que implementa o componente que destina os dados coletados durante a auditoria, conforme será detalhado mais adiante. Esta configuração é obrigatória até a versão 0.1.2; a partir dessa pode-se suprimir esta configuração desde que haja apenas uma implementação do *dispatcher* disponível no *classpath*. Nesta situação esse será carregado automaticamente através do CDI.
+- **interrupt-on-error**: define o comportamento do componente na ocorrência de exceções durante a execução do processo de auditoria. A configuração padrão é *false*, ou seja, caso ocorram erros o processamento não é interrompido, apenas uma mensagem de *warning* é gravada no log da aplicação. Caso seja configurado para *true*, a ocorrência de exceções interromperá o fluxo do processamento, sendo que a exceção causadora da interrupção será relançada através de uma *AuditException*. Esta configuração é opcional.
+
 ### Modelo de uso
 O mecanismo baseia-se na interceptação da chamada de métodos identificados com a anotação *@Audit* através de um *interceptor* CDI que deve ser ativado no arquivo *beans.xml* conforme abaixo:
 
@@ -197,3 +232,4 @@ A instância do *AuditDataDispatcher* será obtida através do CDI ou, como citado 
 	...	
 </tarcius>
 ```
+Esta configuração também é obrigatória para as versões anteriores a 0.1.2.
