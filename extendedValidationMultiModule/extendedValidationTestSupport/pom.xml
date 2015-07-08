@@ -2,6 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>extendedValidation-test-support</artifactId>
+	<version>0.9.2</version>
 	<packaging>jar</packaging>
 	<parent>
 		<groupId>com.github.ldeitos</groupId>
@@ -30,41 +31,57 @@
 		<developerConnection>scm:git:git@github.com:ldeitos/repository.git</developerConnection>
 		<url>git:git@github.com:ldeitos/repository.git</url>
 	</scm>
-	
+
 
 	<dependencies>
 		<dependency>
 			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>			
+			<artifactId>validation-api</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>extendedValidation</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>			
+			<version>${parent.version}</version>
+			<scope>compile</scope>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>extendedValidation-core</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>cdi-util</artifactId>
-			<version>0.5.0</version>
-			<scope>compile</scope>			
+			<version>0.6.2</version>
+			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jglue.cdi-unit</groupId>
-			<artifactId>cdi-unit</artifactId>			
+			<artifactId>cdi-unit</artifactId>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>		
+			<artifactId>junit</artifactId>
 			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
 		</dependency>
 	</dependencies>
 	<url>http://extendedvalidation.sourceforge.net/</url>
 	<description>Test support provider project.</description>
-	
+
 </project>
