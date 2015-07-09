@@ -47,4 +47,16 @@ public enum TranslateType {
 		return resolverQualifier;
 	}
 
+	public static TranslateType fromResolverQualifier(CustomResolver customResolver) {
+		TranslateType toReturn = CUSTOM;
+
+		for (TranslateType translateType : values()) {
+			if (translateType.getResolverQualifier().equals(customResolver)) {
+				toReturn = translateType;
+				break;
+			}
+		}
+
+		return toReturn;
+	}
 }

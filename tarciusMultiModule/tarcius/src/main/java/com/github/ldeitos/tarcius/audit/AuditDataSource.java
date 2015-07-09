@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Queue;
 
 import com.github.ldeitos.tarcius.api.ParameterResolver;
+import com.github.ldeitos.tarcius.api.annotation.Audited;
 
 /**
  * Audit data source representation containing:<br>
@@ -24,6 +25,8 @@ public class AuditDataSource {
 
 	private Map<String, Object> parameterValues = new HashMap<String, Object>();
 
+	private Map<String, Audited> auditParametersConfig = new HashMap<String, Audited>();
+
 	private Map<String, String> resolvedParameterValues = new HashMap<String, String>();
 
 	private Queue<String> auditRefs = new LinkedList<String>();
@@ -32,10 +35,12 @@ public class AuditDataSource {
 		auditReference = ref;
 	}
 
-	public void addParameterValue(String key, Object parameter, String resolvedValue) {
+	public void addAuditedParameterData(String key, Audited auditConfig, Object auditParameter,
+	    String resolvedValue) {
 		auditRefs.offer(key);
 		resolvedParameterValues.put(key, resolvedValue);
-		parameterValues.put(key, parameter);
+		parameterValues.put(key, auditParameter);
+		auditParametersConfig.put(key, auditConfig);
 	}
 
 	public Map<String, String> getResolvedParameterValues() {
@@ -44,6 +49,10 @@ public class AuditDataSource {
 
 	public Map<String, Object> getParameterValues() {
 		return unmodifiableMap(parameterValues);
+	}
+
+	public Map<String, Audited> getAuditParametersConfig() {
+		return unmodifiableMap(auditParametersConfig);
 	}
 
 	public String getAuditReference() {

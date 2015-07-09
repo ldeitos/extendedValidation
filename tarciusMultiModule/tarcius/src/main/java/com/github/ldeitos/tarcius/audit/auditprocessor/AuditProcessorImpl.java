@@ -183,7 +183,8 @@ public class AuditProcessorImpl implements AuditProcessor {
 
 			logTrace("Parameter [%s] resolved to [%s]", auditedParameter, resolvedValue);
 
-			auditDataSource.addParameterValue(auditRef, auditedParameter.getParameter(), resolvedValue);
+			auditDataSource.addAuditedParameterData(auditRef, auditedParameterConfig,
+			    auditedParameter.getParameter(), resolvedValue);
 		}
 	}
 
@@ -214,7 +215,7 @@ public class AuditProcessorImpl implements AuditProcessor {
 
 	private String resolveParameterValue(AuditedParameter auditedParameter) {
 		Audited auditedParameterConfig = auditedParameter.getConfig();
-		Annotation resolverQualifier = getResolverQualifier(auditedParameter);
+		CustomResolver resolverQualifier = getResolverQualifier(auditedParameter);
 
 		if (resolverQualifier.equals(STRING_RESOLVER) && isNotBlank(auditedParameterConfig.format())) {
 			return getFormattedResolver(auditedParameter).resolve(auditedParameterConfig.format(),
@@ -250,8 +251,8 @@ public class AuditProcessorImpl implements AuditProcessor {
 		return resolver;
 	}
 
-	private Annotation getResolverQualifier(AuditedParameter auditedParameter) {
-		Annotation qualifier;
+	private CustomResolver getResolverQualifier(AuditedParameter auditedParameter) {
+		CustomResolver qualifier;
 		Audited config = auditedParameter.getConfig();
 
 		switch (config.translator()) {
