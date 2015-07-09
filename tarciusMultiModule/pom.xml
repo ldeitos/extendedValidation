@@ -29,8 +29,8 @@
 	</scm>
 
 	<modules>
-		<module>tarcius-parent</module>
-		<module>tarcius</module>
+		<module>../tarcius-parent</module>
+		<module>../tarcius</module>
 	</modules>
 
 	<build>		
