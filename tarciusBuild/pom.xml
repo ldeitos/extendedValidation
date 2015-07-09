@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.ldeitos</groupId>
+	<artifactId>tarciusBuild</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<properties>
+		<docDir>../</docDir>
+	</properties>
+
+	<licenses>
+		<license>
+			<name>Common Development and Distribution License (CDDL-1.0)</name>
+			<url>http://opensource.org/licenses/cddl1.txt</url>
+			<distribution>repo</distribution>
+		</license>
+		<license>
+			<name>GNU LESSER GENERAL PUBLIC LICENSE Version 3</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git@github.com:ldeitos/repository.git</connection>
+		<developerConnection>scm:git:git@github.com:ldeitos/repository.git</developerConnection>
+		<url>git:git@github.com:ldeitos/repository.git</url>
+	</scm>
+
+	<modules>
+		<module>../tarcius-parent</module>
+		<module>../tarcius</module>
+	</modules>
+
+	<build>		
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.1</version>
+				<configuration>
+					<encoding>ISO-8859-1</encoding>
+					<docencoding>ISO-8859-1</docencoding>
+					<outputDirectory>${docDir}</outputDirectory>
+					<reportOutputDirectory>${docDir}</reportOutputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>aggregate</id>
+						<goals>
+							<goal>aggregate</goal>
+						</goals>
+						<phase>site</phase>
+					</execution>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>							
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<developers>
+		<developer>
+			<name>Leandro Deitos</name>
+			<email>leandro.deitos@gmail.com</email>
+		</developer>
+	</developers>	
+	
+</project>
