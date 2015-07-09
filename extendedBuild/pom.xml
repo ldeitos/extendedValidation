@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ldeitos</groupId>
-	<artifactId>extendedValidationMultiModule</artifactId>
+	<artifactId>extendedBuild</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<url>http://extendedvalidation.sourceforge.net/</url>
 	<packaging>pom</packaging>
@@ -30,10 +30,10 @@
 	</scm>
 
 	<modules>
-		<module>extendedValidation-parent</module>
-		<module>extendedValidation-core</module>
-		<module>extendedValidation</module>
-		<module>extendedValidationTestSupport</module>
+		<module>../extendedValidation-parent</module>
+		<module>../extendedValidation-core</module>
+		<module>../extendedValidation</module>
+		<module>../extendedValidationTestSupport</module>
 	</modules>
 
 	<build>		
