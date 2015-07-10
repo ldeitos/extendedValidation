@@ -2,15 +2,15 @@
 ## Auditoria de atividade
 
 ### Objetivo
-Tarcius È um componente que provÍ uma API simplificada para registro de auditoria das atividades dos usu·rios em uma aplicaÁ„o.
+Tarcius √© um componente que prov√™ uma API simplificada para registro de auditoria das atividades dos usu√°rios em uma aplica√ß√£o.
 
-Baseado nos conceitos e caracterÌsticas disponibilizadas pelo CDI, possibilita o registro de chamadas a mÈtodos, bem como dos valores dos par‚metros identificados, atribuindo referÍncias que visam dar sentido de negÛcio ‡s informaÁıes coletadas.
+Baseado nos conceitos e caracter√≠sticas disponibilizadas pelo CDI, possibilita o registro de chamadas a m√©todos, bem como dos valores dos par√¢metros identificados, atribuindo refer√™ncias que visam dar sentido de neg√≥cio √†s informa√ß√µes coletadas.
 
-Concebido para ser adapt·vel ‡s necessidades e particularidades de cada aplicaÁ„o, delega ao usu·rio do componente a definiÁ„o do modelo da auditoria, a composiÁ„o dos dados coletados no modelo definido e o envio desses ao repositÛrio escolhido para os dados de auditoria, alÈm de possibilitar a definiÁ„o de tradutores especÌficos para os par‚metros ou o uso de tradutores padrıes disponibilizados.
+Concebido para ser adapt√°vel √†s necessidades e particularidades de cada aplica√ß√£o, delega ao usu√°rio do componente a defini√ß√£o do modelo da auditoria, a composi√ß√£o dos dados coletados no modelo definido e o envio desses ao reposit√≥rio escolhido para os dados de auditoria, al√©m de possibilitar a defini√ß√£o de tradutores espec√≠ficos para os par√¢metros ou o uso de tradutores padr√µes disponibilizados.
 
-### DependÍncias e ConfiguraÁ„o
-#### DependÍncias
-Para utilizar o componente basta adicion·-lo como dependÍncia de seu projeto. A vers„o mais recente È a seguinte:
+### Depend√™ncias e Configura√ß√£o
+#### Depend√™ncias
+Para utilizar o componente basta adicion√°-lo como depend√™ncia de seu projeto. A vers√£o mais recente √© a seguinte:
 ```xml
 <dependency>
     <groupId>com.github.ldeitos</groupId>
@@ -19,7 +19,7 @@ Para utilizar o componente basta adicion·-lo como dependÍncia de seu projeto. A 
 </dependency>
 ```
 
-As principais dependÍncias do componente s„o:
+As principais depend√™ncias do componente s√£o:
  - [cdi-util 0.6.2](http://search.maven.org/#artifactdetails%7Ccom.github.ldeitos%7Ccdi-util%7C0.6.2%7Cjar)
  - [commons-collections 3.2.1](http://search.maven.org/#artifactdetails%7Corg.lucee%7Ccommons-collections%7C3.2.1%7Cbundle)
  - [commons-collections4 4.0](http://search.maven.org/#artifactdetails%7Corg.apache.commons%7Ccommons-collections4%7C4.0%7Cjar)
@@ -28,8 +28,8 @@ As principais dependÍncias do componente s„o:
  - [jaxb-api 2.2.11](http://search.maven.org/#artifactdetails%7Cjavax.xml.bind%7Cjaxb-api%7C2.2.11%7Cjar)
  - [jersey-json 1.19](http://search.maven.org/#artifactdetails%7Ccom.sun.jersey%7Cjersey-json%7C1.19%7Cjar)
  
-#### ConfiguraÁ„o
-As configuraÁıes do componente s„o efetuadas atravÈs do arquivo **tarcius.xml**, que deve ficar localizado no diretÛrio META-INF do projeto. Segue exemplo do arquivo:
+#### Configura√ß√£o
+As configura√ß√µes do componente s√£o efetuadas atrav√©s do arquivo **tarcius.xml**, que deve ficar localizado no diret√≥rio META-INF do projeto. Segue exemplo do arquivo:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <tarcius>
@@ -38,13 +38,13 @@ As configuraÁıes do componente s„o efetuadas atravÈs do arquivo **tarcius.xml**,
 	<interrupt-on-error></interrupt-on-error>
 </tarcius>
 ```
-As configuraÁıes possÌveis s„o:
-- **formatter-class**: define a classe que implementa o formatador da auditoria, conforme poder· ser visto com mais detalhes mais adiante. Esta configuraÁ„o È obrigatÛria atÈ a vers„o 0.1.2; a partir dessa pode-se suprimir esta configuraÁ„o desde que haja apenas uma implementaÁ„o do formatador disponÌvel no *classpath*. Nesta situaÁ„o esse ser· carregado automaticamente atravÈs do CDI.
-- **dispatcher-class**: define a classe que implementa o componente que destina os dados coletados durante a auditoria, conforme ser· detalhado mais adiante. Esta configuraÁ„o È obrigatÛria atÈ a vers„o 0.1.2; a partir dessa pode-se suprimir esta configuraÁ„o desde que haja apenas uma implementaÁ„o do *dispatcher* disponÌvel no *classpath*. Nesta situaÁ„o esse ser· carregado automaticamente atravÈs do CDI.
-- **interrupt-on-error**: define o comportamento do componente na ocorrÍncia de exceÁıes durante a execuÁ„o do processo de auditoria. A configuraÁ„o padr„o È *false*, ou seja, caso ocorram erros o processamento n„o È interrompido, apenas uma mensagem de *warning* È gravada no log da aplicaÁ„o. Caso seja configurado para *true*, a ocorrÍncia de exceÁıes interromper· o fluxo do processamento, sendo que a exceÁ„o causadora da interrupÁ„o ser· relanÁada atravÈs de uma *AuditException*. Esta configuraÁ„o È opcional.
+As configura√ß√µes poss√≠veis s√£o:
+- **formatter-class**: define a classe que implementa o formatador da auditoria, conforme poder√° ser visto com mais detalhes mais adiante. Esta configura√ß√£o √© obrigat√≥ria at√© a vers√£o 0.1.2; a partir dessa pode-se suprimir esta configura√ß√£o desde que haja apenas uma implementa√ß√£o do formatador dispon√≠vel no *classpath*. Nesta situa√ß√£o esse ser√° carregado automaticamente atrav√©s do CDI.
+- **dispatcher-class**: define a classe que implementa o componente que destina os dados coletados durante a auditoria, conforme ser√° detalhado mais adiante. Esta configura√ß√£o √© obrigat√≥ria at√© a vers√£o 0.1.2; a partir dessa pode-se suprimir esta configura√ß√£o desde que haja apenas uma implementa√ß√£o do *dispatcher* dispon√≠vel no *classpath*. Nesta situa√ß√£o esse ser√° carregado automaticamente atrav√©s do CDI.
+- **interrupt-on-error**: define o comportamento do componente na ocorr√™ncia de exce√ß√µes durante a execu√ß√£o do processo de auditoria. A configura√ß√£o padr√£o √© *false*, ou seja, caso ocorram erros o processamento n√£o √© interrompido, apenas uma mensagem de *warning* √© gravada no log da aplica√ß√£o. Caso seja configurado para *true*, a ocorr√™ncia de exce√ß√µes interromper√° o fluxo do processamento, sendo que a exce√ß√£o causadora da interrup√ß√£o ser√° relan√ßada atrav√©s de uma *AuditException*. Esta configura√ß√£o √© opcional.
 
 ### Modelo de uso
-O mecanismo baseia-se na interceptaÁ„o da chamada de mÈtodos identificados com a anotaÁ„o *@Audit* atravÈs de um *interceptor* CDI que deve ser ativado no arquivo *beans.xml* conforme abaixo:
+O mecanismo baseia-se na intercepta√ß√£o da chamada de m√©todos identificados com a anota√ß√£o *@Audit* atrav√©s de um *interceptor* CDI que deve ser ativado no arquivo *beans.xml* conforme abaixo:
 
 ```xml
 <interceptors>
@@ -52,34 +52,34 @@ O mecanismo baseia-se na interceptaÁ„o da chamada de mÈtodos identificados com a
 </interceptors>
 ```
 
-Cabe a observaÁ„o de que *interceptors* do CDI somente s„o acionados quando um mÈtodo p˙blico È invocado por outra classe, mas nunca quando esta chamada È realizada internamente da prÛpria classe que tenha o mÈtodo anotado. Para maiores informaÁıes sobre *interceptors* do CDI consulte a [documentaÁ„o oficial](https://docs.oracle.com/javaee/6/tutorial/doc/gkhjx.html).
+Cabe a observa√ß√£o de que *interceptors* do CDI somente s√£o acionados quando um m√©todo p√∫blico √© invocado por outra classe, mas nunca quando esta chamada √© realizada internamente da pr√≥pria classe que tenha o m√©todo anotado. Para maiores informa√ß√µes sobre *interceptors* do CDI consulte a [documenta√ß√£o oficial](https://docs.oracle.com/javaee/6/tutorial/doc/gkhjx.html).
 
-A anotaÁ„o *@Audit* possibilita a especificaÁ„o da referÍncia do ponto de auditoria atravÈs do atributo *auditRef*. Esta referÍncia È textual e pode ser utilizada para identificar o ponto de auditoria, mapeando-a para o domÌnio do negÛcio, por exemplo. Quando omitida esta configuraÁ„o o nome do mÈtodo interceptado È utilizado como referÍncia. 
+A anota√ß√£o *@Audit* possibilita a especifica√ß√£o da refer√™ncia do ponto de auditoria atrav√©s do atributo *auditRef*. Esta refer√™ncia √© textual e pode ser utilizada para identificar o ponto de auditoria, mapeando-a para o dom√≠nio do neg√≥cio, por exemplo. Quando omitida esta configura√ß√£o o nome do m√©todo interceptado √© utilizado como refer√™ncia. 
 
 O processo de auditoria realizada pelo *interceptor* divide-se em quatro fases:
 
-1. IdentificaÁ„o dos par‚metros a serem auditados
-2. TraduÁ„o dos par‚metros
-3. FormataÁ„o dos dados coletados
-4. Envio dos dados formatados para o repositÛrio de auditoria
+1. Identifica√ß√£o dos par√¢metros a serem auditados
+2. Tradu√ß√£o dos par√¢metros
+3. Formata√ß√£o dos dados coletados
+4. Envio dos dados formatados para o reposit√≥rio de auditoria
 
-#### IdentificaÁ„o dos par‚metros a serem auditados
-Nesta fase s„o identificados todos os par‚metros do mÈtodo que estejam identificados com a anotaÁ„o *@Audited* para posterior traduÁ„o.
-A anotaÁ„o pode ser aplicada aos par‚metros a serem auditados no mÈtodo marcado para interceptaÁ„o ou diretamente no *bean* que dever· ser auditado, conforme abaixo:
+#### Identifica√ß√£o dos par√¢metros a serem auditados
+Nesta fase s√£o identificados todos os par√¢metros do m√©todo que estejam identificados com a anota√ß√£o *@Audited* para posterior tradu√ß√£o.
+A anota√ß√£o pode ser aplicada aos par√¢metros a serem auditados no m√©todo marcado para intercepta√ß√£o ou diretamente no *bean* que dever√° ser auditado, conforme abaixo:
 
-Identificando no par‚metro
+Identificando no par√¢metro
 ```java
 public class VendasBC {
 
     @Audit(auditRef="consulta de vendas")
-    public void consultar(@Audited(auditRef="par‚metros aplicados na consulta") Parametro par){}
+    public void consultar(@Audited(auditRef="par√¢metros aplicados na consulta") Parametro par){}
 
 }
 ``` 
 
 Identificando no bean
 ```java
-@Audited(auditRef="par‚metros aplicados na consulta") 
+@Audited(auditRef="par√¢metros aplicados na consulta") 
 public class Parametro {
 
     ...
@@ -95,7 +95,7 @@ public class VendasBC {
 }
 ```
 
-Quando anotado no *bean*, sempre que esse for utilizado como par‚metro em um mÈtodo interceptado ele ser· considerado como parte do conte˙do a ser auditado. Entretanto, caso seja necess·rio ignorar em algum caso especÌfico um par‚metro cuja classe est· anotada, basta identifica-lo com a anotaÁ„o *@NotAudited*, como abaixo:
+Quando anotado no *bean*, sempre que esse for utilizado como par√¢metro em um m√©todo interceptado ele ser√° considerado como parte do conte√∫do a ser auditado. Entretanto, caso seja necess√°rio ignorar em algum caso espec√≠fico um par√¢metro cuja classe est√° anotada, basta identifica-lo com a anota√ß√£o *@NotAudited*, como abaixo:
 
 ```java
 public class VendasBC {
@@ -106,38 +106,38 @@ public class VendasBC {
 }
 ```
  
-#### TraduÁ„o dos par‚metros
-Nesta fase È aplicada a traduÁ„o dos par‚metros anteriormente identificados para *String*. Esta traduÁ„o pode ser resolvida por tradutores prÈ-definidos e disponibilizados pelo componente ou ainda por outros customizados para casos especÌficos. A configuraÁ„o do tradutor a ser aplicado se faz atravÈs do atributo *translator* da anotaÁ„o *@Audited*, podendo ter os seguintes valores:
+#### Tradu√ß√£o dos par√¢metros
+Nesta fase √© aplicada a tradu√ß√£o dos par√¢metros anteriormente identificados para *String*. Esta tradu√ß√£o pode ser resolvida por tradutores pr√©-definidos e disponibilizados pelo componente ou ainda por outros customizados para casos espec√≠ficos. A configura√ß√£o do tradutor a ser aplicado se faz atrav√©s do atributo *translator* da anota√ß√£o *@Audited*, podendo ter os seguintes valores:
 
 ```java
 TranslateType.STRING_VALUE
 ```
 
-Aplica o tradutor que resolve o valor do par‚metro auditado para uma *String* representativa do objeto, atravÈs do mÈtodo String.*valueOf()*. Este tipo È o valor *default* do atributo.
+Aplica o tradutor que resolve o valor do par√¢metro auditado para uma *String* representativa do objeto, atrav√©s do m√©todo String.*valueOf()*. Este tipo √© o valor *default* do atributo.
 
-Quando o uso deste tipo de tradutor È associado ‡ configuraÁ„o do atributo *format* o resultado obtido da traduÁ„o do par‚metro para *String* È formatado de acordo com a seguinte regra:
- - Quando o par‚metro for do tipo *Date* ou extensıes desse a formataÁ„o È realizada pelo *SimpleDateFormat* configurado com o formato definido em *format*;
- - Quando o par‚metro for de tipo diferente de *Date*, a formataÁ„o È realizada de acordo com a especificaÁ„o do mÈtodo String.*format()*;
+Quando o uso deste tipo de tradutor √© associado √† configura√ß√£o do atributo *format* o resultado obtido da tradu√ß√£o do par√¢metro para *String* √© formatado de acordo com a seguinte regra:
+ - Quando o par√¢metro for do tipo *Date* ou extens√µes desse a formata√ß√£o √© realizada pelo *SimpleDateFormat* configurado com o formato definido em *format*;
+ - Quando o par√¢metro for de tipo diferente de *Date*, a formata√ß√£o √© realizada de acordo com a especifica√ß√£o do m√©todo String.*format()*;
 
- A associaÁ„o do atributo *format* com os demais tipos de tradutores **n„o produz nenhum efeito**.
+ A associa√ß√£o do atributo *format* com os demais tipos de tradutores **n√£o produz nenhum efeito**.
 ```java
 TranslateType.JAXB_XML
 ```
-Aplica o tradutor que resolve o valor do par‚metro auditado para o formato XML utilizando o padr„o da [API JAXB]( https://jaxb.java.net/). O XML resultante por este tradutor È apresentado em uma linha ˙nica, sem formataÁ„o. 
+Aplica o tradutor que resolve o valor do par√¢metro auditado para o formato XML utilizando o padr√£o da [API JAXB]( https://jaxb.java.net/). O XML resultante por este tradutor √© apresentado em uma linha √∫nica, sem formata√ß√£o. 
 ```java
 TranslateType.JAXB_FORMATTED_XML
 ```
-Aplica o tradutor que resolve o valor do par‚metro auditado para o formato XML utilizando o padr„o da [API JAXB]( https://jaxb.java.net/). Ao contr·rio do anterior, o resultado deste tradutor È o XML formatado.
+Aplica o tradutor que resolve o valor do par√¢metro auditado para o formato XML utilizando o padr√£o da [API JAXB]( https://jaxb.java.net/). Ao contr√°rio do anterior, o resultado deste tradutor √© o XML formatado.
 ```java
 TranslateType.JAXB_JSON
 ```
-Aplica o tradutor que resolve o valor do par‚metro auditado para o formato JSON utilizando o componente [jersey-json]( https://jersey.java.net/documentation/1.19/index.html), extens„o da [API JAXB]( https://jaxb.java.net) que utiliza o mesmo mecanismo de anotaÁıes para determinar o modelo do resultado. Para este formatador o resultado È retornado em uma linha ˙nica, sem formataÁ„o.
+Aplica o tradutor que resolve o valor do par√¢metro auditado para o formato JSON utilizando o componente [jersey-json]( https://jersey.java.net/documentation/1.19/index.html), extens√£o da [API JAXB]( https://jaxb.java.net) que utiliza o mesmo mecanismo de anota√ß√µes para determinar o modelo do resultado. Para este formatador o resultado √© retornado em uma linha √∫nica, sem formata√ß√£o.
 ```java
 TranslateType.CUSTOM
 ```
-Quando o atributo *translator* est· valorizado com este tipo, significa que a traduÁ„o do par‚metro deve ser resolvida por um tradutor especializado. Quando utilizado este valor, È **obrigatÛrio** informar no atributo *customResolverQualifier* com o qualificador *@CustomResolver* que identifica o tradutor a ser instanciado, atravÈs do CDI, para resolver o valor do par‚metro. 
+Quando o atributo *translator* est√° valorizado com este tipo, significa que a tradu√ß√£o do par√¢metro deve ser resolvida por um tradutor especializado. Quando utilizado este valor, √© **obrigat√≥rio** informar no atributo *customResolverQualifier* com o qualificador *@CustomResolver* que identifica o tradutor a ser instanciado, atrav√©s do CDI, para resolver o valor do par√¢metro. 
 
-As implementaÁıes especializadas dos tradutores devem implementar a interface *ParameterResolver*, alÈm de ser devidamente qualificado com *@CustomResolver*, como no exemplo abaixo:
+As implementa√ß√µes especializadas dos tradutores devem implementar a interface *ParameterResolver*, al√©m de ser devidamente qualificado com *@CustomResolver*, como no exemplo abaixo:
 ```java
 @ApplicationScope
 @CustomResolver("resolve_pedido")
@@ -157,16 +157,16 @@ public class VendasBC {
 
 }
 ```
-Recomenda-se que as implementaÁıes de *ParameterResolver* sejam definidas para o escopo de aplicaÁ„o, porÈm este tratamento n„o È obrigatÛrio.
+Recomenda-se que as implementa√ß√µes de *ParameterResolver* sejam definidas para o escopo de aplica√ß√£o, por√©m este tratamento n√£o √© obrigat√≥rio.
 
-Cabe esclarecer que, apesar de obrigatÛrio, a ausÍncia da configuraÁ„o do atributo *customResolverQualifier* n„o causa erro no processo de auditoria; neste caso, ser· aplicado o tradutor *default* para resolver o valor auditado, obtendo assim o valor do mÈtodo *toString()* do objeto.
+Cabe esclarecer que, apesar de obrigat√≥rio, a aus√™ncia da configura√ß√£o do atributo *customResolverQualifier* n√£o causa erro no processo de auditoria; neste caso, ser√° aplicado o tradutor *default* para resolver o valor auditado, obtendo assim o valor do m√©todo *toString()* do objeto.
 
-####FormataÁ„o dos dados coletados
-A fase de formataÁ„o dos dados coletados compreende a composiÁ„o dos dados obtidos e traduzidos para texto nas duas fases anteriores dentro do modelo definido pelo usu·rio do componente.
+####Formata√ß√£o dos dados coletados
+A fase de formata√ß√£o dos dados coletados compreende a composi√ß√£o dos dados obtidos e traduzidos para texto nas duas fases anteriores dentro do modelo definido pelo usu√°rio do componente.
 
-Para o correto funcionamento do componente, È necess·rio que seu usu·rio implemente a interface *AuditDataFormatter<AD>*, aonde **AD** refere-se ao tipo genÈrico do modelo de dados da auditoria, tambÈm definido pelo usu·rio do componente. 
+Para o correto funcionamento do componente, √© necess√°rio que seu usu√°rio implemente a interface *AuditDataFormatter<AD>*, aonde **AD** refere-se ao tipo gen√©rico do modelo de dados da auditoria, tamb√©m definido pelo usu√°rio do componente. 
 
-Abaixo segue exemplo de implementaÁ„o do formatador dos dados de auditoria:
+Abaixo segue exemplo de implementa√ß√£o do formatador dos dados de auditoria:
 ```java
 public class MeuAuditDataFormatter implements AuditDataFormatter<AuditData> {
 
@@ -176,11 +176,11 @@ public class MeuAuditDataFormatter implements AuditDataFormatter<AuditData> {
 		StringBuilder messageBuilder = auditData.getMessage();
 		String quebraLinha = System.getProperty("line.separator");
 
-		messageBuilder.append("MÈtodo auditado: ");
+		messageBuilder.append("M√©todo auditado: ");
 		messageBuilder.append(preAuditData.getAuditReference());
 
 		for (String entrada : preAuditData.getAuditParameterReferences()) {
-			messageBuilder.append(quebraLinha).append("Par‚metro auditado: ");
+			messageBuilder.append(quebraLinha).append("Par√¢metro auditado: ");
 			messageBuilder.append(entrada).append(quebraLinha);
 			messageBuilder.append("Valor: ").append(preAuditData.getResolvedParameterValues().get(entrada));
 		}
@@ -189,16 +189,16 @@ public class MeuAuditDataFormatter implements AuditDataFormatter<AuditData> {
 	}
 }
 ```
-O par‚metro de entrada do mÈtodo *AuditDataFormatter.format*, do tipo *AuditDataSource*, contÈm todos os dados coletados durante as fases de identificaÁ„o e traduÁ„o de dados de auditoria, e podem ser acessados atravÈs dos seguintes mÈtodos:
+O par√¢metro de entrada do m√©todo *AuditDataFormatter.format*, do tipo *AuditDataSource*, cont√©m todos os dados coletados durante as fases de identifica√ß√£o e tradu√ß√£o de dados de auditoria, e podem ser acessados atrav√©s dos seguintes m√©todos:
 
- - *getAuditReference()*: Retorna a referÍncia atribuÌda na anotaÁ„o *@Audit* atravÈs do atributo *auditRef*, ou, quando este n„o È informado, o nome do mÈtodo auditado;
- - *getAuditParameterReferences()*: Retorna uma fila (*Queue*) contendo as referÍncias atribuÌdas aos par‚metros auditados no mÈtodo, obedecendo a mesma ordem apresentada nesse;
- - *getResolvedParameterValues()*: Retorna um mapa dos valores obtidos atravÈs da aplicaÁ„o dos tradutores dos par‚metros configurados no atributo *translator* da anotaÁ„o *@Audited*, que identifica cada par‚metro do mÈtodo auditado que deve ser considerado na coleta dos dados, conforme j· explicado anteriormente. A chave do mapa È a referÍncia atribuÌda a cada par‚metro, citado no item acima;
- - *getParameterValues()*: Retorna um mapa das inst‚ncias dos par‚metros auditados. A chave do mapa tambÈm È a referÍncia atribuÌda a cada par‚metro;
+ - *getAuditReference()*: Retorna a refer√™ncia atribu√≠da na anota√ß√£o *@Audit* atrav√©s do atributo *auditRef*, ou, quando este n√£o √© informado, o nome do m√©todo auditado;
+ - *getAuditParameterReferences()*: Retorna uma fila (*Queue*) contendo as refer√™ncias atribu√≠das aos par√¢metros auditados no m√©todo, obedecendo a mesma ordem apresentada nesse;
+ - *getResolvedParameterValues()*: Retorna um mapa dos valores obtidos atrav√©s da aplica√ß√£o dos tradutores dos par√¢metros configurados no atributo *translator* da anota√ß√£o *@Audited*, que identifica cada par√¢metro do m√©todo auditado que deve ser considerado na coleta dos dados, conforme j√° explicado anteriormente. A chave do mapa √© a refer√™ncia atribu√≠da a cada par√¢metro, citado no item acima;
+ - *getParameterValues()*: Retorna um mapa das inst√¢ncias dos par√¢metros auditados. A chave do mapa tamb√©m √© a refer√™ncia atribu√≠da a cada par√¢metro;
 
-Deve-se observar que o exemplo È apenas representativo, uma vez que tanto o modelo quanto o preenchimento È de decis„o exclusiva do usu·rio do componente.
+Deve-se observar que o exemplo √© apenas representativo, uma vez que tanto o modelo quanto o preenchimento √© de decis√£o exclusiva do usu√°rio do componente.
 
-A partir da vers„o 0.1.2 basta implementar a interface *AuditDataFormatter* que o componente obter· a inst‚ncia adequada atravÈs do CDI, entretanto È possÌvel explicitar no arquivo de configuraÁ„o *tarcius.xml*, o qual dever· estar localizado no diretÛrio META-INF do projeto, o nome qualificado da implementaÁ„o a ser utilizada pelo componente, conforme abaixo:
+A partir da vers√£o 0.1.2 basta implementar a interface *AuditDataFormatter* que o componente obter√° a inst√¢ncia adequada atrav√©s do CDI, entretanto √© poss√≠vel explicitar no arquivo de configura√ß√£o *tarcius.xml*, o qual dever√° estar localizado no diret√≥rio META-INF do projeto, o nome qualificado da implementa√ß√£o a ser utilizada pelo componente, conforme abaixo:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <tarcius>
@@ -206,12 +206,12 @@ A partir da vers„o 0.1.2 basta implementar a interface *AuditDataFormatter* que 
 	...	
 </tarcius>
 ```
-Para as versıes anteriores esta configuraÁ„o È **obrigatÛria**.
+Para as vers√µes anteriores esta configura√ß√£o √© **obrigat√≥ria**.
 
-####Envio dos dados formatados para o repositÛrio de auditoria
-A fase de envio dos dados formatados para o repositÛrio de auditoria compreende a ˙ltima fase do processo de auditoria. Nesta fase, o usu·rio do componente deve implementar a forma de persistÍncia do modelo formatado na fase anterior, quer seja persistindo em banco de dados, em uma fila de mensageria, no log da aplicaÁ„o ou qualquer outro meio que seja definido para o projeto.
+####Envio dos dados formatados para o reposit√≥rio de auditoria
+A fase de envio dos dados formatados para o reposit√≥rio de auditoria compreende a √∫ltima fase do processo de auditoria. Nesta fase, o usu√°rio do componente deve implementar a forma de persist√™ncia do modelo formatado na fase anterior, quer seja persistindo em banco de dados, em uma fila de mensageria, no log da aplica√ß√£o ou qualquer outro meio que seja definido para o projeto.
 
-Para esta tarefa basta implementar a interface *AuditDataDispatcher<AD>* e nesta implementaÁ„o dar destino ao objeto do tipo genÈrico *AD*, definido pelo usu·rio do componente, que foi formatado no passo anterior, como no exemplo abaixo:
+Para esta tarefa basta implementar a interface *AuditDataDispatcher<AD>* e nesta implementa√ß√£o dar destino ao objeto do tipo gen√©rico *AD*, definido pelo usu√°rio do componente, que foi formatado no passo anterior, como no exemplo abaixo:
 ```java
 public class MeuAuditDataDispatcher implements AuditDataDispatcher<AuditData> {
 	@Inject
@@ -223,7 +223,7 @@ public class MeuAuditDataDispatcher implements AuditDataDispatcher<AuditData> {
 	}
 }
 ```
-A inst‚ncia do *AuditDataDispatcher* ser· obtida atravÈs do CDI ou, como citado no tÛpico anterior, atravÈs da configuraÁ„o do componente, como abaixo:
+A inst√¢ncia do *AuditDataDispatcher* ser√° obtida atrav√©s do CDI ou, como citado no t√≥pico anterior, atrav√©s da configura√ß√£o do componente, como abaixo:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <tarcius>
@@ -232,4 +232,4 @@ A inst‚ncia do *AuditDataDispatcher* ser· obtida atravÈs do CDI ou, como citado 
 	...	
 </tarcius>
 ```
-Esta configuraÁ„o tambÈm È obrigatÛria para as versıes anteriores a 0.1.2.
+Esta configura√ß√£o tamb√©m √© obrigat√≥ria para as vers√µes anteriores a 0.1.2.
