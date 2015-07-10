@@ -180,7 +180,7 @@ Finally, if the same key is defined in more than one file is retrieved that is f
 #####Redefinition of message source
 As already mentioned it is also possible to replace the source of the messages, or use another type of archive that no files *.properties*. To this end, the *ExtendedValidation* offers a *MessagesSource* interface, which can be freely implemented by the project in order to use desired way to retrieve the messages from the system.
 
-To replace the MessagesSource standard component simply configure their implementation in the file ***extendedValidation.xml***:
+To replace the *MessagesSource* standard component simply configure their implementation in the file ***extendedValidation.xml***:
 ```xml
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <extended-validation>
