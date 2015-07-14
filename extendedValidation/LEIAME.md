@@ -9,7 +9,7 @@
   - [Múltiplas fontes de mensagens](#multMssSrc)
     - [Configuração de múltiplos arquivos de mensagens](#confMultFileSrc)
     - [Redefinição da origem das mensagens](#redMssgSrc)
-- Configuração e uso(#config)
+- [Configuração e uso](#config)
 
 ###<a name="obj">Objetivo</a>
 ####<a name="flxEstEasUse">Flexível, estensível e fácil de usar</a>
