@@ -1,15 +1,15 @@
 #ExtendedValidation
 ##Uma extensão do BeanValidation 1.1
 
-- [Objetivo](#obj)
-  - [Flexível, estensível e fácil de usar](#flxEstEasUse)
-- [Características](#feat)
-  - [Integrado ao CDI](#cdiInt)
-  - [Suporte estendido a parametrização do texto das mensagens](#extMssParamSup)
-  - [Múltiplas fontes de mensagens](#multMssSrc)
-    - [Configuração de múltiplos arquivos de mensagens](#confMultFileSrc)
-    - [Redefinição da origem das mensagens](#redMssgSrc)
-- [Configuração e uso](#config)
+1. [Objetivo](#obj)
+  1. [Flexível, estensível e fácil de usar](#flxEstEasUse)
+2. [Características](#feat)
+  1. [Integrado ao CDI](#cdiInt)
+  2. [Suporte estendido a parametrização do texto das mensagens](#extMssParamSup)
+  3. [Múltiplas fontes de mensagens](#multMssSrc)
+    1. [Configuração de múltiplos arquivos de mensagens](#confMultFileSrc)
+    2. [Redefinição da origem das mensagens](#redMssgSrc)
+3. [Configuração e uso](#config)
 
 ###<a name="obj">Objetivo</a>
 ####<a name="flxEstEasUse">Flexível, estensível e fácil de usar</a>
