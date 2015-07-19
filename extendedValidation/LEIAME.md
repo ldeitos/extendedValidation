@@ -1,4 +1,4 @@
-#<a name="top">ExtendedValidation</a>
+#<a id="top" name="top">ExtendedValidation</a>
 ##Uma extensão do BeanValidation 1.1
 
 1. [Objetivo](#obj)
@@ -9,18 +9,20 @@
   3. [Múltiplas fontes de mensagens](#multMssSrc)
     1. [Configuração de múltiplos arquivos de mensagens](#confMultFileSrc)
     2. [Redefinição da origem das mensagens](#redMssgSrc)
+  4. [Abstração para validadores que registram múltiplas violações](#abstraction)
+  5. [Validação de parâmetros de métodos através de *interceptor* CDI](#interceptor)
 3. [Configuração e uso](#config)
 
-###<a name="obj">Objetivo</a>
-####<a name="flxEstEasUse">Flexível, estensível e fácil de usar</a> [:arrow_heading_up:](#top)
+###<a id="obj" name="obj">Objetivo</a>
+####<a id="flxEstEasUse" name="flxEstEasUse">Flexível, estensível e fácil de usar</a> [:arrow_heading_up:](#top)
 Este componente não é uma implementação completa do [*BeanValidation API 1.1*](http://cdi-spec.org/), e sim uma extensão que adiciona funcionalidades a essa, independente da implementação concreta utilizada, e pode facilmente ser integrada a projetos novos ou existentes.
 
 Todas as implementações de elementos da API delegam, ao final de seu incremento à funcionalidade, a conclusão do processamento ao seu par padrão definido pela implementação da API escolhida. Este princípio garante que comportamentos existentes em projetos legados não sejam afetados, minimizando riscos na adoção do componente neste cenário.
 
 Idealizado para facilitar o uso da validação através da [*BeanValidation API*](http://cdi-spec.org/) em projetos grandes e complexos, apresentando soluções como: permitir o desacoplamento entre as *Constraint* das implementações dos *ConstraintValidator*; possibilita especificar múltiplos arquivos de mensagens ou mesmo substituir o uso de arquivos por outra fonte, como por exemplo banco de dados, módulos ou aplicações externas, rotinas mainframe etc.; também disponibiliza um incremento à API para simplificar a atribuição de valores a parâmetros especificados em mensagens na fase de interpolação.
 
-###<a name="feat">Características</a>
-####<a name="cdiInt">Integrado ao CDI</a> [:arrow_heading_up:](#top)
+###<a id="feat" name="feat">Características</a>
+####<a id="cdiInt" name="cdiInt">Integrado ao CDI</a> [:arrow_heading_up:](#top)
 O *ExtendedValidation* possui uma implementação de *ConstraintValidatorFactory* integrada ao contexto de dependências da [API CDI](http://cdi-spec.org/), possibilitando que a instância do validador declarado pela *Constraint* seja recuperada a partir de uma interface, tornando possível desacoplar esses elementos.
 
 A especificação do [*BeanValidation API 1.1*](http://cdi-spec.org/) relaciona a descrição da *Constraint* com seu validador diretamente através da classe desse último, como exemplificado no modelo abaixo:
@@ -41,7 +43,7 @@ Tendo em mente que entidades e interfaces de serviços mudam com menor frequênc
 
 A Factory implementada permite a convivência entre o modelo proposto e o padrão definido pela [*BeanValidation API 1.1*](http://cdi-spec.org/), ou seja, é possível existir definições de *Constraint* relacionadas a interfaces e outras definindo classes concretas, ambas serão igualmente tratadas na fase de resolução do validador a ser aplicado.
 
-####<a name="extMssParamSup">Suporte estendido a parametrização do texto das mensagens</a> [:arrow_heading_up:](#top)
+####<a id="extMssParamSup" name="extMssParamSup">Suporte estendido a parametrização do texto das mensagens</a> [:arrow_heading_up:](#top)
 
 As possibilidades de parametrização do texto das mensagens geradas para o sistema através da violação das Constraint foram ampliadas com o uso do ExtendedValidation.
 
@@ -115,7 +117,7 @@ public class MyEntity {
 }
 ```
 
-####<a name="multMssSrc">Múltiplas fontes de mensagens</a> [:arrow_heading_up:](#top)
+####<a id="multMssSrc" name="multMssSrc">Múltiplas fontes de mensagens</a> [:arrow_heading_up:](#top)
 
 A [*BeanValidation API 1.1*](http://cdi-spec.org/) possibilita duas formas para atribuir mensagens à *constraint*:
 
@@ -165,7 +167,7 @@ Em consonância com a especificação, o *ExtendedValidation* mantém as formas 
 
 Esta abordagem dispensa que aplicações compostas por múltiplos módulos necessitem centralizar as mensagens em um único arquivo, procedimento que pode trazer transtornos em ambientes aonde há o desenvolvimento concorrente de módulos por times distintos, além de facilitar o reaproveitamento de fontes de mensagens legadas.
 
-#####<a name="confMultFileSrc">Configuração de múltiplos arquivos de mensagens</a> [:arrow_heading_up:](#top)
+#####<a id="confMultFileSrc" name="confMultFileSrc">Configuração de múltiplos arquivos de mensagens</a> [:arrow_heading_up:](#top)
 A abordagem padrão de origem de mensagem adotado pelo *ExtendedValidation* é a recuperação em arquivos  *.properties*, sendo que é possível se utilizar de múltiplos arquivos para este fim. Existem duas formas para configurar este comportamento:
 
 - Definir a variável de ambiente "com.github.ldeitos.validation.message.files" atribuindo a essa a lista de nomes de arquivos a serem considerados separados por ",". O exemplo a seguir demonstra a configuração da variável de sistema ao iniciar a aplicação java, entretanto a forma de efetuar esta configuração varia de acordo com o ambiente, como por exemplo o servidor de aplicação utilizado.
@@ -189,7 +191,7 @@ Em ambos os casos o arquivo padrão definido pela API, o ***ValidationMessages.p
 
 Finalmente, caso uma mesma chave esteja definida em mais de um arquivo, será recuperada a que for encontrada primeiro pelo mecanismo.
 
-#####<a name="redMssgSrc">Redefinição da origem das mensagens</a> [:arrow_heading_up:](#top)
+#####<a id="redMssgSrc" name="redMssgSrc">Redefinição da origem das mensagens</a> [:arrow_heading_up:](#top)
 Como já mencionado também é possível substituir a fonte das mensagens, ou seja, utilizar outro tipo de repositório que não arquivos *.properties*. Para este fim, o *ExtendedValidation* disponibiliza a interface *MessagesSource*, a qual pode ser implementada livremente pela equipe do projeto afim de utilizar o meio desejado para recuperar as mensagens do sistema.
 
 Para substituir o *MessagesSource* padrão do componente basta configurar a sua implementação no arquivo ***extendedValidation.xml***:
@@ -204,7 +206,102 @@ Também é disponibilizado a classe abstrata *AbstractMessagesSource*, cuja impl
 
 Caso se utilize a classe abstrata e o template definido na *constraint* não seja compatível com o padrão de chave de busca, o próprio texto do template é retornado pelo *MessagesSource*. É importante que o mesmo comportamento seja adotado pelas implementações próprias, tanto para este caso como quando a chave utilizada não recupera nenhuma mensagem.
 
-###<a name="config">Configuração e uso</a> [:arrow_heading_up:](#top)
+####<a id="abstraction" name="abstraction">Abstração para validadores que registram múltiplas violações</a> [:arrow_heading_up:](#top)
+
+A partir da versão 0.8.0 o componente disponibiliza a classe abstrata *AbstractExtendedValidator<A extends Annotation,T>* que fornece métodos simplificados para registro de múltiplas violações por um único validador.
+
+As violações podem ser registradas com a mensagem padrão definida na *constraint* ou com mensagens personalizadas, além de ser possível atribuir valores em tempo de execução para parâmetros das mensagens. Abaixo seguem exemplos de uso:
+
+```java
+@Target({ TYPE, METHOD, FIELD })
+@Retention(RUNTIME)
+@Constraint(validatedBy = { AddressValidator.class })
+public @interface ValidAddress {
+	String message() default "Endereço inválido";
+
+	String[] messageParameters() default {};
+
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
+
+	@Target({ TYPE, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+	@Retention(RUNTIME)
+	@Documented
+	@interface List {
+		ValidAddress[] value();
+	}
+}
+
+public class User {
+   public Map<String, Address> getAddresses() { ... }
+}
+
+@ValidAddress
+public class Address {
+    public String getStreet() { ... }
+    public Country getCountry() { ... }
+}
+
+public class Country {
+    public String getName() { ... }
+}
+
+public interface AddressValidator extends ConstraintValidator<ValidAddress, Address> {
+
+}
+
+public class AddressValidatorImpl extends AbstractExtendedValidator<ValidAddress, Address> 
+	implements AddressValidator {
+	private static final int TAMANHO_MINIMO = 3;
+	
+	@Inject
+	private CountryBC countryBC;
+
+	public void doValidation(Address value) {
+		boolean invalido = checkStreet(value);
+		
+		if(invalido) {
+			// registro de violação com a mensagem padrão
+			// da constraint
+			addViolationWithDefaultTemplate();
+		}
+	}
+	
+	private boolean checkStreet(Address address) {
+		boolean invalido = false;
+		if(address.getStreet() == null) {
+			// registro de violação com uma mensagem específica.
+			addViolation("Nome da rua é obrigatório");
+			invalido = true;
+		} else {
+			if(address.getStreet().length() < TAMANHO_MINIMO){
+				// registro de violação com mensagem parametrizada
+				// no modelo indexado
+				addViolation("Nome da rua menor que o mínimo exigido: {0}", 
+					TAMANHO_MINIMO);
+				invalido = true;
+			}
+			
+			if(!countryBC.hasCountry(address.getCountry())) {
+				// registro de violação com mensagem específica recuperada
+				// do MessageSource e parametrizada no modelo 'chave=valor'
+				String param = "countryName=" + address.getCountry().getName();
+				addViolation("{mysystem.country.invalid}", param);
+				invalido = true;
+			}
+		}
+		
+		return invalido;
+	}
+}
+```
+
+Além dos métodos apresentados no exemplo há outras assinaturas que permitem, por exemplo, a composição do *path* para qual deve ser registrada a violação e outros. Para maiores detalhes consulte o Javadoc da classe. 
+
+####<a id="interceptor" name="interceptor">Validação de parâmetros de métodos através de *interceptor* CDI</a> [:arrow_heading_up:](#top)
+
+###<a id="config" name="config">Configuração e uso</a> [:arrow_heading_up:](#top)
 
 Para utilizar o ExtendedValidation é necessário adicionar ao projeto as seguintes dependências:
 

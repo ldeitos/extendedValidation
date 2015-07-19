@@ -48,6 +48,8 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 
 	/**
 	 * {@inheritDoc}<br>
+	 * <br>
+	 * <b>P.S.:</b> Can't be override by concrete implementations.
 	 */
 	@Override
 	public final boolean isValid(T value, ConstraintValidatorContext context) {
@@ -423,7 +425,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * <pre>
 	 * //assuming the following domain model
 	 * public class User {
-	 *     public List<Address> getAddresses() { ... }
+	 *     public List getAddresses() { ... }
 	 * }
 	 *
 	 * public class Address {
@@ -432,7 +434,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * }
 	 *
 	 * //From a class level constraint on User
-	 * //Build a constraint violation on the default path + addresses["home"].country.name
+	 * //Build a constraint violation on the default path + addresses(2).country.name
 	 * //i.e. property "country.name" on the object stored under index 2 in the list
 	 * buildPath("addresses", 2).add("country").add("name")<br>
 	 * or <br>
@@ -463,7 +465,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * <pre>
 	 * //assuming the following domain model
 	 * public class User {
-	 *     public List<Address> getAddresses() { ... }
+	 *     public List getAddresses() { ... }
 	 * }
 	 *
 	 * public class Address {

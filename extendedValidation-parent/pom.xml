@@ -164,6 +164,12 @@
 			</dependency>
 
 			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>cdi-util</artifactId>
+				<version>0.6.2</version>
+			</dependency>
+
+			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-collections4</artifactId>
 				<version>4.0</version>
