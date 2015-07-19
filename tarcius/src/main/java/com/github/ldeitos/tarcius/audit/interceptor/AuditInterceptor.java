@@ -61,7 +61,7 @@ public class AuditInterceptor {
 
 	private String parseAuditReference(InvocationContext invCtx) {
 		String result = invCtx.getMethod().getName();
-		Audit conf = invCtx.getMethod().getAnnotation(Audit.class);
+		Audit conf = getAuditConfiguration(invCtx);
 
 		logger.debug(format("Auditing method invocation. Method: [%s]", result));
 
@@ -72,5 +72,16 @@ public class AuditInterceptor {
 		logger.debug(format("Audit reference: [%s]", result));
 
 		return result;
+	}
+
+	private Audit getAuditConfiguration(InvocationContext invCtx) {
+		Audit conf = invCtx.getMethod().getAnnotation(Audit.class);
+
+		if (conf == null) {
+			Class<? extends Object> targetClass = invCtx.getTarget().getClass();
+			conf = targetClass.getAnnotation(Audit.class);
+		}
+
+		return conf;
 	}
 }
