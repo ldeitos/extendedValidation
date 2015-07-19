@@ -297,9 +297,62 @@ public class AddressValidatorImpl extends AbstractExtendedValidator<ValidAddress
 }
 ```
 
-Além dos métodos apresentados no exemplo há outras assinaturas que permitem, por exemplo, a composição do *path* para qual deve ser registrada a violação e outros. Para maiores detalhes consulte o Javadoc da classe. 
+Além dos métodos apresentados no exemplo há outras assinaturas que permitem, por exemplo, a composição do *path* para qual deve ser registrada a violação. Para maiores detalhes consulte o Javadoc da classe *AbstractExtendedValidator*. 
 
 ####<a id="interceptor" name="interceptor">Validação de parâmetros de métodos através de *interceptor* CDI</a> [:arrow_heading_up:](#top)
+
+Foi adicionada na versão 0.9.2 um *interceptor* do CDI que realiza a validação dos parâmetros dos métodos interceptados.
+
+O mecanismo baseia-se na interceptação da chamada de métodos identificados com a anotação *@ValidateParameters* ou, caso a anotação seja realizada na classe, todos os métodos públicos dessa passam a ser interceptdados por um *interceptor* CDI que deve ser ativado no arquivo *beans.xml* conforme abaixo:
+
+```xml
+<interceptors>
+    <class>com.github.ldeitos.validation.impl.interceptor.ValidateParametersInterceptor</class>
+</interceptors>
+```
+
+Cabe a observação de que *interceptors* do CDI somente são acionados quando um método público é invocado por outra classe, mas nunca quando esta chamada é realizada internamente da própria classe que tenha o método anotado. Para maiores informações sobre *interceptors* do CDI consulte a [documentação oficial](https://docs.oracle.com/javaee/6/tutorial/doc/gkhjx.html).
+
+O mecanismo de interceptação obtem todas as instâncias dos parâmetros do método interceptado e submete para a validação. Caso ocorram violações, é executado um bloco de código que pode ser personalizado através de um *ValidationClosure* que pode ser configurado no arquivo ***extendedValidation.xml*** ou mesmo diretamente na anotação *@ValidateParameters*. Caso não seja configurado ou informado uma *closure* específica, a impelementação padrão do compoente é utilizada, o que resultará no lançamento de uma exceção do tipo *ViolationException*, que conterá todas as mensagens registradas durante a validação. Abaixo segue exemplo da configuração de uma closure para uso geral na aplicação:
+```xml
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<extended-validation>
+    <validation-closure>com.foo.bar.MyValidationClosure</validation-closure>
+</extended-validation>
+```
+
+A implementação da *ValidationClosure* **deve** ser qualificado com o qualificador *@Closure*, que especifica uma *String* para possibilitar a existência de múltiplas implementações na aplicação que possam ser aplicadas em casos específicos, conforme pode ser observado no exemplo abaixo:
+```java
+@Closure("minhaClosure")
+public class MinhaValidationClosure implements ValidationClosure {
+	public void proceed(Set<Message> messages) throws Exception {
+		... // código específico
+	}
+}
+
+public class ProdutoBC {
+	@ValidateParameters(closure=@Closure("minhaClosure"))
+	public void movimentarEstoque(Produto produto, Destino destino){ ... };
+}
+```
+
+No exemplo acima a execução do método *movimentarEstoque* será interceptado e os parâmetros 'produto' e 'destino' serão validados. Caso ocorram violações em qualquer destes objetos, será executado o conteúdo do método *proceed* da implementação específica ***MinhaValidationClosure***.
+
+Também é possível identificar parâmetros que devem ser ignorados na interceptação para validação, através da anotação *@SkipValidation*, como demonstrado a seguir, aonde apenas o parâmetro 'produto' será validado:
+```java
+public class ProdutoBC {
+	@ValidateParameters(closure=@Closure("minhaClosure"))
+	public void movimentarEstoque(Produto produto, @SkipValidation Destino destino){ ... };
+}
+```
+
+Afim de manter aderência a especificação do BeanValidation, também pode-se informar grupos de validação a serem aplicados na validação dos parâmetros interceptados, conforme pode-se verificar no seguinte exemplo:
+```java
+public class ProdutoBC {
+	@ValidateParameters(groups = {GrupoA.class, GrupoB.class}, closure=@Closure("minhaClosure"))
+	public void movimentarEstoque(Produto produto, Destino destino){ ... };
+}
+```
 
 ###<a id="config" name="config">Configuração e uso</a> [:arrow_heading_up:](#top)
 
@@ -329,16 +382,22 @@ O *ExtendedValidation* já possui as configurações necessárias para que seus 
 </validation-config>
 ```
 
-O uso do arquivo de configuração ***extendedValidation.xml***, o qual deverá estar na pasta META-INF, somente é exigido caso seja preciso configurar múltiplos arquivos como fonte das mensagens ou se for necessário substituir a implementação padrão de *MessagesSource* do componente, conforme já mencionado anteriormente.
+O uso do arquivo de configuração ***extendedValidation.xml***, o qual deverá estar na pasta META-INF, somente é exigido caso seja preciso configurar múltiplos arquivos como fonte das mensagens ou se for necessário substituir as implementações padrão de *MessagesSource* ou de *ValidationClosure* do componente, conforme já mencionado anteriormente.
 
-O arquivo de configuração deve ser declarado, se necessário, uma única vez no projeto, ou seja, caso o projeto seja composto de múltiplos módulos, apenas uma ocorrência do arquivo deverá estar presente no path da aplicação.
+O arquivo de configuração deve ser declarado, se necessário, uma única vez no projeto, ou seja, caso o projeto seja composto de múltiplos módulos, apenas uma ocorrência do arquivo deverá estar presente no *classpath* da aplicação.
 
 Abaixo segue modelo do arquivo ***extendedValidation.xml*** para referência.
 ```xml
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <extended-validation>
     <!--Nome qualificado da instância de MessagesSource a ser utilizado-->
-    <message-source></message-source> 
+    <message-source></message-source>
+    <!--Nome qualificado da instância de ValidationClosure a ser utilizado 
+    caso não se atribua uma instância específica no interceptor 
+    @ValidateParameters. Se não configurado é utilizado a impelemetação 
+    default cuja execução resulta no lançamento de uma ViolationException
+    contendo as mensagens de violação registradas durante a validação-->
+    <validation-closure></validation-closure>
     <!--Lista de arquivos que conterão as mensagens da aplicação-->
     <message-files>
         <!--nome de arquivo, sem extensão-->

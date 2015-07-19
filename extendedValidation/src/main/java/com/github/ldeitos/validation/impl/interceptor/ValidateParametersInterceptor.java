@@ -38,6 +38,7 @@ import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
  *
  * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
  *
+ * @since 0.9.2
  */
 @ValidateParameters
 @Any
@@ -87,7 +88,7 @@ public class ValidateParametersInterceptor {
 		for (Object object : toValidate) {
 			if (logger.isDebugEnabled()) {
 				logger.debug(format("Doing parameter [%s] validation. Parameter class: [%s]",
-					valueOf(object), object.getClass().getSimpleName()));
+				    valueOf(object), object.getClass().getSimpleName()));
 			}
 
 			objectViolations.addAll(validator.validateBean(object, getValidationGroups(invCtx)));
@@ -128,7 +129,7 @@ public class ValidateParametersInterceptor {
 			if (assertNotNull(parameter)) {
 				if (logger.isDebugEnabled()) {
 					String log = format("Processing parameter [%s], parameter index [%d].",
-					    valueOf(parameter), i);
+						valueOf(parameter), i);
 					logger.debug(log);
 				}
 
