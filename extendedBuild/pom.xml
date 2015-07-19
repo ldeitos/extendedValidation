@@ -43,8 +43,8 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.1</version>
 				<configuration>
-					<encoding>ISO-8859-1</encoding>
-					<docencoding>ISO-8859-1</docencoding>
+					<encoding>UTF-8</encoding>
+					<docencoding>UTF-8</docencoding>
 					<outputDirectory>${docDir}</outputDirectory>
 					<reportOutputDirectory>${docDir}</reportOutputDirectory>
 				</configuration>
