@@ -7,3 +7,7 @@ Bean Validation API extension to provide CDI compatible ConstraintValidatorFacto
 Extensão da API *Bean Validation* que provê uma implementação de *ConstraintValidatorFactory* compatível com o CDI, uma forma simplificada para atribuir parâmetros nas mensagens resultantes das *constraints* e uma API simplificadas para adicionar fontes de mensagens diferentes de arquivos de *properties*, assim como banco de dados, módulos externos, rotinas mainframe e outras.
  
 - Tarcius [[wiki pt_BR](https://github.com/ldeitos/repository/wiki/Tarcius-pt_BR)]
+
+Audit component of user activities based in CDI interceptors 
+
+Componente de auditoria de atividades do usuário baseado em *interceptors* do CDI, permite o registro de execução de métodos interceptados, bem como dos seus parâmetros, de forma a criar registros com referências ao negócio da aplicação.

@@ -12,10 +12,12 @@ import org.junit.runner.RunWith;
 import com.github.ldeitos.qualifier.ExtendedValidator;
 import com.github.ldeitos.util.ManualContext;
 import com.github.ldeitos.validation.impl.ValidatorImpl;
+import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 import com.github.ldeitos.validation.impl.interpolator.MultipleBundlesSource;
 
 @RunWith(CdiRunner.class)
-@AdditionalClasses({ ValidatorImpl.class, MultipleBundlesSource.class, ManualContext.class })
+@AdditionalClasses({ ValidatorImpl.class, MultipleBundlesSource.class, ManualContext.class,
+	ConfigInfoProvider.class })
 public abstract class BaseTest {
 
 	@Inject
@@ -38,7 +40,7 @@ public abstract class BaseTest {
 	}
 
 	protected Class<?> getClassOnTest() {
-		return BaseTest.class;
+		return getClass();
 	}
 
 	public Validator getValidador() {

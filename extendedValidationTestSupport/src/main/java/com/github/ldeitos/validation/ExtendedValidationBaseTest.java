@@ -8,7 +8,9 @@ import org.junit.runner.RunWith;
 
 import com.github.ldeitos.util.ManualContext;
 import com.github.ldeitos.validation.impl.ValidatorImpl;
+import com.github.ldeitos.validation.impl.interceptor.ValidateParametersInterceptor;
 import com.github.ldeitos.validation.impl.interpolator.MultipleBundlesSource;
+import com.github.ldeitos.validation.impl.util.DefaultValidationClosure;
 import com.github.ldeitos.validators.DigitsValidatorImpl;
 import com.github.ldeitos.validators.EmptyValidatorImpl;
 import com.github.ldeitos.validators.MaxDecimalValidatorImpl;
@@ -24,7 +26,8 @@ import com.github.ldeitos.validators.SizeValidatorImpl;
 @AdditionalClasses({ ValidatorImpl.class, MultipleBundlesSource.class, ManualContext.class,
 	NotEmptyValidatorImpl.class, EmptyValidatorImpl.class, PatternValidatorImpl.class,
 	DigitsValidatorImpl.class, SizeValidatorImpl.class, MinDecimalValidatorImpl.class,
-	MinValidatorImpl.class, MaxDecimalValidatorImpl.class, MaxValidatorImpl.class, RangeValidatorImpl.class })
+	MinValidatorImpl.class, MaxDecimalValidatorImpl.class, MaxValidatorImpl.class, RangeValidatorImpl.class,
+	ValidateParametersInterceptor.class, DefaultValidationClosure.class })
 public class ExtendedValidationBaseTest {
 
 	@BeforeClass

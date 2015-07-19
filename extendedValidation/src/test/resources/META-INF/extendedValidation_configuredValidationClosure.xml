@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extended-validation>
+	<message-source>com.github.ldeitos.validation.impl.interpolator.TestMessageSource</message-source>
+	<validation-closure>com.github.ldeitos.test.base.stubs.TestCustomValidationClosure</validation-closure>
+	<message-files>
+		<message-file>TestValidationMessage</message-file>
+	</message-files>
+</extended-validation>

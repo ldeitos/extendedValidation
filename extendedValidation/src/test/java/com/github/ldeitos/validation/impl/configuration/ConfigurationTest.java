@@ -19,16 +19,18 @@ import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 public class ConfigurationTest {
 	private static final String TEST_MESSAGE_FILE = "TestValidationMessage";
 
+	private Configuration configuration = getConfiguration(new ConfigInfoProvider());
+
 	@Test
 	public void testConfigurationWithMessageFilesCofiguredByEnvironment() {
 		setProperty(MESSAGE_FILES_SYSTEM_PROPERTY, "arq1, arq2");
 
-		assertEquals(TestMessageSource.class, getConfiguration().getConfiguredMessagesSource().getClass());
+		assertEquals(TestMessageSource.class, configuration.getConfiguredMessagesSource().getClass());
 
-		assertEquals(3, getConfiguration().getConfituredMessageFiles().size());
-		assertTrue(getConfiguration().getConfituredMessageFiles().contains(TEST_MESSAGE_FILE));
-		assertTrue(getConfiguration().getConfituredMessageFiles().contains("arq1"));
-		assertTrue(getConfiguration().getConfituredMessageFiles().contains("arq2"));
+		assertEquals(3, configuration.getConfituredMessageFiles().size());
+		assertTrue(configuration.getConfituredMessageFiles().contains(TEST_MESSAGE_FILE));
+		assertTrue(configuration.getConfituredMessageFiles().contains("arq1"));
+		assertTrue(configuration.getConfituredMessageFiles().contains("arq2"));
 
 		System.clearProperty(MESSAGE_FILES_SYSTEM_PROPERTY);
 	}
@@ -36,9 +38,9 @@ public class ConfigurationTest {
 	@Test
 	public void testConfigurationWithoutMessageFilesCofiguredByEnvironment() {
 
-		assertEquals(TestMessageSource.class, getConfiguration().getConfiguredMessagesSource().getClass());
+		assertEquals(TestMessageSource.class, configuration.getConfiguredMessagesSource().getClass());
 
-		assertEquals(1, getConfiguration().getConfituredMessageFiles().size());
-		assertTrue(getConfiguration().getConfituredMessageFiles().contains(TEST_MESSAGE_FILE));
+		assertEquals(1, configuration.getConfituredMessageFiles().size());
+		assertTrue(configuration.getConfituredMessageFiles().contains(TEST_MESSAGE_FILE));
 	}
 }

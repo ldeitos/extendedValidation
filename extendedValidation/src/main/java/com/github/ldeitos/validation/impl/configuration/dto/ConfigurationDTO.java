@@ -1,6 +1,7 @@
 package com.github.ldeitos.validation.impl.configuration.dto;
 
 import static com.github.ldeitos.constants.Constants.DEFAULT_MESSAGE_SOURCE;
+import static com.github.ldeitos.constants.Constants.DEFAULT_VALIDATION_CLOSURE;
 import static org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ import com.github.ldeitos.exception.InvalidConfigurationException;
 public class ConfigurationDTO {
 	private String messageSource = DEFAULT_MESSAGE_SOURCE;
 
+	private String validationClosure = DEFAULT_VALIDATION_CLOSURE;
+
 	private List<MessageFileDTO> messageFiles = new ArrayList<MessageFileDTO>();
 
 	public String getMessageSource() {
@@ -31,6 +34,14 @@ public class ConfigurationDTO {
 
 	public void setMessageSource(String messageSource) {
 		this.messageSource = messageSource;
+	}
+
+	public String getValidationClosure() {
+		return validationClosure;
+	}
+
+	public void setValidationClosure(String validationClosure) {
+		this.validationClosure = validationClosure;
 	}
 
 	public List<MessageFileDTO> getMessageFiles() {

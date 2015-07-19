@@ -23,6 +23,7 @@ import com.github.ldeitos.exception.InvalidCDIContextException;
 import com.github.ldeitos.exception.InvalidConfigurationException;
 import com.github.ldeitos.util.ManualContext;
 import com.github.ldeitos.validation.MessagesSource;
+import com.github.ldeitos.validation.ValidationClosure;
 import com.github.ldeitos.validation.impl.configuration.dto.ConfigurationDTO;
 import com.github.ldeitos.validation.impl.configuration.dto.MessageFileDTO;
 
@@ -41,16 +42,18 @@ public class Configuration {
 
 	private MessagesSource messagesSource;
 
-	private Configuration() {
-		configuration = ConfigurationLoader.loadConfiguration();
+	private ValidationClosure validationClosure;
+
+	private Configuration(ConfigInfoProvider configProvider) {
+		configuration = ConfigurationLoader.loadConfiguration(configProvider);
 	};
 
 	/**
 	 * @return Unique instance to {@link Configuration} to application use.
 	 */
-	public static Configuration getConfiguration() {
-		if (instance == null) {
-			instance = new Configuration();
+	public static Configuration getConfiguration(ConfigInfoProvider configProvider) {
+		if (instance == null || configProvider.isInTest()) {
+			instance = new Configuration(configProvider);
 		}
 
 		return instance;
@@ -128,6 +131,31 @@ public class Configuration {
 	}
 
 	/**
+	 * @return {@link ValidationClosure} instance configured in
+	 *         {@link Constants#CONFIGURATION_FILE} or component default if
+	 *         isn't configured.
+	 */
+	@SuppressWarnings("unchecked")
+	public ValidationClosure getConfiguredValidationClosure() {
+		if (validationClosure == null) {
+			Class<? extends ValidationClosure> beanType = null;
+			String closureClassName = configuration.getValidationClosure();
+
+			try {
+				log.debug(format("Getting default ValidationSource instance from class %s.", closureClassName));
+				beanType = (Class<? extends ValidationClosure>) Class.forName(closureClassName);
+			} catch (ClassNotFoundException e) {
+				log.error(format("Class %s not found in class path.", closureClassName), e);
+				InvalidConfigurationException.throwNew(e.getMessage(), e);
+			}
+
+			validationClosure = resolveBean(beanType);
+		}
+
+		return validationClosure;
+	}
+
+	/**
 	 * @return MessagesSource instance configured in
 	 *         {@link Constants#CONFIGURATION_FILE} or component default if
 	 *         isn't configured.
@@ -136,48 +164,52 @@ public class Configuration {
 	public MessagesSource getConfiguredMessagesSource() {
 		if (messagesSource == null) {
 			Class<? extends MessagesSource> beanType = null;
+			String messageSourceClassName = configuration.getMessageSource();
 			try {
-				log.debug(format("Getting MessagesSource instance from class %s.",
-					configuration.getMessageSource()));
-				beanType = (Class<? extends MessagesSource>) Class.forName(configuration.getMessageSource());
+				log.debug(format("Getting MessagesSource instance from class %s.", messageSourceClassName));
+				beanType = (Class<? extends MessagesSource>) Class.forName(messageSourceClassName);
 			} catch (ClassNotFoundException e) {
-				log.error(format("Class %s not found in class path.", configuration.getMessageSource()), e);
+				log.error(format("Class %s not found in class path.", messageSourceClassName), e);
 				InvalidConfigurationException.throwNew(e.getMessage(), e);
 			}
 
-			messagesSource = resolveMessagesSourceBean(beanType);
+			messagesSource = resolveBean(beanType);
+			log.info(format("Using [%s] as message source.", beanType.getCanonicalName()));
 		}
 
 		return messagesSource;
 	}
 
-	private MessagesSource resolveMessagesSourceBean(Class<? extends MessagesSource> beanType) {
-		MessagesSource messagesSource = null;
+	private <T> T resolveBean(Class<? extends T> beanType) {
+		T bean = null;
 
 		try {
-			messagesSource = getByCDIContext(beanType);
-			log.debug(format("Reference from [%s] obtained by CDI Context.", configuration.getMessageSource()));
+			bean = getByCDIContext(beanType);
+			if (bean != null) {
+				log.debug(format("Reference from [%s] obtained by CDI Context.", beanType.getCanonicalName()));
+			} else {
+				log.debug(format("Unable to get [%s] reference by CDI Context.", beanType.getCanonicalName()));
+				bean = getByReflection(beanType);
+			}
 		} catch (InvalidCDIContextException e) {
 			String warnMsg = format("Error to obtain [%s] reference by CDI Context. Cause: %s.",
-			    configuration.getMessageSource(), e.getMessage());
+				beanType.getCanonicalName(), e.getMessage());
 			log.warn(warnMsg);
-			log.warn("Trying by reflection...");
 
-			messagesSource = getByReflection(beanType);
-			log.debug(format("Reference from [%s] obtained by reflection.", configuration.getMessageSource()));
+			bean = getByReflection(beanType);
 		}
 
-		log.info(format("Using [%s] as message source.", configuration.getMessageSource()));
-
-		return messagesSource;
+		return bean;
 	}
 
-	private MessagesSource getByReflection(Class<? extends MessagesSource> beanType) {
-		MessagesSource bean = null;
-		String msgError = format("Error to obtain MessagesSource instance from [%s] by reflection.",
-		    configuration.getMessageSource());
+	private <T> T getByReflection(Class<? extends T> beanType) {
+		T bean = null;
+		String msgError = format("Error to obtain %s instance from [%s] by reflection.",
+			beanType.getInterfaces()[0].getSimpleName(), beanType.getCanonicalName());
 		try {
+			log.warn("Trying by reflection...");
 			bean = ConstructorUtils.invokeConstructor(beanType);
+			log.debug(format("Reference from [%s] obtained by reflection.", beanType.getCanonicalName()));
 		} catch (NoSuchMethodException e) {
 			log.error(msgError, e);
 			InvalidConfigurationException.throwNew(e.getMessage(), e);
@@ -195,7 +227,7 @@ public class Configuration {
 		return bean;
 	}
 
-	private MessagesSource getByCDIContext(Class<? extends MessagesSource> type) {
+	private <T> T getByCDIContext(Class<? extends T> type) {
 		return ManualContext.lookupCDI(type);
 	}
 }

@@ -75,7 +75,7 @@ class ExtendedParameterContext implements Context {
 			return type.cast(this);
 		}
 
-		throw new InvalidParameterException(format("Não é possível obter instância de %s.", type.getName()));
+		throw new InvalidParameterException(format("Impossible to get %s instance.", type.getName()));
 	}
 
 	/**
@@ -88,7 +88,7 @@ class ExtendedParameterContext implements Context {
 	 *            Constraint type.
 	 */
 	private static class ExtendedConstraintDescriptor<T extends Annotation> implements
-	    ConstraintDescriptor<T> {
+	ConstraintDescriptor<T> {
 
 		/**
 		 * Decorated {@link ConstraintDescriptor} instance.

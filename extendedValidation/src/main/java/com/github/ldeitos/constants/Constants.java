@@ -1,5 +1,8 @@
 package com.github.ldeitos.constants;
 
+import com.github.ldeitos.validation.MessagesSource;
+import com.github.ldeitos.validation.ValidationClosure;
+
 /**
  * Project constants.
  *
@@ -7,6 +10,17 @@ package com.github.ldeitos.constants;
  *
  */
 public interface Constants {
+
+	/**
+	 * Default {@link ValidationClosure} qualifier.
+	 */
+	String DEFAULT_VALIDATION_CLOSURE_QUALIFIER = "extededValidation.default.closure";
+
+	/**
+	 * Default ExtendedValidation interceptor validation closure implementation.
+	 */
+	String DEFAULT_VALIDATION_CLOSURE = "com.github.ldeitos.validation.impl.util.DefaultValidationClosure";
+
 	/**
 	 * Default ExtendedValidation interpolator implementation.
 	 */
@@ -75,7 +89,12 @@ public interface Constants {
 	int PARAMETER_VALUE_GROUP = 3;
 
 	/**
-	 * SimplePath to MessagesSource in xml configuration file.
+	 * SimplePath to {@link ValidationClosure} in xml configuration file.
+	 */
+	String PATH_CONF_VALIDATION_CLOSURE = "validation-closure";
+
+	/**
+	 * SimplePath to {@link MessagesSource} in xml configuration file.
 	 */
 	String PATH_CONF_MESSAGE_SOURCE = "message-source";
 

@@ -17,44 +17,44 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.github.ldeitos.test.base.BaseTest;
+import com.github.ldeitos.test.base.stubs.Address;
+import com.github.ldeitos.test.base.stubs.AddressValidatorDefaultImpl;
+import com.github.ldeitos.test.base.stubs.AddressValidatorExtendedImpl;
+import com.github.ldeitos.test.base.stubs.Bean;
+import com.github.ldeitos.test.base.stubs.GrupoAddressClassLevelDefault;
+import com.github.ldeitos.test.base.stubs.GrupoAddressClassLevelExtended;
+import com.github.ldeitos.test.base.stubs.GrupoClassLevelUserDefault;
+import com.github.ldeitos.test.base.stubs.GrupoClassLevelUserExtended;
+import com.github.ldeitos.test.base.stubs.GrupoClassLevelUserFullPathExtended;
+import com.github.ldeitos.test.base.stubs.GrupoClassLevelUserFullPathListExtended;
+import com.github.ldeitos.test.base.stubs.GrupoInvalidList;
+import com.github.ldeitos.test.base.stubs.GrupoInvalidMapped;
+import com.github.ldeitos.test.base.stubs.GrupoPropertyLevelDefault;
+import com.github.ldeitos.test.base.stubs.GrupoPropertyLevelExtended;
+import com.github.ldeitos.test.base.stubs.GrupoPropertyLevelMappedDefault;
+import com.github.ldeitos.test.base.stubs.GrupoPropertyLevelMappedExtended;
+import com.github.ldeitos.test.base.stubs.InvalidListValidatorImpl;
+import com.github.ldeitos.test.base.stubs.InvalidMappedValidatorImpl;
+import com.github.ldeitos.test.base.stubs.PathTestValidatorImpl;
+import com.github.ldeitos.test.base.stubs.PropertyMappedValidatorDefaultImpl;
+import com.github.ldeitos.test.base.stubs.PropertyMappedValidatorExtendedImpl;
+import com.github.ldeitos.test.base.stubs.PropertyValidatorDefaultImpl;
+import com.github.ldeitos.test.base.stubs.PropertyValidatorExtendedImpl;
+import com.github.ldeitos.test.base.stubs.TestValidatorImpl;
+import com.github.ldeitos.test.base.stubs.User;
+import com.github.ldeitos.test.base.stubs.UserValidatorDefaultImpl;
+import com.github.ldeitos.test.base.stubs.UserValidatorExtendedImpl;
+import com.github.ldeitos.test.base.stubs.UserValidatorFullPathExtendedImpl;
+import com.github.ldeitos.test.base.stubs.UserValidatorFullPathListExtendedImpl;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
-import com.github.ldeitos.validator.stubs.Address;
-import com.github.ldeitos.validator.stubs.AddressValidatorDefaultImpl;
-import com.github.ldeitos.validator.stubs.AddressValidatorExtendedImpl;
-import com.github.ldeitos.validator.stubs.Bean;
-import com.github.ldeitos.validator.stubs.GrupoAddressClassLevelDefault;
-import com.github.ldeitos.validator.stubs.GrupoAddressClassLevelExtended;
-import com.github.ldeitos.validator.stubs.GrupoClassLevelUserDefault;
-import com.github.ldeitos.validator.stubs.GrupoClassLevelUserExtended;
-import com.github.ldeitos.validator.stubs.GrupoClassLevelUserFullPathExtended;
-import com.github.ldeitos.validator.stubs.GrupoClassLevelUserFullPathListExtended;
-import com.github.ldeitos.validator.stubs.GrupoInvalidList;
-import com.github.ldeitos.validator.stubs.GrupoInvalidMapped;
-import com.github.ldeitos.validator.stubs.GrupoPropertyLevelDefault;
-import com.github.ldeitos.validator.stubs.GrupoPropertyLevelExtended;
-import com.github.ldeitos.validator.stubs.GrupoPropertyLevelMappedDefault;
-import com.github.ldeitos.validator.stubs.GrupoPropertyLevelMappedExtended;
-import com.github.ldeitos.validator.stubs.InvalidListValidatorImpl;
-import com.github.ldeitos.validator.stubs.InvalidMappedValidatorImpl;
-import com.github.ldeitos.validator.stubs.PathTestValidatorImpl;
-import com.github.ldeitos.validator.stubs.PropertyMappedValidatorDefaultImpl;
-import com.github.ldeitos.validator.stubs.PropertyMappedValidatorExtendedImpl;
-import com.github.ldeitos.validator.stubs.PropertyValidatorDefaultImpl;
-import com.github.ldeitos.validator.stubs.PropertyValidatorExtendedImpl;
-import com.github.ldeitos.validator.stubs.TestValidatorImpl;
-import com.github.ldeitos.validator.stubs.User;
-import com.github.ldeitos.validator.stubs.UserValidatorDefaultImpl;
-import com.github.ldeitos.validator.stubs.UserValidatorExtendedImpl;
-import com.github.ldeitos.validator.stubs.UserValidatorFullPathExtendedImpl;
-import com.github.ldeitos.validator.stubs.UserValidatorFullPathListExtendedImpl;
 
 @AdditionalClasses({ TestMessageSource.class, PathTestValidatorImpl.class, TestValidatorImpl.class,
-    PropertyValidatorDefaultImpl.class, PropertyValidatorExtendedImpl.class,
-	AddressValidatorDefaultImpl.class, AddressValidatorExtendedImpl.class,
-    PropertyMappedValidatorDefaultImpl.class, PropertyMappedValidatorExtendedImpl.class,
-    UserValidatorDefaultImpl.class, UserValidatorExtendedImpl.class, UserValidatorFullPathExtendedImpl.class,
-	UserValidatorFullPathListExtendedImpl.class, InvalidMappedValidatorImpl.class,
-	InvalidListValidatorImpl.class })
+	PropertyValidatorDefaultImpl.class, PropertyValidatorExtendedImpl.class,
+    AddressValidatorDefaultImpl.class, AddressValidatorExtendedImpl.class,
+	PropertyMappedValidatorDefaultImpl.class, PropertyMappedValidatorExtendedImpl.class,
+	UserValidatorDefaultImpl.class, UserValidatorExtendedImpl.class, UserValidatorFullPathExtendedImpl.class,
+    UserValidatorFullPathListExtendedImpl.class, InvalidMappedValidatorImpl.class,
+    InvalidListValidatorImpl.class })
 public class AbstractExtendedValidatorTest extends BaseTest {
 
 	@BeforeClass
@@ -79,7 +79,7 @@ public class AbstractExtendedValidatorTest extends BaseTest {
 	}
 
 	@Test
-	public void testAddViolationNotDefaultTemplateAndParametrizedByViolationRegAndConstraintFild() {
+	public void testAddViolationNotDefaultTemplateAndParametrizedByViolationRegAndConstraintField() {
 		String expected = "Not Default constraint: parameter1, parameter2, valueParametrized";
 		Bean bean = new Bean();
 
@@ -111,8 +111,8 @@ public class AbstractExtendedValidatorTest extends BaseTest {
 	@Test
 	public void testAddMultimpleViolation() {
 		String[] expected = { "Not Default constraint: parameter1, parameter2, valueParametrized",
-			"Test Indexed parmeter test with parameters: Test, param2, param3",
-		"NotNull defaultConstraintParameter" };
+		    "Test Indexed parmeter test with parameters: Test, param2, param3",
+		    "NotNull defaultConstraintParameter" };
 		Bean bean = new Bean();
 
 		bean.setBooleanField(true);
@@ -136,9 +136,9 @@ public class AbstractExtendedValidatorTest extends BaseTest {
 		User user = new User();
 
 		Set<ConstraintViolation<User>> extendedConstraint = getValidador().validate(user,
-			GrupoPropertyLevelExtended.class);
+		    GrupoPropertyLevelExtended.class);
 		Set<ConstraintViolation<User>> defaultConstraint = getValidador().validate(user,
-			GrupoPropertyLevelDefault.class);
+		    GrupoPropertyLevelDefault.class);
 
 		ConstraintViolation<User> cDefault = defaultConstraint.iterator().next();
 		ConstraintViolation<User> cExtended = extendedConstraint.iterator().next();
@@ -151,9 +151,9 @@ public class AbstractExtendedValidatorTest extends BaseTest {
 		User user = new User();
 
 		Set<ConstraintViolation<User>> extendedConstraint = getValidador().validate(user,
-			GrupoPropertyLevelMappedExtended.class);
+		    GrupoPropertyLevelMappedExtended.class);
 		Set<ConstraintViolation<User>> defaultConstraint = getValidador().validate(user,
-			GrupoPropertyLevelMappedDefault.class);
+		    GrupoPropertyLevelMappedDefault.class);
 
 		ConstraintViolation<User> cDefault = defaultConstraint.iterator().next();
 		ConstraintViolation<User> cExtended = extendedConstraint.iterator().next();
@@ -166,9 +166,9 @@ public class AbstractExtendedValidatorTest extends BaseTest {
 		Address address = new Address();
 
 		Set<ConstraintViolation<Address>> defaultConstraint = getValidador().validate(address,
-			GrupoAddressClassLevelDefault.class);
+		    GrupoAddressClassLevelDefault.class);
 		Set<ConstraintViolation<Address>> extendedConstraint = getValidador().validate(address,
-			GrupoAddressClassLevelExtended.class);
+		    GrupoAddressClassLevelExtended.class);
 
 		ConstraintViolation<Address> cDefault = defaultConstraint.iterator().next();
 		ConstraintViolation<Address> cExtended = extendedConstraint.iterator().next();
@@ -181,9 +181,9 @@ public class AbstractExtendedValidatorTest extends BaseTest {
 		User user = new User();
 
 		Set<ConstraintViolation<User>> defaultConstraint = getValidador().validate(user,
-			GrupoClassLevelUserDefault.class);
+		    GrupoClassLevelUserDefault.class);
 		Set<ConstraintViolation<User>> extendedConstraint = getValidador().validate(user,
-			GrupoClassLevelUserExtended.class);
+		    GrupoClassLevelUserExtended.class);
 
 		ConstraintViolation<User> cDefault = defaultConstraint.iterator().next();
 		ConstraintViolation<User> cExtended = extendedConstraint.iterator().next();
@@ -196,9 +196,9 @@ public class AbstractExtendedValidatorTest extends BaseTest {
 		User user = new User();
 
 		Set<ConstraintViolation<User>> defaultConstraint = getValidador().validate(user,
-			GrupoClassLevelUserExtended.class);
+		    GrupoClassLevelUserExtended.class);
 		Set<ConstraintViolation<User>> extendedConstraint = getValidador().validate(user,
-			GrupoClassLevelUserFullPathExtended.class);
+		    GrupoClassLevelUserFullPathExtended.class);
 
 		ConstraintViolation<User> cDefault = defaultConstraint.iterator().next();
 		ConstraintViolation<User> cExtended = extendedConstraint.iterator().next();
@@ -226,7 +226,7 @@ public class AbstractExtendedValidatorTest extends BaseTest {
 		User user = new User();
 
 		Set<ConstraintViolation<User>> extendedConstraint = getValidador().validate(user,
-		    GrupoClassLevelUserFullPathListExtended.class);
+			GrupoClassLevelUserFullPathListExtended.class);
 
 		ConstraintViolation<User> cExtended = extendedConstraint.iterator().next();
 

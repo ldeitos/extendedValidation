@@ -1,10 +1,10 @@
 package com.github.ldeitos.validation.impl.configuration;
 
-import static com.github.ldeitos.constants.Constants.CONFIGURATION_FILE;
 import static com.github.ldeitos.constants.Constants.DEFAULT_MESSAGE_SOURCE;
 import static com.github.ldeitos.constants.Constants.PATH_CONF_MESSAGE_FILE;
 import static com.github.ldeitos.constants.Constants.PATH_CONF_MESSAGE_FILES;
 import static com.github.ldeitos.constants.Constants.PATH_CONF_MESSAGE_SOURCE;
+import static com.github.ldeitos.constants.Constants.PATH_CONF_VALIDATION_CLOSURE;
 import static java.lang.String.format;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -28,38 +28,46 @@ class ConfigurationLoader {
 	private static Logger log = LoggerFactory.getLogger(ConfigurationLoader.class);
 
 	/**
+	 * @param configProvider
 	 * @return DTO with configuration content from any
 	 *         {@link Constants#CONFIGURATION_FILE} in application class path.
 	 */
-	static ConfigurationDTO loadConfiguration() {
-		if (configuration == null) {
-			load();
+	static ConfigurationDTO loadConfiguration(ConfigInfoProvider configProvider) {
+		if (configuration == null || configProvider.isInTest()) {
+			load(configProvider);
 		}
 
 		return configuration;
 	}
 
-	private static void load() {
-		try {
-			log.info(format("Loading configuration by %s files in class path.", CONFIGURATION_FILE));
+	private static void load(ConfigInfoProvider configProvider) {
+		String configFileName = configProvider.getConfigFileName();
 
-			DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(CONFIGURATION_FILE);
+		try {
+			log.info(format("Loading configuration by %s files in class path.", configFileName));
+
+			DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(configFileName);
 			confBuilder.load();
 			loadFromXMLFiles(confBuilder);
 		} catch (ConfigurationException e) {
-			log.warn(format("Error on obtain %s files in class path: [%s]", CONFIGURATION_FILE,
-				e.getMessage()));
+			log.warn(format("Error on obtain %s files in class path: [%s]", configFileName, e.getMessage()));
 			log.warn("Loading by default configuration...");
 		}
 
 		if (configuration == null) {
 			loadDefaultConfiguration();
 		}
+
+		traceConfiguration(configuration);
 	}
 
 	private static void loadFromXMLFiles(DefaultConfigurationBuilder confBuilder) {
 		if (!confBuilder.isEmpty()) {
 			configuration = new ConfigurationDTO();
+
+			if (confBuilder.containsKey(PATH_CONF_VALIDATION_CLOSURE)) {
+				configuration.setValidationClosure(confBuilder.getString(PATH_CONF_VALIDATION_CLOSURE));
+			}
 
 			if (confBuilder.containsKey(PATH_CONF_MESSAGE_SOURCE)) {
 				configuration.setMessageSource(confBuilder.getString(PATH_CONF_MESSAGE_SOURCE));
@@ -85,13 +93,14 @@ class ConfigurationLoader {
 
 		configuration.setMessageSource(DEFAULT_MESSAGE_SOURCE);
 		log.info("Default configuration loaded.");
-		traceConfiguration(configuration);
 
 		return configuration;
 	}
 
 	private static void traceConfiguration(ConfigurationDTO configuration) {
-		log.trace(format("Configuration content: [%s]", configuration));
+		if (log.isTraceEnabled()) {
+			log.trace(format("Configuration content: [%s]", configuration));
+		}
 	}
 
 }
