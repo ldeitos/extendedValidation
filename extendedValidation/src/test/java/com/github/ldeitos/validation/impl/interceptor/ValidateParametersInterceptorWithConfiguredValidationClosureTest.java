@@ -16,11 +16,13 @@ import com.github.ldeitos.test.base.stubs.TestBeanB;
 import com.github.ldeitos.test.base.stubs.TestCustomValidationClosure;
 import com.github.ldeitos.test.base.stubs.TestInterceptedClassValidation;
 import com.github.ldeitos.test.base.stubs.TestInterceptedMethodsValidation;
+import com.github.ldeitos.test.base.stubs.TestOtherCustomValidationClosure;
 import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 
 @AdditionalClasses({ ValidateParametersInterceptor.class, TestInterceptedClassValidation.class,
-    TestInterceptedMethodsValidation.class, TestMessageSource.class, TestCustomValidationClosure.class })
+    TestInterceptedMethodsValidation.class, TestMessageSource.class, TestCustomValidationClosure.class,
+    TestOtherCustomValidationClosure.class })
 public class ValidateParametersInterceptorWithConfiguredValidationClosureTest extends BaseTest {
 
 	@Produces
@@ -210,6 +212,30 @@ public class ValidateParametersInterceptorWithConfiguredValidationClosureTest ex
 
 			assertTrue(e instanceof RuntimeException);
 			assertEquals("Has 1 violations", message);
+		}
+	}
+
+	@Test
+	public void testMethodInterceptedInvalidParameterMethodOtherCustomClosureDefined() {
+		try {
+			methodIntercepted.otherCustomClosure(invalidBeanA);
+		} catch (RuntimeException e) {
+			String message = e.getMessage();
+
+			assertTrue(e instanceof RuntimeException);
+			assertEquals("Has 1 violations [OTHER]", message);
+		}
+	}
+
+	@Test
+	public void testClassInterceptedInvalidParameterMethodOtherCustomClosureDefined() {
+		try {
+			classIntercepted.otherCustomClosure(invalidBeanA);
+		} catch (RuntimeException e) {
+			String message = e.getMessage();
+
+			assertTrue(e instanceof RuntimeException);
+			assertEquals("Has 1 violations [OTHER]", message);
 		}
 	}
 

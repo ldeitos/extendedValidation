@@ -41,4 +41,9 @@ public class TestInterceptedMethodsValidation {
 
 	}
 
+	@ValidateParameters(closure = @Closure("OtherTest"))
+	public void otherCustomClosure(TestBeanA a) {
+
+	}
+
 }
