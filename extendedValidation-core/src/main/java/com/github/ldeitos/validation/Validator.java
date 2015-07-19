@@ -31,7 +31,7 @@ public interface Validator extends javax.validation.Validator {
 	 * @param groups
 	 *            The group or list of groups targeted for validation (defaults
 	 *            to {@link Default})
-	 * @@return Violations messages or empty if none.
+	 * @return Violations messages or empty if none.
 	 */
 	public <T> Set<Message> validatePropertyBean(T object, String propertyName, Class<?>... groups);
 
@@ -48,7 +48,7 @@ public interface Validator extends javax.validation.Validator {
 	 * @return Violations messages or empty if none.
 	 */
 	public <T> Set<Message> validateValueBean(Class<T> beanType, String propertyName, Object value,
-	    Class<?>... groups);
+		Class<?>... groups);
 
 	/**
 	 * @param object

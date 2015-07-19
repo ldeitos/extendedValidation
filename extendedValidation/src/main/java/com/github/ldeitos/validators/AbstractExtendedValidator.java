@@ -126,7 +126,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * message template, defined in Constraint annotation, and parameters to
 	 * interpolate.
 	 *
-	 * @param path
+	 * @param atPath
 	 *            Full {@link Path} to origin of violation in object being
 	 *            validated.
 	 *
@@ -276,7 +276,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 *
 	 * @since 0.9.0
 	 */
-	protected void addViolation(PathBuilder path, String msgTemplate, String... msgParameters) {
+	protected void addViolation(PathBuilder pathBuilder, String msgTemplate, String... msgParameters) {
 		addViolation(pathBuilder.getPath(), msgTemplate, msgParameters);
 	}
 
@@ -318,8 +318,6 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * 
 	 * @param path
 	 * 		String representation of path to property to register violation.
-	 * @param index
-	 * 		Index to indexed collection content to registered violation.
 	 * @return
 	 * 		{@link PathBuilder} to build a {@link Path} reference.
 	 *
@@ -367,8 +365,8 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 *
 	 * @param path
 	 * 		String representation of path to property to register violation.
-	 * @param index
-	 * 		Index to indexed collection content to registered violation.
+	 * @param key
+	 * 		Key to mapped content to registered violation.
 	 * @return
 	 * 		{@link PathBuilder} to build a {@link Path} reference.
 	 *
@@ -402,8 +400,8 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * //under the "home" key on map:
 	 *  atKey("home")
 	 *
-	 * @param index
-	 * 		Index to indexed collection content to registered violation.
+	 * @param key
+	 * 		Key to mapped collection content to registered violation.
 	 * @return
 	 * 		Correspondent {@link Path}.
 	 *
