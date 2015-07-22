@@ -12,12 +12,31 @@
 		<artifactId>extendedValidation-parent</artifactId>
 		<version>0.9.2</version>
 		<relativePath>../extendedValidation-parent</relativePath>
-	</parent>	
+	</parent>
+
+	<licenses>
+		<license>
+			<name>The MIT License (MIT)</name>
+			<url>http://http://opensource.org/licenses/MIT</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Leandro Deitos</name>
+			<email>leandro.deitos@gmail.com</email>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git:git@github.com:ldeitos/repository.git/extendedValidation</connection>
+		<developerConnection>scm:git:git@github.com:ldeitos/repository.git/extendedValidation</developerConnection>
+		<url>https://github.com/ldeitos/repository/extendedValidation</url>
+	</scm>
 
 	<dependencies>
 		<dependency>
 			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>			
+			<artifactId>validation-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.enterprise</groupId>
