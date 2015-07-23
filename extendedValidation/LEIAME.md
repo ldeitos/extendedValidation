@@ -26,20 +26,20 @@ Idealizado para facilitar o uso da validação através da [*BeanValidation API*
 O *ExtendedValidation* possui uma implementação de *ConstraintValidatorFactory* integrada ao contexto de dependências da [API CDI](http://cdi-spec.org/), possibilitando que a instância do validador declarado pela *Constraint* seja recuperada a partir de uma interface, tornando possível desacoplar esses elementos.
 
 A especificação do [*BeanValidation API 1.1*](http://cdi-spec.org/) relaciona a descrição da *Constraint* com seu validador diretamente através da classe desse último, como exemplificado no modelo abaixo:
-![](http://extendedvalidation.sourceforge.net/images/ConstraintValidation1.png)
+![](https://github.com/ldeitos/repository/blob/master/site/extendedValidation/images/ConstraintValidation1.png)
 
 Afim de possibilitar a desvinculação entre a Constraint e a implementação de seu validador, a factory de validadores implementada pelo ExtendedValidation permite que seja atribuído uma interface à Constraint, a qual será implementada pelo validador, que poderá ou não estar fisicamente no mesmo componente, como a seguir:
-![](http://extendedvalidation.sourceforge.net/images/ConstraintValidation2.png)
+![](https://github.com/ldeitos/repository/blob/master/site/extendedValidation/images/ConstraintValidation2.png)
 
 Projetos Enterprise compostos por um grande número de módulos, e que possuem interdependência de dados, costumam apresentar aumento de complexidade no gerenciamento de dependências proporcional ao seu crescimento, principalmente em cenários em que há times distintos trabalhando simultaneamente em módulos relacionados.
 
 O diagrama abaixo apresenta o cenário tradicional, aonde cada componente de negócio que possua relacionamento com outro carrega consigo uma dependência direta com o componente origem dos elementos a serem compartilhados.
-![](http://extendedvalidation.sourceforge.net/images/Tradicional.png)
+![](https://github.com/ldeitos/repository/blob/master/site/extendedValidation/images/Tradicional.png)
 
 Este modelo pode levar a situações de dependência circular, cenário geralmente indesejado devido a fragilidade resultante do aumento da complexidade na gestão, manutenção e evolução dos componentes envolvidos.
 
 Tendo em mente que entidades e interfaces de serviços mudam com menor frequência que os comportamentos de negócio, o desacoplamento possibilitado pelo *ExtendedValidation* viabiliza a adoção de uma arquitetura segmentada em componentes com responsabilidades mais coesas e independentes, de forma a permitir que as dependências sejam estabelecidas entre os elementos com menor possibilidade de alteração ao longo da vida do sistema, como demonstrado no diagrama a seguir:
-![](http://extendedvalidation.sourceforge.net/images/Desacoplado.png)
+![](https://github.com/ldeitos/repository/blob/master/site/extendedValidation/images/Desacoplado.png)
 
 A Factory implementada permite a convivência entre o modelo proposto e o padrão definido pela [*BeanValidation API 1.1*](http://cdi-spec.org/), ou seja, é possível existir definições de *Constraint* relacionadas a interfaces e outras definindo classes concretas, ambas serão igualmente tratadas na fase de resolução do validador a ser aplicado.
 
