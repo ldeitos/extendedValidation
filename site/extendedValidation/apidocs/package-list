@@ -1,11 +1,16 @@
+com.github.ldeitos.bootstrap
 com.github.ldeitos.constants
 com.github.ldeitos.constraint
 com.github.ldeitos.exception
 com.github.ldeitos.qualifier
 com.github.ldeitos.validation
+com.github.ldeitos.validation.annotation
 com.github.ldeitos.validation.impl
 com.github.ldeitos.validation.impl.configuration
 com.github.ldeitos.validation.impl.configuration.dto
 com.github.ldeitos.validation.impl.factory
+com.github.ldeitos.validation.impl.interceptor
 com.github.ldeitos.validation.impl.interpolator
+com.github.ldeitos.validation.impl.util
 com.github.ldeitos.validators
+com.github.ldeitos.validators.util
