@@ -54,9 +54,15 @@ public class Configuration {
 	public static Configuration getConfiguration(ConfigInfoProvider configProvider) {
 		if (instance == null || configProvider.isInTest()) {
 			instance = new Configuration(configProvider);
+			init(instance);
 		}
 
 		return instance;
+	}
+
+	private static void init(Configuration instance) {
+		instance.getConfiguredMessagesSource();
+		instance.getConfiguredValidationClosure();
 	}
 
 	/**
@@ -229,5 +235,39 @@ public class Configuration {
 
 	private <T> T getByCDIContext(Class<? extends T> type) {
 		return ManualContext.lookupCDI(type);
+	}
+
+	/**
+	 * Load Tarcius configuration.
+	 *
+	 * @param cp
+	 *            Configuration provider.
+	 * @throws InvalidConfigurationException
+	 *             In case of invalid configurations at file
+	 *             {@link Constants#CONFIGURATION_FILE} or this is inexistent.
+	 * @since 0.1.2
+	 */
+	public static void load(ConfigInfoProvider cp) throws InvalidConfigurationException {
+		if (isUnloaded() || cp.isInTest()) {
+			instance = new Configuration(cp);
+		}
+	}
+
+	/**
+	 * @return true if configuration is loaded.
+	 *
+	 * @since 0.9.3
+	 */
+	public static boolean isLoaded() {
+		return !isUnloaded();
+	}
+
+	/**
+	 * @return false if configuration is unloaded.
+	 *
+	 * @since 0.9.3
+	 */
+	public static boolean isUnloaded() {
+		return instance == null;
 	}
 }

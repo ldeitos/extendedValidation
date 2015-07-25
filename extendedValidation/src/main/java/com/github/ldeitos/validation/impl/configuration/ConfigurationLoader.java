@@ -63,19 +63,26 @@ class ConfigurationLoader {
 
 	private static void loadFromXMLFiles(DefaultConfigurationBuilder confBuilder) {
 		if (!confBuilder.isEmpty()) {
+			String fileName;
 			configuration = new ConfigurationDTO();
 
 			if (confBuilder.containsKey(PATH_CONF_VALIDATION_CLOSURE)) {
-				configuration.setValidationClosure(confBuilder.getString(PATH_CONF_VALIDATION_CLOSURE));
+				fileName = confBuilder.getString(PATH_CONF_VALIDATION_CLOSURE);
+				log.debug(format("Configured ValidationClosure: [%s]", fileName));
+				configuration.setValidationClosure(fileName);
 			}
 
 			if (confBuilder.containsKey(PATH_CONF_MESSAGE_SOURCE)) {
-				configuration.setMessageSource(confBuilder.getString(PATH_CONF_MESSAGE_SOURCE));
+				fileName = confBuilder.getString(PATH_CONF_MESSAGE_SOURCE);
+				log.debug(format("Configured MessagesSource: [%s]", fileName));
+				configuration.setMessageSource(fileName);
 			}
 
 			for (HierarchicalConfiguration nextConf : confBuilder.configurationsAt(PATH_CONF_MESSAGE_FILES)) {
 				for (HierarchicalConfiguration nextFile : nextConf.configurationsAt(PATH_CONF_MESSAGE_FILE)) {
-					configuration.addMessageFile(nextFile.getRoot().getValue().toString());
+					fileName = nextFile.getRoot().getValue().toString();
+					log.debug(format("Adding configured message file: [%s]", fileName));
+					configuration.addMessageFile(fileName);
 				}
 			}
 		}

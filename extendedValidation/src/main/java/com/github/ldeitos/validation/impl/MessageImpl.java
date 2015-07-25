@@ -23,13 +23,17 @@ public class MessageImpl implements Message {
 	private ConstraintViolation<?> originConstraint;
 
 	MessageImpl(ConstraintViolation<?> originConstraint) {
+		this(originConstraint.getMessage(), getSeverity(originConstraint.getConstraintDescriptor()));
 		this.originConstraint = originConstraint;
-		message = originConstraint.getMessage();
-		severity = getSeverity(originConstraint.getConstraintDescriptor());
+	}
+
+	MessageImpl(String message, Severity severity) {
+		this.message = message;
+		this.severity = severity;
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T extends Annotation> Severity getSeverity(ConstraintDescriptor<T> descriptor) {
+	private static <T extends Annotation> Severity getSeverity(ConstraintDescriptor<T> descriptor) {
 		Severity severity = Severity.ERROR;
 
 		for (Class<? extends Payload> payload : descriptor.getPayload()) {
