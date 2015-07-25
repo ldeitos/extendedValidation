@@ -25,7 +25,7 @@ public class TarciusBootstrap implements Extension {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TarciusBootstrap.class);
 
 	public void startup(@Observes AfterDeploymentValidation event, BeanManager bm) {
-		if (Configuration.isUnladed()) {
+		if (Configuration.isUnloaded()) {
 			ConfigInfoProvider cp = lookupCDI(bm, ConfigInfoProvider.class);
 			try {
 				LOGGER.info("Loading Tarcius configurations.");

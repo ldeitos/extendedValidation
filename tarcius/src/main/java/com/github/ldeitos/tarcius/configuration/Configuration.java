@@ -70,9 +70,15 @@ public class Configuration {
 	 * @since 0.1.2
 	 */
 	public static void load(ConfigInfoProvider cp) throws InvalidConfigurationException {
-		if (isUnladed() || cp.isInTest()) {
+		if (isUnloaded() || cp.isInTest()) {
 			instance = new Configuration(cp);
+			init(instance);
 		}
+	}
+
+	private static void init(Configuration instance) throws InvalidConfigurationException {
+		instance.getAuditDataDispatcher();
+		instance.getAuditDataFormatter();
 	}
 
 	/**
@@ -221,7 +227,7 @@ public class Configuration {
 	 * @since 0.1.2
 	 */
 	public static boolean isLoaded() {
-		return !isUnladed();
+		return !isUnloaded();
 	}
 
 	/**
@@ -229,7 +235,7 @@ public class Configuration {
 	 *
 	 * @since 0.1.2
 	 */
-	public static boolean isUnladed() {
+	public static boolean isUnloaded() {
 		return instance == null;
 	}
 

@@ -49,13 +49,14 @@ class ConfigurationLoader {
 			traceConfiguration(configuration);
 		} catch (Exception e) {
 			String msg = format("Unable to on obtain %s file in class path: [%s], "
-			    + "default configurations will be used.", CONFIGURATION_FILE, e.getMessage());
+				+ "default configurations will be used.", CONFIGURATION_FILE, e.getMessage());
 			log.warn(msg);
 		}
 	}
 
 	private static void loadFromXMLFiles(DefaultConfigurationBuilder confBuilder)
-		throws ConfigurationException, InvalidConfigurationException {
+	    throws ConfigurationException, InvalidConfigurationException {
+		String fileName;
 		configuration = new ConfigurationDTO();
 
 		confBuilder.load();
@@ -64,15 +65,21 @@ class ConfigurationLoader {
 		}
 
 		if (confBuilder.containsKey(PATH_CONF_FORMATTER_CLASS)) {
-			configuration.setFormatterClass(confBuilder.getString(PATH_CONF_FORMATTER_CLASS));
+			fileName = confBuilder.getString(PATH_CONF_FORMATTER_CLASS);
+			log.debug(format("Configured AuditDataFormatter: [%s]", fileName));
+			configuration.setFormatterClass(fileName);
 		}
 
 		if (confBuilder.containsKey(PATH_CONF_DISPATCHER_CLASS)) {
-			configuration.setDispatcherClass(confBuilder.getString(PATH_CONF_DISPATCHER_CLASS));
+			fileName = confBuilder.getString(PATH_CONF_DISPATCHER_CLASS);
+			log.debug(format("Configured AuditDataDispatcher: [%s]", fileName));
+			configuration.setDispatcherClass(fileName);
 		}
 
 		if (confBuilder.containsKey(PATH_CONF_INTERRUPT_ON_ERROR)) {
-			configuration.setInterruptOnError(confBuilder.getBoolean(PATH_CONF_INTERRUPT_ON_ERROR));
+			boolean interruptOnError = confBuilder.getBoolean(PATH_CONF_INTERRUPT_ON_ERROR);
+			log.debug(format("Configured interruptOnError: [%s]", interruptOnError));
+			configuration.setInterruptOnError(interruptOnError);
 		}
 	}
 

@@ -21,11 +21,12 @@ import com.github.ldeitos.tarcius.support.TestAuditDataDispatcher;
 import com.github.ldeitos.tarcius.support.TestAuditDataFormatter;
 import com.github.ldeitos.tarcius.support.Teste;
 import com.github.ldeitos.tarcius.support.ToAudit;
+import com.github.ldeitos.util.ManualContext;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({ ToAudit.class, AuditContext.class, AuditInterceptor.class,
-    TestAuditDataDispatcher.class, TestAuditDataFormatter.class, TarciusProducer.class,
-    AuditProcessorImpl.class })
+	TestAuditDataDispatcher.class, TestAuditDataFormatter.class, TarciusProducer.class,
+	AuditProcessorImpl.class, ManualContext.class })
 @InRequestScope
 public class AuditNoInterruptOnErrorTest {
 
