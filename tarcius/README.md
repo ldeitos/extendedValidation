@@ -1,16 +1,16 @@
 # Tarcius
-## Auditoria de atividade
+## Activity audit
 
 ### Objetivo
-Tarcius é um componente que provê uma API simplificada para registro de auditoria das atividades dos usuários em uma aplicação.
+Tarcius is a component to provide a simple API to register audit from user application activities.
 
-Baseado nos conceitos e características disponibilizadas pelo CDI, possibilita o registro de chamadas a métodos, bem como dos valores dos parâmetros identificados, atribuindo referências que visam dar sentido de negócio às informações coletadas.
+CDI based, allows registration from method calls, also your parameters, assigning references to provide business meaning to collected informations.
 
-Concebido para ser adaptável às necessidades e particularidades de cada aplicação, delega ao usuário do componente a definição do modelo da auditoria, a composição dos dados coletados no modelo definido e o envio desses ao repositório escolhido para os dados de auditoria, além de possibilitar a definição de tradutores específicos para os parâmetros ou o uso de tradutores padrões disponibilizados.
+Designed to be adaptable to requirements and particularities from any application, delegates the audit model definition to component user, the collected data composition in defined model and data dispatch to the audit repository, beyond to allows specific translators definition to method parameters or default implementation to use.
 
-### Dependências e Configuração
-#### Dependências
-Para utilizar o componente basta adicioná-lo como dependência de seu projeto. A versão mais recente é a seguinte:
+### Dependency and Configuration
+#### Dependency
+To use the component just add it as project dependency. The most recent version is:
 ```xml
 <dependency>
     <groupId>com.github.ldeitos</groupId>
@@ -19,7 +19,7 @@ Para utilizar o componente basta adicioná-lo como dependência de seu projeto. 
 </dependency>
 ```
 
-As principais dependências do componente são:
+The most important component dependencies are:
  - [cdi-util 0.6.2](http://search.maven.org/#artifactdetails%7Ccom.github.ldeitos%7Ccdi-util%7C0.6.2%7Cjar)
  - [commons-collections 3.2.1](http://search.maven.org/#artifactdetails%7Corg.lucee%7Ccommons-collections%7C3.2.1%7Cbundle)
  - [commons-collections4 4.0](http://search.maven.org/#artifactdetails%7Corg.apache.commons%7Ccommons-collections4%7C4.0%7Cjar)
@@ -28,8 +28,8 @@ As principais dependências do componente são:
  - [jaxb-api 2.2.11](http://search.maven.org/#artifactdetails%7Cjavax.xml.bind%7Cjaxb-api%7C2.2.11%7Cjar)
  - [jersey-json 1.19](http://search.maven.org/#artifactdetails%7Ccom.sun.jersey%7Cjersey-json%7C1.19%7Cjar)
  
-#### Configuração
-As configurações do componente são efetuadas através do arquivo **tarcius.xml**, que deve ficar localizado no diretório META-INF do projeto. Segue exemplo do arquivo:
+#### Configuration
+The component configurations are made through the **tarcius.xml** file, which should be located in META-INF project directory. Follows file sample:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <tarcius>
