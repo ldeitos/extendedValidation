@@ -303,7 +303,7 @@ Além dos métodos apresentados no exemplo há outras assinaturas que permitem, 
 
 Foi adicionada na versão 0.9.2 um *interceptor* do CDI que realiza a validação dos parâmetros dos métodos interceptados.
 
-O mecanismo baseia-se na interceptação da chamada de métodos identificados com a anotação *@ValidateParameters* ou, caso a anotação seja realizada na classe, todos os métodos públicos dessa passam a ser interceptdados por um *interceptor* CDI que deve ser ativado no arquivo *beans.xml* conforme abaixo:
+O mecanismo baseia-se na interceptação da chamada de métodos identificados com a anotação *@ValidateParameters* ou, caso a anotação seja realizada na classe, todos os métodos públicos dessa passam a ser interceptados por um *interceptor* CDI que deve ser ativado no arquivo *beans.xml* conforme abaixo:
 
 ```xml
 <interceptors>
@@ -313,7 +313,7 @@ O mecanismo baseia-se na interceptação da chamada de métodos identificados co
 
 Cabe a observação de que *interceptors* do CDI somente são acionados quando um método público é invocado por outra classe, mas nunca quando esta chamada é realizada internamente da própria classe que tenha o método anotado. Para maiores informações sobre *interceptors* do CDI consulte a [documentação oficial](https://docs.oracle.com/javaee/6/tutorial/doc/gkhjx.html).
 
-O mecanismo de interceptação obtem todas as instâncias dos parâmetros do método interceptado e submete para a validação. Caso ocorram violações, é executado um bloco de código que pode ser personalizado através de um *ValidationClosure* que pode ser configurado no arquivo ***extendedValidation.xml*** ou mesmo diretamente na anotação *@ValidateParameters*. Caso não seja configurado ou informado uma *closure* específica, a impelementação padrão do compoente é utilizada, o que resultará no lançamento de uma exceção do tipo *ViolationException*, que conterá todas as mensagens registradas durante a validação. Abaixo segue exemplo da configuração de uma closure para uso geral na aplicação:
+O mecanismo de interceptação obtém todas as instâncias dos parâmetros do método interceptado e submete para a validação. Caso ocorram violações, é executado um bloco de código que pode ser personalizado através de um *ValidationClosure* que pode ser configurado no arquivo ***extendedValidation.xml*** ou mesmo diretamente na anotação *@ValidateParameters*. Caso não seja configurado ou informado uma *closure* específica, a implementação padrão do componente é utilizada, o que resultará no lançamento de uma exceção do tipo *ViolationException*, que conterá todas as mensagens registradas durante a validação. Abaixo segue exemplo da configuração de uma closure para uso geral na aplicação:
 ```xml
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <extended-validation>

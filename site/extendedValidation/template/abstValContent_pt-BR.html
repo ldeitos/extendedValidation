@@ -1,0 +1,116 @@
+<div class="content">
+	<div class="art-box-body art-post-body">
+		<div class="art-post-inner art-article">
+			<h2 class="art-postheader">
+				Abstração para validadores
+			</h2>
+			<div class="art-postmetadataheader">
+				<div class="art-postheadericons art-metadata-icons">
+				</div>
+			</div>
+			<div class="art-postcontent">				
+				<p>
+				A partir da versão 0.8.0 o componente disponibiliza a classe abstrata <i>AbstractExtendedValidator</i> que fornece métodos simplificados para registro de múltiplas violações por um único validador.
+				</p>
+				<p>
+				As violações podem ser registradas com a mensagem padrão definida na <i>constraint</i> ou com mensagens personalizadas, além de ser possível atribuir valores em tempo de execução para parâmetros das mensagens. Abaixo seguem exemplos de uso:
+				</p>
+<pre class="brush: java;">
+@Target({ TYPE, METHOD, FIELD })
+@Retention(RUNTIME)
+@Constraint(validatedBy = { AddressValidator.class })
+public @interface ValidAddress {
+    String message() default "Endereço inválido";
+
+    String[] messageParameters() default {};
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+
+    @Target({ TYPE, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+    @Retention(RUNTIME)
+    @Documented
+    @interface List {
+        ValidAddress[] value();
+    }
+}
+
+public class User {
+   public Map<String, Address> getAddresses() { ... }
+}
+
+@ValidAddress
+public class Address {
+    public String getStreet() { ... }
+    public Country getCountry() { ... }
+}
+
+public class Country {
+    public String getName() { ... }
+}
+
+public interface AddressValidator extends 
+        ConstraintValidator<ValidAddress, Address> {
+
+}
+
+public class AddressValidatorImpl extends 
+        AbstractExtendedValidator<ValidAddress, Address> implements 
+        AddressValidator {
+
+        private static final int TAMANHO_MINIMO = 3;
+
+    @Inject
+    private CountryBC countryBC;
+
+    public void doValidation(Address value) {
+        boolean invalido = checkStreet(value);
+
+        if(invalido) {
+            // registro de violação com a mensagem padrão
+            // da constraint
+            addViolationWithDefaultTemplate();
+        }
+    }
+
+    private boolean checkStreet(Address address) {
+        boolean invalido = false;
+        if(address.getStreet() == null) {
+            // registro de violação com uma mensagem específica.
+            addViolation("Nome da rua é obrigatório");
+            invalido = true;
+        } else {
+            if(address.getStreet().length() < TAMANHO_MINIMO){
+                // registro de violação com mensagem parametrizada
+                // no modelo indexado
+                addViolation("Nome da rua menor que o mínimo exigido: {0}", 
+                    TAMANHO_MINIMO);
+                invalido = true;
+            }
+
+            if(!countryBC.hasCountry(address.getCountry())) {
+                // registro de violação com mensagem específica recuperada
+                // do MessageSource e parametrizada no modelo 'chave=valor'
+                String param = "countryName=" + address.getCountry().getName();
+                addViolation("{mysystem.country.invalid}", param);
+                invalido = true;
+            }
+        }
+
+        return invalido;
+    }
+}
+</pre>
+				<p>
+				 Além dos métodos apresentados no exemplo há outras assinaturas que permitem, por exemplo, a composição do path para qual deve ser registrada a violação. Para maiores detalhes consulte o Javadoc da classe <i>AbstractExtendedValidator</i>.
+				</p>
+			</div>
+			<div class="cleared"></div>
+			<div class="art-postfootericons art-metadata-icons">
+				<span class="art-posttagicon"><a href="mailto:leandro.deitos@gmail.com" title="leandro.deitos@gmail.com">Leandro Deitos</a> - 2014</span>
+			</div>
+		</div>
+		<div class="cleared"></div>
+	</div>	
+</div>	

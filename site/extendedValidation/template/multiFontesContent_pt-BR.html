@@ -60,13 +60,13 @@ public class MyClass {
 }
 </pre>
 				<p>
-				Em consonância com a especifição, o <i>ExtendedValidation</i> mantém as formas de especificar as mensagens acima demonstradas, porém 
-				expande as possibilidades de definição do repositório das mensagens, disponibilizando um mecanismo simplificado para configuraçao  
-				de multiplos arquivos ".properties" ou mesmo definir uma implementação própria que recupere as mensagens a partir de outro tipo 
+				Em consonância com a especificação, o <i>ExtendedValidation</i> mantém as formas de especificar as mensagens acima demonstradas, porém 
+				expande as possibilidades de definição do repositório das mensagens, disponibilizando um mecanismo simplificado para configuração  
+				de múltiplos arquivos ".properties" ou mesmo definir uma implementação própria que recupere as mensagens a partir de outro tipo 
 				de fonte como banco de dados, módulo ou aplicação externa ao sistema, rotinas mainframe, etc.
 				</p>
 				<p>
-				Esta abordagem dispensa que aplicações compostas por multiplos módulos necessitem centralizar as mensagens em um único arquivo, 
+				Esta abordagem dispensa que aplicações compostas por múltiplos módulos necessitem centralizar as mensagens em um único arquivo, 
 				procedimento que pode trazer transtornos em ambientes aonde há o desenvolvimento concorrente de módulos por times distintos, além 
 				de facilitar o reaproveitamento de fontes de mensagens legadas.
 				</p>
@@ -128,14 +128,12 @@ moduleXErrorMessages, moduleYErrorMessages, ...
 </extended-validation>
 </pre>
 				<p>
-				Também é disponibilizado a classe abstrata <i>AbstractMessagesSource</i>, cuja implementação verifica se o template de mensagem recebido
+				Também é disponibilizado a classe abstrata <i>AbstractMessagesSource</i>, cuja implementação verifica se o <i>template</i> de mensagem recebido
 				está no formato padrão de chave de busca - "{chave.para.minhamensagem}" - ou, opcionalmente, a variação identificada por "[...]", antes 
 				de tentar recuperar a mensagem na origem definida. 
 				</p>
 				<p>
-				Caso se utilize a classe abstrata e o template definido na constraint não seja compatível com o padrão de chave de busca, o próprio texto 
-				do template é retornado pelo <i>MessagesSource</i>. É importante que o mesmo comportamento seja adotado pelas implementações próprias,
-				tanto para este caso como quando a chave utilizada não recupera nenhuma mensagem.
+				Caso se utilize a classe abstrata e o <i>template</i> definido na <i>constraint</i> não seja compatível com o padrão de chave de busca, o próprio texto do <i>template</i> é retornado pelo <i>MessagesSource</i>. É importante que o mesmo comportamento seja adotado pelas implementações próprias, tanto para este caso como quando a chave utilizada não recupera nenhuma mensagem.
 				</p>
 			</div>
 			<div class="cleared"></div>

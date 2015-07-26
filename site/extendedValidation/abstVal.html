@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PT" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"[]>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="pt-BR" xml:lang="pt">
+<head>
+    <!--
+    Created by Artisteer v3.1.0.48375
+    Base template (without user's data) checked by http://validator.w3.org : "This page is valid XHTML 1.0 Transitional"
+    -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Abstract validator description">
+    <title>ExtendedValidation  &ndash;  A BeanValidation extension</title>
+
+	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
+    <!--[if IE 6]><link rel="stylesheet" href="css/style.ie6.css" type="text/css" media="screen" /><![endif]-->
+    <!--[if IE 7]><link rel="stylesheet" href="css/style.ie7.css" type="text/css" media="screen" /><![endif]-->
+	<link type="text/css" rel="stylesheet" href="css/shCoreDefault.css"/>
+	
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>	
+	<script type="text/javascript" src="js/shCore.js"></script>
+	<script type="text/javascript" src="js/shBrushJava.js"></script>
+	<script type="text/javascript" src="js/shBrushPlain.js"></script>
+	<script type="text/javascript" src="js/shBrushXml.js"></script>
+	<script type="text/javascript" src="js/contentApplier.js"></script>
+	
+	<script type="text/javascript">
+		addMetaExpires();
+		importContentFiles(["header", "sideBar", "abstValContent"]);		
+	</script>
+</head>
+<body>
+<div id="art-main">
+    <div class="cleared reset-box"></div>
+		<div class="art-box art-sheet">
+			<div class="art-box-body art-sheet-body">
+				<div class="art-header"></div>
+				<script rel="content" type="text/javascript">
+					applyContent($(".art-header"), ".header-content");
+					activeMenu("menu_carac");
+					SyntaxHighlighter.all();
+				</script>				
+				<div class="cleared reset-box"></div>
+				<div class="art-layout-wrapper">
+					<div class="art-content-layout">
+						<div class="art-content-layout-row">
+							<div class="art-layout-cell art-content">
+								<div class="art-box art-post"></div>
+								<script rel="content" type="text/javascript">applyContent($(".art-post"), ".content");</script>
+							</div>
+							<div class="art-layout-cell art-sidebar1"></div>
+							<script rel="content" type="text/javascript">applyContent($(".art-sidebar1"), ".sideBar-content");</script>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="cleared"></div>
+		</div>
+		<div class="art-footer">
+			<div class="art-footer-body">
+				<div class="art-footer-center">
+					<div class="art-footer-wrapper">
+						<div class="art-footer-text">
+							<p>Copyright © 2012. All Rights Reserved.</p>
+							<div class="cleared"></div>
+							<p class="art-page-footer"><a href="http://www.artisteer.com/?p=blogger_templates" target="_blank">Blogger Template</a> created with Artisteer.</p>
+						</div>
+					</div>
+				</div>
+				<div class="cleared"></div>
+			</div>
+		</div>
+		<div class="cleared"></div>
+	</div>
+</body>
+</html>

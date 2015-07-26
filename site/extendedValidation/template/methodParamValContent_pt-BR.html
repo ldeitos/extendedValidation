@@ -1,0 +1,84 @@
+<div class="content">
+	<div class="art-box-body art-post-body">
+		<div class="art-post-inner art-article">
+			<h2 class="art-postheader">
+				Validação de parâmetros de métodos
+			</h2>
+			<div class="art-postmetadataheader">
+				<div class="art-postheadericons art-metadata-icons">
+				</div>
+			</div>
+			<div class="art-postcontent">				
+				<p>
+				Foi adicionada na versão 0.9.2 um interceptor do CDI que realiza a validação dos parâmetros dos métodos interceptados.
+				</p>
+				<p>
+				O mecanismo baseia-se na interceptação da chamada de métodos identificados com a anotação @ValidateParameters ou, caso a anotação seja realizada na classe, todos os métodos públicos dessa passam a ser interceptados por um interceptor CDI que deve ser ativado no arquivo <i>beans.xml</i> conforme abaixo:
+<pre class="brush: xml;">
+<?xml version="1.0" encoding="UTF-8"?>
+<interceptors>
+    <class>
+    com.github.ldeitos.validation.impl.interceptor.ValidateParametersInterceptor
+    </class>
+</interceptors>
+</pre>
+				<p>
+				Cabe a observação de que <i>interceptors</i> do CDI somente são acionados quando um método público é invocado por outra classe, mas nunca quando esta chamada é realizada internamente da própria classe que tenha o método anotado. Para maiores informações sobre interceptors do CDI consulte a <a href="https://docs.oracle.com/javaee/6/tutorial/doc/gkhjx.html">documentação oficial</a>.
+				</p>
+				<p>
+				O mecanismo de interceptação obtém todas as instâncias dos parâmetros do método interceptado e submete para a validação. Caso ocorram violações, é executado um bloco de código que pode ser personalizado através de um <i>ValidationClosure</i> que pode ser configurado no arquivo <i>extendedValidation.xml</i> ou mesmo diretamente na anotação <i>@ValidateParameters</i>. Caso não seja configurado ou informado uma <i>closure</i> específica, a implementação padrão do componente é utilizada, o que resultará no lançamento de uma exceção do tipo <i>ViolationException</i>, que conterá todas as mensagens registradas durante a validação. Abaixo segue exemplo da configuração de uma <i>closure</i> para uso geral na aplicação:
+				</p>
+<pre class="brush: xml;">
+<?xml version="1.0" encoding="UTF-8"?>
+<extended-validation>
+    <validation-closure>com.foo.bar.MyValidationClosure</validation-closure>
+</extended-validation>
+</pre>
+				<p>
+				A implementação da <i>ValidationClosure</i> <b>deve</b> ser qualificado com o qualificador <i>@Closure</i>, que especifica uma <i>String</i> para possibilitar a existência de múltiplas implementações na aplicação que possam ser aplicadas em casos específicos, conforme pode ser observado no exemplo abaixo:
+				</p>
+<pre class="brush: java;">
+@Closure("minhaClosure")
+public class MinhaValidationClosure implements ValidationClosure {
+    public void proceed(Set<Message> messages) throws Exception {
+        ... // código específico
+    }
+}
+
+public class ProdutoBC {
+    @ValidateParameters(closure=@Closure("minhaClosure"))
+    public void movimentarEstoque(Produto produto, Destino destino){ ... };
+}
+</pre>
+				<p>
+				No exemplo acima a execução do método movimentarEstoque será interceptado e os parâmetros 'produto' e 'destino' serão validados. Caso ocorram violações em qualquer destes objetos, será executado o conteúdo do método <i>proceed</i> da implementação específica <i><b>MinhaValidationClosure</b></i>.
+				</p>
+				<p>
+				Também é possível identificar parâmetros que devem ser ignorados na interceptação para validação, através da anotação <i>@SkipValidation</i>, como demonstrado a seguir, aonde apenas o parâmetro 'produto' será validado:
+				</p>
+<pre class="brush: java;">
+public class ProdutoBC {
+    @ValidateParameters(closure=@Closure("minhaClosure"))
+    public void movimentarEstoque(Produto produto, 
+            @SkipValidation Destino destino){ ... };
+}
+</pre>
+				<p>
+				Afim de manter aderência a especificação do <i>BeanValidation</i>, também pode-se informar grupos de validação a serem aplicados na validação dos parâmetros interceptados, conforme pode-se verificar no seguinte exemplo:
+				</p>
+<pre class="brush: java;">
+public class ProdutoBC {
+    @ValidateParameters(groups = {GrupoA.class, GrupoB.class}, 
+            closure=@Closure("minhaClosure"))
+    public void movimentarEstoque(Produto produto, Destino destino){ ... };
+}
+</pre>
+			</div>
+			<div class="cleared"></div>
+			<div class="art-postfootericons art-metadata-icons">
+				<span class="art-posttagicon"><a href="mailto:leandro.deitos@gmail.com" title="leandro.deitos@gmail.com">Leandro Deitos</a> - 2014</span>
+			</div>
+		</div>
+		<div class="cleared"></div>
+	</div>	
+</div>	

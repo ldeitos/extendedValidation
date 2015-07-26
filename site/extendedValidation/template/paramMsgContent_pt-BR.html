@@ -2,7 +2,7 @@
 	<div class="art-box-body art-post-body">
 		<div class="art-post-inner art-article">
 			<h2 class="art-postheader">
-				Suporte extendido a parametrização do texto das mensagens
+				Suporte estendido a parametrização do texto das mensagens
 			</h2>
 			<div class="art-postmetadataheader">
 				<div class="art-postheadericons art-metadata-icons">
@@ -50,10 +50,10 @@ public class MyEntity {
 				da definição da <i>constraint</i> pode tornar-se inconveniente.
 				</p>
 				<p>
-				Com a proposta de ampliar as possiblidades de parametrização de mensagens e permitir que isso seja realizado no momento 
+				Com a proposta de ampliar as possibilidades de parametrização de mensagens e permitir que isso seja realizado no momento 
 				da aplicação da <i>constraint</i>, e não no de sua definição, o <i>ExtendedValidation</i> adiciona a possibilidade de 
 				declarar o campo "messageParameters" na <i>constraint</i>. Caso o campo esteja presente, seu conteúdo é processado pela implementação 
-				do interpolador disponibilizado pelo componente, que extrai o par 'chave=valor' e envia para o interpolador default da implementação 
+				do interpolador disponibilizado pelo componente, que extrai o par 'chave=valor' e envia para o interpolador <i>default</i> da implementação 
 				da API escolhida para o projeto.
 				</p>
 				<div class="gsc-branding-text gsc-sidebar-text-small">Definição da <i>Constraint</i></div>
@@ -90,7 +90,7 @@ public class MyEntity {
 				Entretanto, neste caso, é necessário que a mensagem defina o parâmetro no padrão de índice, como em: "{0} invalida".
 				</p>
 				<p>
-				Uma vez que o campo "messageParameters" é um <i>array</i>, é possível informar multiplos parâmetros adicionando-os  
+				Uma vez que o campo "messageParameters" é um <i>array</i>, é possível informar múltiplos parâmetros adicionando-os  
 				separados por vírgula, como nos exemplos abaixo: 
 				</p>
 <pre class="brush: java;">
