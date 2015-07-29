@@ -1,5 +1,6 @@
 package com.github.ldeitos.validators;
 
+import static com.github.ldeitos.validation.impl.util.PresentationMessageFormatter.format;
 import static java.lang.String.format;
 
 import java.lang.annotation.Annotation;
@@ -39,12 +40,12 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 
 	private ThreadLocal<Boolean> validMap = new ThreadLocal<Boolean>();
 
+	private ThreadLocal<PathBuilder> pathBuilder = new ThreadLocal<PathBuilder>();
+
 	private ThreadLocal<ConstraintValidatorContext> contextMap = new ThreadLocal<ConstraintValidatorContext>();
 
 	@Inject
 	private PreInterpolator preInterpolator;
-
-	private PathBuilder pathBuilder;
 
 	/**
 	 * {@inheritDoc}<br>
@@ -72,11 +73,6 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 		}
 
 		return valid;
-	}
-
-	private void release() {
-		validMap.remove();
-		contextMap.remove();
 	}
 
 	/**
@@ -114,6 +110,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 		ConstraintValidatorContext context = contextMap.get();
 		String msg = context.getDefaultConstraintMessageTemplate();
 		String msgInterpolated = preInterpolator.interpolate(msg, msgParameters);
+		msgInterpolated = format(msg, msgInterpolated);
 
 		log.debug("Adding violation with default template.");
 		doTraceLog(msgParameters);
@@ -145,6 +142,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 		ConstraintValidatorContext context = contextMap.get();
 		String msg = context.getDefaultConstraintMessageTemplate();
 		String msgInterpolated = preInterpolator.interpolate(msg, msgParameters);
+		msgInterpolated = format(msg, msgInterpolated);
 
 		log.debug("Adding violation with default template.");
 		doTraceLog(msgParameters);
@@ -204,6 +202,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	protected void addViolation(String msgTemplate, String... msgParameters) {
 		ConstraintValidatorContext context = contextMap.get();
 		String msgInterpolated = preInterpolator.interpolate(msgTemplate, msgParameters);
+		msgInterpolated = format(msgTemplate, msgInterpolated);
 
 		log.debug(format("Adding violation with [%s] template.", msgTemplate));
 		doTraceLog(msgParameters);
@@ -240,6 +239,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	protected void addViolation(Path path, String msgTemplate, String... msgParameters) {
 		ConstraintValidatorContext context = contextMap.get();
 		String msgInterpolated = preInterpolator.interpolate(msgTemplate, msgParameters);
+		msgInterpolated = format(msgTemplate, msgInterpolated);
 
 		log.debug(format("Adding violation with [%s] template.", msgTemplate));
 		doTraceLog(msgParameters);
@@ -312,12 +312,12 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 *     public String getStreet() { ... }
 	 *     public Country getCountry() { ... }
 	 * }
-	 * 
+	 *
 	 * //From a class level constraint on Address
 	 * //Build a constraint violation on the default path + "street"
 	 * //i.e. the street property of Address
 	 * buildPath("street");
-	 * 
+	 *
 	 * @param path
 	 * 		String representation of path to property to register violation.
 	 * @return
@@ -326,11 +326,13 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * @since 0.9.0
 	 */
 	protected PathBuilder buildPath(String path) {
-		if (pathBuilder == null) {
-			pathBuilder = new PathBuilder();
+		PathBuilder pBuilder = pathBuilder.get();
+		if (pBuilder == null) {
+			pBuilder = new PathBuilder();
+			pathBuilder.set(pBuilder);
 		}
 
-		return pathBuilder.add(path);
+		return pBuilder.add(path);
 	}
 
 	/**
@@ -343,28 +345,28 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * public class User {
 	 *     public Map<String, Address> getAddresses() { ... }
 	 * }
-	 *
+	 * 
 	 * public class Address {
 	 *     public String getStreet() { ... }
 	 *     public Country getCountry() { ... }
 	 * }
-	 *
+	 * 
 	 * public class Country {
 	 *     public String getName() { ... }
 	 * }
-	 *
+	 * 
 	 * //From a class level constraint on User
 	 * //Build a constraint violation on the default path + addresses["home"].country.name
 	 * //i.e. property "country.name" on the object stored under "home" in the map
 	 * buildPath("addresses", "home").add("country").add("name")<br>
 	 * or <br>
 	 * buildPath("addresses[home].country.name")<br><br>
-	 *
+	 * 
 	 * <b>P.S.:</b> A full path build like buildPath("addresses[home].country.name"), when refers a map,
 	 * only can be used when a map key is a String, in other way, uses a fluent model, like
 	 * buildPath("addresses", aObject).add("country").add("name").
-	 *
-	 *
+	 * 
+	 * 
 	 * @param path
 	 * 		String representation of path to property to register violation.
 	 * @param key
@@ -375,11 +377,13 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * @since 0.9.1
 	 */
 	protected PathBuilder buildPath(String path, Object key) {
-		if (pathBuilder == null) {
-			pathBuilder = new PathBuilder();
+		PathBuilder pBuilder = pathBuilder.get();
+		if (pBuilder == null) {
+			pBuilder = new PathBuilder();
+			pathBuilder.set(pBuilder);
 		}
 
-		return pathBuilder.add(path, key);
+		return pBuilder.add(path, key);
 	}
 
 	/**
@@ -391,17 +395,17 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * public class User {
 	 *     public Map<String, Address> getAddresses() { ... }
 	 * }
-	 *
+	 * 
 	 * public class Address {
 	 *     public String getStreet() { ... }
 	 *     public Country getCountry() { ... }
 	 * }
-	 *
+	 * 
 	 * //From a property-level constraint on User.addresses
 	 * //Build a constraint violation on the default path + the bean stored
 	 * //under the "home" key on map:
 	 *  atKey("home")
-	 *
+	 * 
 	 * @param key
 	 * 		Key to mapped collection content to registered violation.
 	 * @return
@@ -410,11 +414,13 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * @since 0.9.1
 	 */
 	protected Path atKey(Object key) {
-		if (pathBuilder == null) {
-			pathBuilder = new PathBuilder();
+		PathBuilder pBuilder = pathBuilder.get();
+		if (pBuilder == null) {
+			pBuilder = new PathBuilder();
+			pathBuilder.set(pBuilder);
 		}
 
-		return pathBuilder.addAtKey(key).getPath();
+		return pBuilder.addAtKey(key).getPath();
 	}
 
 	/**
@@ -427,20 +433,20 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * public class User {
 	 *     public List getAddresses() { ... }
 	 * }
-	 *
+	 * 
 	 * public class Address {
 	 *     public String getStreet() { ... }
 	 *     public Country getCountry() { ... }
 	 * }
-	 *
+	 * 
 	 * //From a class level constraint on User
 	 * //Build a constraint violation on the default path + addresses(2).country.name
 	 * //i.e. property "country.name" on the object stored under index 2 in the list
 	 * buildPath("addresses", 2).add("country").add("name")<br>
 	 * or <br>
 	 * buildPath("addresses(2).country.name")<br><br>
-	 *
-	 *
+	 * 
+	 * 
 	 * @param path
 	 * 		String representation of path to property to register violation.
 	 * @param index
@@ -451,11 +457,13 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * @since 0.9.0
 	 */
 	protected PathBuilder buildPath(String path, Integer index) {
-		if (pathBuilder == null) {
-			pathBuilder = new PathBuilder();
+		PathBuilder pBuilder = pathBuilder.get();
+		if (pBuilder == null) {
+			pBuilder = new PathBuilder();
+			pathBuilder.set(pBuilder);
 		}
 
-		return pathBuilder.add(path, index);
+		return pBuilder.add(path, index);
 	}
 
 	/**
@@ -467,17 +475,17 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * public class User {
 	 *     public List getAddresses() { ... }
 	 * }
-	 *
+	 * 
 	 * public class Address {
 	 *     public String getStreet() { ... }
 	 *     public Country getCountry() { ... }
 	 * }
-	 *
+	 * 
 	 * //From a property-level constraint on User.addresses
 	 * //Build a constraint violation on the default path + the bean stored
 	 * //under the index 2 on list:
 	 *  atIndex(2)
-	 *
+	 * 
 	 * @param index
 	 * 		Index to indexed collection content to registered violation.
 	 * @return
@@ -486,16 +494,18 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * @since 0.9.0
 	 */
 	protected Path atIndex(Integer index) {
-		if (pathBuilder == null) {
-			pathBuilder = new PathBuilder();
+		PathBuilder pBuilder = pathBuilder.get();
+		if (pBuilder == null) {
+			pBuilder = new PathBuilder();
+			pathBuilder.set(pBuilder);
 		}
 
-		return pathBuilder.addAtIndex(index).getPath();
+		return pBuilder.addAtIndex(index).getPath();
 	}
 
 	private ConstraintBuilderAdapter buildPath(ConstraintViolationBuilder cvBuilder, Path path) {
 		ConstraintBuilderAdapter constraintBuilderAdapter = new NodeBuilderCustomizableContextAdapter(
-		    cvBuilder.addPropertyNode(path.getPath()));
+			cvBuilder.addPropertyNode(path.getPath()));
 
 		while (path.hasNext()) {
 			path = path.getNext();
@@ -513,5 +523,11 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 		} else if (path.hasIndex()) {
 			leafNodeBCxt.inIterable().atIndex(path.getIndex()).addConstraintViolation();
 		}
+	}
+
+	private void release() {
+		validMap.remove();
+		contextMap.remove();
+		pathBuilder.remove();
 	}
 }

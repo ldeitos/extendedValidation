@@ -1,5 +1,6 @@
 package com.github.ldeitos.validation.impl.interpolator;
 
+import static com.github.ldeitos.validation.impl.util.PresentationMessageFormatter.format;
 import static javax.validation.Validation.byDefaultProvider;
 
 import java.util.Locale;
@@ -36,7 +37,7 @@ public class ExtendedParameterMessageInterpolator extends BaseInterpolator imple
 	public String interpolate(String messageTemplate, Context context) {
 		String message = getMessageSource().getMessage(messageTemplate);
 		String resolvedMessage = delegate.interpolate(message, new ExtendedParameterContext(context));
-		resolvedMessage = formatMessagePresentation(messageTemplate, resolvedMessage);
+		resolvedMessage = format(messageTemplate, resolvedMessage);
 		return resolvedMessage;
 	}
 
@@ -48,7 +49,7 @@ public class ExtendedParameterMessageInterpolator extends BaseInterpolator imple
 	public String interpolate(String messageTemplate, Context context, Locale locale) {
 		String message = getMessageSource().getMessage(messageTemplate, locale);
 		String resolvedMessage = delegate.interpolate(message, new ExtendedParameterContext(context), locale);
-		resolvedMessage = formatMessagePresentation(messageTemplate, resolvedMessage);
+		resolvedMessage = format(messageTemplate, resolvedMessage);
 		return resolvedMessage;
 	}
 }

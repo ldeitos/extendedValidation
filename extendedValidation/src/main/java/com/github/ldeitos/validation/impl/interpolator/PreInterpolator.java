@@ -49,7 +49,6 @@ public class PreInterpolator extends BaseInterpolator {
 		log.debug(format("Message template: [%s]", msg));
 		String resolvedMsg = getMessageSource().getMessage(msg);
 		resolvedMsg = doInterpolation(resolvedMsg, parameters);
-		resolvedMsg = formatMessagePresentation(msg, resolvedMsg);
 		return resolvedMsg;
 	}
 
@@ -106,7 +105,7 @@ public class PreInterpolator extends BaseInterpolator {
 
 			if (matcher.matches()) {
 				log.trace(format("Parameter [%s] resolved to [%s]", matcher.group(PARAMETER_CONTENT_GROUP),
-				    valueOf(value)));
+					valueOf(value)));
 			}
 		}
 	}

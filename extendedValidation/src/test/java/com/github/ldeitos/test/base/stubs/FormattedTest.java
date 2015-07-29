@@ -2,6 +2,7 @@ package com.github.ldeitos.test.base.stubs;
 
 import com.github.ldeitos.constraint.NotNull;
 
+@FormattedPresentationConstraint(groups = GrupoTestBeanA.class)
 public class FormattedTest {
 	@NotNull(message = "{KEY}")
 	private String stringField;
