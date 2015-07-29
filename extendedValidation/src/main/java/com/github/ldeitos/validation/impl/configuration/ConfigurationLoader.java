@@ -4,8 +4,13 @@ import static com.github.ldeitos.constants.Constants.DEFAULT_MESSAGE_SOURCE;
 import static com.github.ldeitos.constants.Constants.PATH_CONF_MESSAGE_FILE;
 import static com.github.ldeitos.constants.Constants.PATH_CONF_MESSAGE_FILES;
 import static com.github.ldeitos.constants.Constants.PATH_CONF_MESSAGE_SOURCE;
+import static com.github.ldeitos.constants.Constants.PATH_CONF_TEMPLATE_MESSAGE_PRESENTATION;
 import static com.github.ldeitos.constants.Constants.PATH_CONF_VALIDATION_CLOSURE;
+import static com.github.ldeitos.constants.Constants.PRESENTATION_MESSAGE_PATTERN;
 import static java.lang.String.format;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.DefaultConfigurationBuilder;
@@ -63,30 +68,45 @@ class ConfigurationLoader {
 
 	private static void loadFromXMLFiles(DefaultConfigurationBuilder confBuilder) {
 		if (!confBuilder.isEmpty()) {
-			String fileName;
+			String config;
 			configuration = new ConfigurationDTO();
 
 			if (confBuilder.containsKey(PATH_CONF_VALIDATION_CLOSURE)) {
-				fileName = confBuilder.getString(PATH_CONF_VALIDATION_CLOSURE);
-				log.debug(format("Configured ValidationClosure: [%s]", fileName));
-				configuration.setValidationClosure(fileName);
+				config = confBuilder.getString(PATH_CONF_VALIDATION_CLOSURE);
+				log.debug(format("Configured ValidationClosure: [%s]", config));
+				configuration.setValidationClosure(config);
 			}
 
 			if (confBuilder.containsKey(PATH_CONF_MESSAGE_SOURCE)) {
-				fileName = confBuilder.getString(PATH_CONF_MESSAGE_SOURCE);
-				log.debug(format("Configured MessagesSource: [%s]", fileName));
-				configuration.setMessageSource(fileName);
+				config = confBuilder.getString(PATH_CONF_MESSAGE_SOURCE);
+				log.debug(format("Configured MessagesSource: [%s]", config));
+				configuration.setMessageSource(config);
+			}
+
+			if (confBuilder.containsKey(PATH_CONF_TEMPLATE_MESSAGE_PRESENTATION)) {
+				config = confBuilder.getString(PATH_CONF_TEMPLATE_MESSAGE_PRESENTATION);
+				verifyTemplateMessagePresentation(config);
+				log.debug(format("Message presentation template: [%s]", config));
+				configuration.setMessagePresentationTemplate(config);
 			}
 
 			for (HierarchicalConfiguration nextConf : confBuilder.configurationsAt(PATH_CONF_MESSAGE_FILES)) {
 				for (HierarchicalConfiguration nextFile : nextConf.configurationsAt(PATH_CONF_MESSAGE_FILE)) {
-					fileName = nextFile.getRoot().getValue().toString();
-					log.debug(format("Adding configured message file: [%s]", fileName));
-					configuration.addMessageFile(fileName);
+					config = nextFile.getRoot().getValue().toString();
+					log.debug(format("Adding configured message file: [%s]", config));
+					configuration.addMessageFile(config);
 				}
 			}
 		}
 
+	}
+
+	private static void verifyTemplateMessagePresentation(String input) {
+		Matcher matcher = Pattern.compile(PRESENTATION_MESSAGE_PATTERN).matcher(input);
+		if (!matcher.find()) {
+			log.warn(format("Message presentation template does not shows the message text, "
+				+ "try add %s to pattern.", PRESENTATION_MESSAGE_PATTERN));
+		}
 	}
 
 	private static void loadDefaultConfiguration() {

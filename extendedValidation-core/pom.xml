@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>com.github.ldeitos</groupId>
 		<artifactId>extendedValidation-parent</artifactId>
-		<version>0.9.3</version>
+		<version>0.9.4</version>
 		<relativePath>../extendedValidation-parent</relativePath>
 	</parent>
 

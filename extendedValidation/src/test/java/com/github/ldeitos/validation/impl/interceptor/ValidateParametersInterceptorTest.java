@@ -180,7 +180,7 @@ public class ValidateParametersInterceptorTest extends BaseTest {
 			assertFalse(messages.isEmpty());
 
 			assertHasMessages(messages, "Invalid TestBeanA field", "Invalid TestBeanA field",
-			    "Invalid TestBeanA field");
+				"Invalid TestBeanA field");
 		}
 	}
 

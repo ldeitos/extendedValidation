@@ -1,9 +1,12 @@
 package com.github.ldeitos.validation.impl.configuration;
 
 import static com.github.ldeitos.constants.Constants.MESSAGE_FILES_SYSTEM_PROPERTY;
+import static com.github.ldeitos.constants.Constants.PRESENTATION_MESSAGE_PATTERN;
+import static com.github.ldeitos.constants.Constants.PRESENTATION_TEMPLATE_PATTERN;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
+import static java.util.regex.Pattern.compile;
 import static org.apache.commons.collections15.CollectionUtils.collect;
 import static org.apache.commons.collections4.CollectionUtils.forAllDo;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
@@ -11,6 +14,8 @@ import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections4.Closure;
@@ -34,6 +39,10 @@ import com.github.ldeitos.validation.impl.configuration.dto.MessageFileDTO;
  *
  */
 public class Configuration {
+	public static final Pattern PRESENTATION_MESSAGE = compile(PRESENTATION_MESSAGE_PATTERN);
+
+	public static final Pattern PRESENTATION_TEMPLATE = compile(PRESENTATION_TEMPLATE_PATTERN);
+
 	private static Configuration instance;
 
 	private Logger log = LoggerFactory.getLogger(Configuration.class);
@@ -52,9 +61,12 @@ public class Configuration {
 	 * @return Unique instance to {@link Configuration} to application use.
 	 */
 	public static Configuration getConfiguration(ConfigInfoProvider configProvider) {
-		if (instance == null || configProvider.isInTest()) {
+		if (isUnloaded() || configProvider.isInTest()) {
 			instance = new Configuration(configProvider);
-			init(instance);
+
+			if (!configProvider.isInTest()) {
+				init(instance);
+			}
 		}
 
 		return instance;
@@ -186,6 +198,24 @@ public class Configuration {
 		return messagesSource;
 	}
 
+	/**
+	 * @return Configured message presentation template.
+	 * @since 0.9.4
+	 */
+	public String getMessagePresentationTemplate() {
+		return configuration.getMessagePresentationTemplate();
+	}
+
+	public boolean showTemplate() {
+		Matcher matcher = PRESENTATION_TEMPLATE.matcher(getMessagePresentationTemplate());
+		return matcher.find();
+	}
+
+	public boolean showMessage() {
+		Matcher matcher = PRESENTATION_MESSAGE.matcher(getMessagePresentationTemplate());
+		return matcher.find();
+	}
+
 	private <T> T resolveBean(Class<? extends T> beanType) {
 		T bean = null;
 
@@ -199,7 +229,7 @@ public class Configuration {
 			}
 		} catch (InvalidCDIContextException e) {
 			String warnMsg = format("Error to obtain [%s] reference by CDI Context. Cause: %s.",
-				beanType.getCanonicalName(), e.getMessage());
+			    beanType.getCanonicalName(), e.getMessage());
 			log.warn(warnMsg);
 
 			bean = getByReflection(beanType);
@@ -211,7 +241,7 @@ public class Configuration {
 	private <T> T getByReflection(Class<? extends T> beanType) {
 		T bean = null;
 		String msgError = format("Error to obtain %s instance from [%s] by reflection.",
-			beanType.getInterfaces()[0].getSimpleName(), beanType.getCanonicalName());
+		    beanType.getInterfaces()[0].getSimpleName(), beanType.getCanonicalName());
 		try {
 			log.warn("Trying by reflection...");
 			bean = ConstructorUtils.invokeConstructor(beanType);

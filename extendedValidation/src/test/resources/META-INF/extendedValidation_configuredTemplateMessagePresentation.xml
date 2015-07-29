@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extended-validation>
+	<template-message-presentation>($T) $M</template-message-presentation>
+</extended-validation>

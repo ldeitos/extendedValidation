@@ -35,8 +35,9 @@ public class ExtendedParameterMessageInterpolator extends BaseInterpolator imple
 	@Override
 	public String interpolate(String messageTemplate, Context context) {
 		String message = getMessageSource().getMessage(messageTemplate);
-
-		return delegate.interpolate(message, new ExtendedParameterContext(context));
+		String resolvedMessage = delegate.interpolate(message, new ExtendedParameterContext(context));
+		resolvedMessage = formatMessagePresentation(messageTemplate, resolvedMessage);
+		return resolvedMessage;
 	}
 
 	/**
@@ -46,7 +47,8 @@ public class ExtendedParameterMessageInterpolator extends BaseInterpolator imple
 	@Override
 	public String interpolate(String messageTemplate, Context context, Locale locale) {
 		String message = getMessageSource().getMessage(messageTemplate, locale);
-
-		return delegate.interpolate(message, new ExtendedParameterContext(context), locale);
+		String resolvedMessage = delegate.interpolate(message, new ExtendedParameterContext(context), locale);
+		resolvedMessage = formatMessagePresentation(messageTemplate, resolvedMessage);
+		return resolvedMessage;
 	}
 }

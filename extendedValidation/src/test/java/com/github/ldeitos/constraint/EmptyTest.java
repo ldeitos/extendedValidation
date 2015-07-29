@@ -11,16 +11,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
 import org.jglue.cdiunit.AdditionalClasses;
+import org.jglue.cdiunit.ProducesAlternative;
 import org.junit.Test;
 
 import com.github.ldeitos.qualifier.ExtendedValidator;
 import com.github.ldeitos.test.base.BaseTest;
+import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 import com.github.ldeitos.validators.EmptyValidatorImpl;
 import com.github.ldeitos.validators.SizeValidatorImpl;
@@ -29,6 +32,15 @@ import com.github.ldeitos.validators.SizeValidatorImpl;
 public class EmptyTest extends BaseTest {
 
 	private static final String MENSAGEM_ESPERADA = "Empty Teste";
+
+	@Produces
+	@ProducesAlternative
+	private ConfigInfoProvider cip = new ConfigInfoProvider() {
+		@Override
+		protected boolean isInTest() {
+			return true;
+		}
+	};
 
 	@Inject
 	@ExtendedValidator

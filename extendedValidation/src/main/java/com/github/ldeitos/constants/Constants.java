@@ -65,6 +65,12 @@ public interface Constants {
 	 */
 	String PARAMETER_PATTERN = "(\\{|\\[)(.*)(\\}|\\])";
 
+	String PRESENTATION_TEMPLATE_PATTERN = "\\$T";
+
+	String PRESENTATION_MESSAGE_PATTERN = "\\$M";
+
+	String PRESENTATION_MESSAGE_PARAMETER = "$M";
+
 	/**
 	 * Parameter group index in regex {@link Constants#PARAMETER_PATTERN}.
 	 */
@@ -87,6 +93,11 @@ public interface Constants {
 	 * {@link Constants#INTERPOLATE_PARAMETER_PATTERN}.
 	 */
 	int PARAMETER_VALUE_GROUP = 3;
+
+	/**
+	 * SimplePath to template message presentation in xml configuration file.
+	 */
+	String PATH_CONF_TEMPLATE_MESSAGE_PRESENTATION = "template-message-presentation";
 
 	/**
 	 * SimplePath to {@link ValidationClosure} in xml configuration file.
