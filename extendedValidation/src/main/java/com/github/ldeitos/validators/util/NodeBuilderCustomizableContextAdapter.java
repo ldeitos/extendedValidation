@@ -5,14 +5,14 @@ import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder.No
 public class NodeBuilderCustomizableContextAdapter implements ConstraintBuilderAdapter {
 	private NodeBuilderCustomizableContext nBuilder;
 
-	public NodeBuilderCustomizableContextAdapter(NodeBuilderCustomizableContext nBuilder) {
-		this.nBuilder = nBuilder;
+	public NodeBuilderCustomizableContextAdapter(NodeBuilderCustomizableContext nodeBuilderDefinedContext) {
+		nBuilder = nodeBuilderDefinedContext;
 	}
 
 	@Override
 	public ConstraintBuilderAdapter addPropertyNode(Path path) {
 		ConstraintBuilderAdapter result;
-		nBuilder = nBuilder.addPropertyNode(path.getPath());
+		nBuilder = nBuilder.addNode(path.getPath());
 
 		if (path.isIterable()) {
 			result = new IterablePropertyNodeContextAdapter(nBuilder).addPropertyNode(path);

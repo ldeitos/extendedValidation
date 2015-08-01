@@ -14,14 +14,24 @@ public class NodeBuilderDefinedContextAdapter implements ConstraintBuilderAdapte
 
 	@Override
 	public ConstraintBuilderAdapter addPropertyNode(Path path) {
-		nbCustonCtxt = nBuilder.addPropertyNode(path.getPath());
-		return new NodeBuilderCustomizableContextAdapter(nbCustonCtxt);
+		ConstraintBuilderAdapter result;
+		nbCustonCtxt = nBuilder.addNode(path.getPath());
+
+		if (path.isIterable()) {
+			result = new IterablePropertyNodeContextAdapter(nbCustonCtxt).addPropertyNode(path);
+		} else {
+			result = new NodeBuilderCustomizableContextAdapter(nbCustonCtxt);
+		}
+
+		return result;
 	}
 
 	@Override
 	public void addConstraintViolation() {
 		if (nbCustonCtxt != null) {
 			nbCustonCtxt.addConstraintViolation();
+		} else {
+			nBuilder.addConstraintViolation();
 		}
 	}
 

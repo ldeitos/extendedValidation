@@ -11,8 +11,8 @@ public class AddressValidatorDefaultImpl implements ConstraintValidator<AddressC
 	@Override
 	public boolean isValid(Address value, ConstraintValidatorContext context) {
 		context.disableDefaultConstraintViolation();
-		context.buildConstraintViolationWithTemplate("erro de valida��o").addPropertyNode("street")
-		.addConstraintViolation();
+		context.buildConstraintViolationWithTemplate("erro de valida��o").addNode("street")
+		    .addConstraintViolation();
 		return false;
 	}
 }

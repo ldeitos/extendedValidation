@@ -36,7 +36,6 @@ import com.github.ldeitos.test.base.stubs.GrupoPropertyLevelMappedExtended;
 import com.github.ldeitos.test.base.stubs.InvalidListValidatorImpl;
 import com.github.ldeitos.test.base.stubs.InvalidMappedValidatorImpl;
 import com.github.ldeitos.test.base.stubs.PathTestValidatorImpl;
-import com.github.ldeitos.test.base.stubs.PropertyMappedValidatorDefaultImpl;
 import com.github.ldeitos.test.base.stubs.PropertyMappedValidatorExtendedImpl;
 import com.github.ldeitos.test.base.stubs.PropertyValidatorDefaultImpl;
 import com.github.ldeitos.test.base.stubs.PropertyValidatorExtendedImpl;
@@ -51,8 +50,8 @@ import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 @AdditionalClasses({ TestMessageSource.class, PathTestValidatorImpl.class, TestValidatorImpl.class,
 	PropertyValidatorDefaultImpl.class, PropertyValidatorExtendedImpl.class,
     AddressValidatorDefaultImpl.class, AddressValidatorExtendedImpl.class,
-	PropertyMappedValidatorDefaultImpl.class, PropertyMappedValidatorExtendedImpl.class,
-	UserValidatorDefaultImpl.class, UserValidatorExtendedImpl.class, UserValidatorFullPathExtendedImpl.class,
+	PropertyMappedValidatorExtendedImpl.class, UserValidatorDefaultImpl.class,
+	UserValidatorExtendedImpl.class, UserValidatorFullPathExtendedImpl.class,
     UserValidatorFullPathListExtendedImpl.class, InvalidMappedValidatorImpl.class,
     InvalidListValidatorImpl.class })
 public class AbstractExtendedValidatorTest extends BaseTest {
@@ -146,7 +145,6 @@ public class AbstractExtendedValidatorTest extends BaseTest {
 		assertEquals(cDefault.getPropertyPath(), cExtended.getPropertyPath());
 	}
 
-	@Test
 	public void testAddViolationSimpleFieldMapped() {
 		User user = new User();
 

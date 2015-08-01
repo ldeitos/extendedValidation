@@ -1,8 +1,8 @@
 #ExtendedValidation
-##A BeanValidation 1.1 extension
+##A BeanValidation 1.0 extension
 
 ###Flexible, extensible and easy to use
-This component is not a complete implementation of [*BeanValidation API 1.1*](http://cdi-spec.org/), but an extension that add functionalities to the API, regardless of the concrete implementation used, and can be easily integrated to new or existent projects.
+This component is not a complete implementation of [*BeanValidation API 1.0*](http://cdi-spec.org/), but an extension that add functionalities to the API, regardless of the concrete implementation used, and can be easily integrated to new or existent projects.
 
 All elements of API implementations delegates, at the end of its increment to the functionality, the conclusion of the processing to its default pair defined by the implementation of the chosen API. This principle guarantees that existing behaviours in legacy projects will not be affected, minimizing the risks in the adoption of the component in this scenario.
 
@@ -11,7 +11,7 @@ Idealized to make easier the usage of validation by [*BeanValidation API*](http:
 ###Integrated to CDI
 The *ExtendedValidation* has an implementation of *ConstraintValidatorFactory* integrated to the dependency context of [CDI API](http://cdi-spec.org/), permitting that the instance of the validator declared by Constraint to be retrieved from an interface, making possible to uncouple those elements.
 
-The specification of [BeanValidation API 1.1](http://cdi-spec.org/) relates the description of Constraint with its validator directly by the class of this validator, as exemplified below:
+The specification of [BeanValidation API 1.0](http://cdi-spec.org/) relates the description of Constraint with its validator directly by the class of this validator, as exemplified below:
 ![](https://github.com/ldeitos/repository/blob/master/site/extendedValidation/images/ConstraintValidation1.png)
 
 In order to make possible the detachment between the Constraint and the implementation of its validator, the factory of validators implemented by **ExtendedValidation** allows to set an interface to the *Constraint* which will be implemented by the validator, which will be able or not to be physically in the same component, as follow:
@@ -27,13 +27,13 @@ This model can lead to circular dependency situations, generally undesirable sce
 Having in mind that the services interfaces changes less than the business behavior, the decoupling afforded by the *ExtendedValidation* enables the adoption of an architecture segmented in components with more cohesive and independent responsibilities, in order to allow dependencies to be established between the elements with the lowest possibility of changing over the life of the system, as shown in the following diagram:
 ![](https://github.com/ldeitos/repository/blob/master/site/extendedValidation/images/Desacoplado.png)
 
-The *Factory* implemented allows the coexistence between the suggested model and the pattern defined by the [*BeanValidation API 1.1*](http://cdi-spec.org/), ie it is possible to have definitions of Constraint related to interfaces and others defining concrete classes, both will be treated equally in the resolution phase of validator to be applied.
+The *Factory* implemented allows the coexistence between the suggested model and the pattern defined by the [*BeanValidation API 1.0*](http://cdi-spec.org/), ie it is possible to have definitions of Constraint related to interfaces and others defining concrete classes, both will be treated equally in the resolution phase of validator to be applied.
 
 ###Extended support for parameterization of text messages
 
 The possibilities for parameterization of the text messages generated to the system by violations of Constraint have been expanded with the use of ExtendedValidation .
 
-The [*BeanValidation API 1.1*](http://cdi-spec.org/) defines that the fields declared in Constraint , and EL expressions and some pre-defined variables can be used to solve the message in the interpolation phase. Below is exemplified as a field ("label") is used to value a defined parameter in a message.
+The [*BeanValidation API 1.0*](http://cdi-spec.org/) defines that the fields declared in Constraint , and EL expressions and some pre-defined variables can be used to solve the message in the interpolation phase. Below is exemplified as a field ("label") is used to value a defined parameter in a message.
 ```java
 // Definition of Constraint
 @Constraint(validatedBy = MyValidator.class)
@@ -57,7 +57,7 @@ public class MyEntity {
 
 In the example shown the message generated would be "Invalidates Entity".
 
-The mechanism proposed by [*BeanValidation API 1.1*](http://cdi-spec.org/) is very flexible and covers the most common usage scenarios. However, in systems whose messages are pre-registered and reused in multiple scenarios, or when the constraint is reused generating different messages at different times, the need to predict all the parameters that will be used throughout time when the definition of constraint can become inconvenient.
+The mechanism proposed by [*BeanValidation API 1.0*](http://cdi-spec.org/) is very flexible and covers the most common usage scenarios. However, in systems whose messages are pre-registered and reused in multiple scenarios, or when the constraint is reused generating different messages at different times, the need to predict all the parameters that will be used throughout time when the definition of constraint can become inconvenient.
 
 With the proposal to expand the possibilities for parameterization of messages and allow this to be done at the constraint application time, and not in its definition, the ExtendedValidation adds the possibility to declare "messageParameters" field in constraint . If the field is present, its contents are processed by implementing the interpolator provided by the component, which extracts the pair 'key = value' and sends it to the default interpolator implementation of the API chosen for the project.
 
@@ -105,7 +105,7 @@ public class MyEntity {
 
 ###Multiple message sources
 
-The [*BeanValidation API 1.1*](http://cdi-spec.org/) enable two ways to assign messages to constraint:
+The [*BeanValidation API 1.0*](http://cdi-spec.org/) enable two ways to assign messages to constraint:
 
 - Assigning text message directly to the attribute "message", is the declaration or implementation of the constraint as exemplified bellow:
 ```java
@@ -196,10 +196,10 @@ If you use the abstract class and the template defined in the constraint is not 
 
 To use the ExtendedValidation it is necessary to add to the project the following dependencies:
 
-- [extendedValidation](http://search.maven.org/#search%7Cga%7C1%7Cextendedvalidation)
-- [extendedValidation-core](http://search.maven.org/#search%7Cga%7C1%7Cextendedvalidation)
-- [BeanValidation API 1.1](http://search.maven.org/#artifactdetails%7Cjavax.validation%7Cvalidation-api%7C1.1.0.Final%7Cjar)
-- An implementation of *BeanValidation API 1.1* ([Ex.: Hibernate Validator](http://search.maven.org/#artifactdetails%7Corg.hibernate%7Chibernate-validator%7C5.1.2.Final%7Cjar))
+- [extendedValidation 1.0](http://search.maven.org/#search%7Cga%7C1%7Cextendedvalidation)
+- [extendedValidation-core 1.0](http://search.maven.org/#search%7Cga%7C1%7Cextendedvalidation)
+- [BeanValidation API 1.0](http://search.maven.org/#artifactdetails%7Cjavax.validation%7Cvalidation-api%7C1.0.0.GA%7Cjar)
+- An implementation of *BeanValidation API 1.0* ([Ex.: Hibernate Validator](http://search.maven.org/#artifactdetails%7Corg.hibernate%7Chibernate-validator%7C4.3.2.Final%7Cjar))
 
 The *ExtendedValidation* already has the necessary settings so that its resources are integrated to the validation mechanism. However, if your project has its own configurations declared within the file ***validation.xml***, it is necessary to take one of the following actions:
 

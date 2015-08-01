@@ -11,9 +11,8 @@ public class UserValidatorDefaultImpl implements ConstraintValidator<UserConstra
 	@Override
 	public boolean isValid(User value, ConstraintValidatorContext context) {
 		context.disableDefaultConstraintViolation();
-		context.buildConstraintViolationWithTemplate("erro de valida��o").addPropertyNode("addresses")
-		.addPropertyNode("country").inIterable().atKey("home").addPropertyNode("name")
-		.addConstraintViolation();
+		context.buildConstraintViolationWithTemplate("erro de valida��o").addNode("addresses")
+		    .addNode("country").inIterable().atKey("home").addNode("name").addConstraintViolation();
 		return false;
 	}
 }

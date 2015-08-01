@@ -12,7 +12,6 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
-import javax.validation.executable.ExecutableValidator;
 import javax.validation.metadata.BeanDescriptor;
 
 import org.apache.commons.collections15.Transformer;
@@ -53,7 +52,7 @@ public class ValidatorImpl implements Validator {
 
 	@Override
 	public <T> Set<ConstraintViolation<T>> validateValue(Class<T> beanType, String propertyName,
-	    Object value, Class<?>... groups) {
+		Object value, Class<?>... groups) {
 		return delegate.validateValue(beanType, propertyName, value, groups);
 	}
 
@@ -72,11 +71,6 @@ public class ValidatorImpl implements Validator {
 	}
 
 	@Override
-	public ExecutableValidator forExecutables() {
-		return delegate.forExecutables();
-	}
-
-	@Override
 	public <T> Set<Message> validateBean(T object, Class<?>... groups) {
 		Set<ConstraintViolation<T>> constraints = validate(object, groups);
 		return new HashSet<Message>(collect(constraints, toMessage));
@@ -90,7 +84,7 @@ public class ValidatorImpl implements Validator {
 
 	@Override
 	public <T> Set<Message> validateValueBean(Class<T> beanType, String propertyName, Object value,
-	    Class<?>... groups) {
+		Class<?>... groups) {
 		Set<ConstraintViolation<T>> constraints = validateValue(beanType, propertyName, value, groups);
 		return new HashSet<Message>(collect(constraints, toMessage));
 	}

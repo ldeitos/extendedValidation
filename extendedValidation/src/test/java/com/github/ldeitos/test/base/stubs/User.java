@@ -17,7 +17,6 @@ public class User {
 
 	@PropertyConstraintExtended(groups = { GrupoPropertyLevelExtended.class })
 	@PropertyConstraintDefault(groups = { GrupoPropertyLevelDefault.class })
-	@PropertyMappedConstraintDefault(groups = { GrupoPropertyLevelMappedDefault.class })
 	@PropertyMappedConstraintExtended(groups = { GrupoPropertyLevelMappedExtended.class })
 	public Map<String, Address> getAddresses() {
 		return addresses;

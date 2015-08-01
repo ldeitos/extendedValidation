@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder;
-import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder.LeafNodeBuilderCustomizableContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.github.ldeitos.validation.MessagesSource;
 import com.github.ldeitos.validation.impl.interpolator.PreInterpolator;
 import com.github.ldeitos.validators.util.ConstraintBuilderAdapter;
-import com.github.ldeitos.validators.util.NodeBuilderCustomizableContextAdapter;
+import com.github.ldeitos.validators.util.NodeBuilderDefinedContextAdapter;
 import com.github.ldeitos.validators.util.Path;
 import com.github.ldeitos.validators.util.PathBuilder;
 
@@ -151,11 +150,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 
 		ConstraintViolationBuilder cvBuilder = context.buildConstraintViolationWithTemplate(msgInterpolated);
 
-		if (atPath.isRootIterablePath()) {
-			buildIterablePathAndAddConstraint(cvBuilder, atPath);
-		} else {
-			buildPath(cvBuilder, atPath).addConstraintViolation();
-		}
+		buildPath(cvBuilder, atPath).addConstraintViolation();
 	}
 
 	/**
@@ -248,11 +243,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 
 		ConstraintViolationBuilder vBuilder = context.buildConstraintViolationWithTemplate(msgInterpolated);
 
-		if (path.isRootIterablePath()) {
-			buildIterablePathAndAddConstraint(vBuilder, path);
-		} else {
-			buildPath(vBuilder, path).addConstraintViolation();
-		}
+		buildPath(vBuilder, path).addConstraintViolation();
 	}
 
 	/**
@@ -504,8 +495,8 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	}
 
 	private ConstraintBuilderAdapter buildPath(ConstraintViolationBuilder cvBuilder, Path path) {
-		ConstraintBuilderAdapter constraintBuilderAdapter = new NodeBuilderCustomizableContextAdapter(
-			cvBuilder.addPropertyNode(path.getPath()));
+		ConstraintBuilderAdapter constraintBuilderAdapter = new NodeBuilderDefinedContextAdapter(
+			cvBuilder.addNode(path.getPath()));
 
 		while (path.hasNext()) {
 			path = path.getNext();
@@ -513,16 +504,6 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 		}
 
 		return constraintBuilderAdapter;
-	}
-
-	private void buildIterablePathAndAddConstraint(ConstraintViolationBuilder vBuilder, Path path) {
-		LeafNodeBuilderCustomizableContext leafNodeBCxt = vBuilder.addBeanNode();
-
-		if (path.hasKey()) {
-			leafNodeBCxt.inIterable().atKey(path.getKey()).addConstraintViolation();
-		} else if (path.hasIndex()) {
-			leafNodeBCxt.inIterable().atIndex(path.getIndex()).addConstraintViolation();
-		}
 	}
 
 	private void release() {

@@ -2,24 +2,20 @@ package com.github.ldeitos.validation.impl.interpolator;
 
 import static com.github.ldeitos.constants.Constants.PARAMETERS_FIELD_NAME;
 import static com.github.ldeitos.validation.impl.util.ParameterUtils.buildParametersMap;
-import static java.lang.String.format;
 import static java.util.Collections.unmodifiableMap;
 
 import java.lang.annotation.Annotation;
-import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.validation.ConstraintTarget;
 import javax.validation.ConstraintValidator;
 import javax.validation.MessageInterpolator.Context;
 import javax.validation.Payload;
 import javax.validation.metadata.ConstraintDescriptor;
 
 import com.github.ldeitos.constants.Constants;
-import com.github.ldeitos.validation.Validator;
 
 /**
  * A {@link Context} decorator to concrete BeanValidation API implementation in
@@ -67,18 +63,6 @@ class ExtendedParameterContext implements Context {
 	}
 
 	/**
-	 * {@inheritDoc}.
-	 */
-	@Override
-	public <T> T unwrap(Class<T> type) {
-		if (type.isAssignableFrom(Validator.class)) {
-			return type.cast(this);
-		}
-
-		throw new InvalidParameterException(format("Impossible to get %s instance.", type.getName()));
-	}
-
-	/**
 	 * Decorator to {@link ConstraintDescriptor} to process constraint
 	 * {@link Constants#PARAMETERS_FIELD_NAME} field content.
 	 *
@@ -88,7 +72,7 @@ class ExtendedParameterContext implements Context {
 	 *            Constraint type.
 	 */
 	private static class ExtendedConstraintDescriptor<T extends Annotation> implements
-	ConstraintDescriptor<T> {
+	    ConstraintDescriptor<T> {
 
 		/**
 		 * Decorated {@link ConstraintDescriptor} instance.
@@ -120,14 +104,6 @@ class ExtendedParameterContext implements Context {
 		 * Delegate to {@link ConstraintDescriptor} decorated.
 		 */
 		@Override
-		public String getMessageTemplate() {
-			return decorated.getMessageTemplate();
-		}
-
-		/**
-		 * Delegate to {@link ConstraintDescriptor} decorated.
-		 */
-		@Override
 		public Set<Class<?>> getGroups() {
 			return decorated.getGroups();
 		}
@@ -138,14 +114,6 @@ class ExtendedParameterContext implements Context {
 		@Override
 		public Set<Class<? extends Payload>> getPayload() {
 			return decorated.getPayload();
-		}
-
-		/**
-		 * Delegate to {@link ConstraintDescriptor} decorated.
-		 */
-		@Override
-		public ConstraintTarget getValidationAppliesTo() {
-			return decorated.getValidationAppliesTo();
 		}
 
 		/**

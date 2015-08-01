@@ -1,5 +1,5 @@
 #<a id="top" name="top">ExtendedValidation</a>
-##Uma extensão do BeanValidation 1.1
+##Uma extensão do BeanValidation 1.0
 
 1. [Objetivo](#obj)
   1. [Flexível, estensível e fácil de usar](#flxEstEasUse)
@@ -15,7 +15,7 @@
 
 ###<a id="obj" name="obj">Objetivo</a>
 ####<a id="flxEstEasUse" name="flxEstEasUse">Flexível, estensível e fácil de usar</a> [:arrow_heading_up:](#top)
-Este componente não é uma implementação completa do [*BeanValidation API 1.1*](http://cdi-spec.org/), e sim uma extensão que adiciona funcionalidades a essa, independente da implementação concreta utilizada, e pode facilmente ser integrada a projetos novos ou existentes.
+Este componente não é uma implementação completa do [*BeanValidation API 1.0*](http://beanvalidation.org/1.0/spec/), e sim uma extensão que adiciona funcionalidades a essa, independente da implementação concreta utilizada, e pode facilmente ser integrada a projetos novos ou existentes.
 
 Todas as implementações de elementos da API delegam, ao final de seu incremento à funcionalidade, a conclusão do processamento ao seu par padrão definido pela implementação da API escolhida. Este princípio garante que comportamentos existentes em projetos legados não sejam afetados, minimizando riscos na adoção do componente neste cenário.
 
@@ -25,7 +25,7 @@ Idealizado para facilitar o uso da validação através da [*BeanValidation API*
 ####<a id="cdiInt" name="cdiInt">Integrado ao CDI</a> [:arrow_heading_up:](#top)
 O *ExtendedValidation* possui uma implementação de *ConstraintValidatorFactory* integrada ao contexto de dependências da [API CDI](http://cdi-spec.org/), possibilitando que a instância do validador declarado pela *Constraint* seja recuperada a partir de uma interface, tornando possível desacoplar esses elementos.
 
-A especificação do [*BeanValidation API 1.1*](http://cdi-spec.org/) relaciona a descrição da *Constraint* com seu validador diretamente através da classe desse último, como exemplificado no modelo abaixo:
+A especificação do [*BeanValidation API 1.0*](http://beanvalidation.org/1.0/spec/) relaciona a descrição da *Constraint* com seu validador diretamente através da classe desse último, como exemplificado no modelo abaixo:
 ![](https://github.com/ldeitos/repository/blob/master/site/extendedValidation/images/ConstraintValidation1.png)
 
 Afim de possibilitar a desvinculação entre a Constraint e a implementação de seu validador, a factory de validadores implementada pelo ExtendedValidation permite que seja atribuído uma interface à Constraint, a qual será implementada pelo validador, que poderá ou não estar fisicamente no mesmo componente, como a seguir:
@@ -41,13 +41,13 @@ Este modelo pode levar a situações de dependência circular, cenário geralmen
 Tendo em mente que entidades e interfaces de serviços mudam com menor frequência que os comportamentos de negócio, o desacoplamento possibilitado pelo *ExtendedValidation* viabiliza a adoção de uma arquitetura segmentada em componentes com responsabilidades mais coesas e independentes, de forma a permitir que as dependências sejam estabelecidas entre os elementos com menor possibilidade de alteração ao longo da vida do sistema, como demonstrado no diagrama a seguir:
 ![](https://github.com/ldeitos/repository/blob/master/site/extendedValidation/images/Desacoplado.png)
 
-A Factory implementada permite a convivência entre o modelo proposto e o padrão definido pela [*BeanValidation API 1.1*](http://cdi-spec.org/), ou seja, é possível existir definições de *Constraint* relacionadas a interfaces e outras definindo classes concretas, ambas serão igualmente tratadas na fase de resolução do validador a ser aplicado.
+A Factory implementada permite a convivência entre o modelo proposto e o padrão definido pela [*BeanValidation API 1.0*](http://beanvalidation.org/1.0/spec/), ou seja, é possível existir definições de *Constraint* relacionadas a interfaces e outras definindo classes concretas, ambas serão igualmente tratadas na fase de resolução do validador a ser aplicado.
 
 ####<a id="extMssParamSup" name="extMssParamSup">Suporte estendido a parametrização do texto das mensagens</a> [:arrow_heading_up:](#top)
 
 As possibilidades de parametrização do texto das mensagens geradas para o sistema através da violação das Constraint foram ampliadas com o uso do ExtendedValidation.
 
-A [*BeanValidation API 1.1*](http://cdi-spec.org/) define que os campos declarados na *Constraint*, além de *EL expressions* e algumas variáveis pré-definidas podem ser utilizadas para resolver a mensagem na fase de interpolação. Abaixo está exemplificado como um campo ("label") é utilizado para valorizar um parâmetro definido em uma mensagem.
+A [*BeanValidation API 1.0*](http://beanvalidation.org/1.0/spec/) define que os campos declarados na *Constraint*, além de *EL expressions* e algumas variáveis pré-definidas podem ser utilizadas para resolver a mensagem na fase de interpolação. Abaixo está exemplificado como um campo ("label") é utilizado para valorizar um parâmetro definido em uma mensagem.
 ```java
 // Definição da Constraint
 @Constraint(validatedBy = MyValidator.class)
@@ -71,7 +71,7 @@ public class MyEntity {
 
 No exemplo demonstrado a mensagem gerada seria "Minha entidade invalida".
 
-O mecanismo proposto pela [*BeanValidation API 1.1*](http://cdi-spec.org/) é muito flexível e atende a maioria dos cenários comuns de uso. Entretanto, em sistemas cujo as mensagens são pré-cadastradas e reaproveitadas em múltiplos cenários, ou ainda quando a *constraint* é reutilizada gerando mensagens diferentes em momentos distintos, a necessidade de prever todos os parâmetros que serão utilizados ao longo do tempo no momento da definição da *constraint* pode tornar-se inconveniente.
+O mecanismo proposto pela [*BeanValidation API 1.0*](http://beanvalidation.org/1.0/spec/) é muito flexível e atende a maioria dos cenários comuns de uso. Entretanto, em sistemas cujo as mensagens são pré-cadastradas e reaproveitadas em múltiplos cenários, ou ainda quando a *constraint* é reutilizada gerando mensagens diferentes em momentos distintos, a necessidade de prever todos os parâmetros que serão utilizados ao longo do tempo no momento da definição da *constraint* pode tornar-se inconveniente.
 
 Com a proposta de ampliar as possibilidades de parametrização de mensagens e permitir que isso seja realizado no momento da aplicação da *constraint*, e não no de sua definição, o *ExtendedValidation* adiciona a possibilidade de declarar o campo ***messageParameters*** na *constraint*. Caso o campo esteja presente, seu conteúdo é processado pela implementação do interpolador disponibilizado pelo componente, que extrai o par 'chave=valor' e envia para o interpolador default da implementação da API escolhida para o projeto.
 
@@ -119,7 +119,7 @@ public class MyEntity {
 
 ####<a id="multMssSrc" name="multMssSrc">Múltiplas fontes de mensagens</a> [:arrow_heading_up:](#top)
 
-A [*BeanValidation API 1.1*](http://cdi-spec.org/) possibilita duas formas para atribuir mensagens à *constraint*:
+A [*BeanValidation API 1.0*](http://beanvalidation.org/1.0/spec/) possibilita duas formas para atribuir mensagens à *constraint*:
 
 - Atribuindo o texto da mensagem diretamente ao atributo ***message***, seja na declaração ou no aplicação da *constraint*, como exemplificado abaixo:
 ```java
@@ -358,10 +358,10 @@ public class ProdutoBC {
 
 Para utilizar o ExtendedValidation é necessário adicionar ao projeto as seguintes dependências:
 
-- [extendedValidation](http://search.maven.org/#search%7Cga%7C1%7Cextendedvalidation)
-- [extendedValidation-core](http://search.maven.org/#search%7Cga%7C1%7Cextendedvalidation)
-- [BeanValidation API 1.1](http://search.maven.org/#artifactdetails%7Cjavax.validation%7Cvalidation-api%7C1.1.0.Final%7Cjar)
-- Uma implementação da *BeanValidation API 1.1* ([Ex.: Hibernate Validator](http://search.maven.org/#artifactdetails%7Corg.hibernate%7Chibernate-validator%7C5.1.2.Final%7Cjar))
+- [extendedValidation 1.0](http://search.maven.org/#search%7Cga%7C1%7Cextendedvalidation)
+- [extendedValidation-core 1.0](http://search.maven.org/#search%7Cga%7C1%7Cextendedvalidation)
+- [BeanValidation API 1.0](http://search.maven.org/#artifactdetails%7Cjavax.validation%7Cvalidation-api%7C1.0.0.GA%7Cjar)
+- Uma implementação da *BeanValidation API 1.0* ([Ex.: Hibernate Validator](http://search.maven.org/#artifactdetails%7Corg.hibernate%7Chibernate-validator%7C4.3.2.Final%7Cjar))
 
 O *ExtendedValidation* já possui as configurações necessárias para que seus recursos sejam integrados ao mecanismo de validação. Entretanto, caso seu projeto possua configurações próprias declaradas no arquivo ***validation.xml*** é necessário que uma das seguintes ações sejam tomadas:
 

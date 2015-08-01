@@ -23,7 +23,7 @@ public class CdiLookupConstraintValidationFactory implements ConstraintValidator
 	private Logger log = LoggerFactory.getLogger(CdiLookupConstraintValidationFactory.class);
 
 	private ConstraintValidatorFactory delegate = byDefaultProvider().configure()
-		.getDefaultConstraintValidatorFactory();
+	    .getDefaultConstraintValidatorFactory();
 
 	@Override
 	public <T extends ConstraintValidator<?, ?>> T getInstance(Class<T> key) {
@@ -46,10 +46,5 @@ public class CdiLookupConstraintValidationFactory implements ConstraintValidator
 		}
 
 		return constraintValidator;
-	}
-
-	@Override
-	public void releaseInstance(ConstraintValidator<?, ?> instance) {
-		delegate.releaseInstance(instance);
 	}
 }

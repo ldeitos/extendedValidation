@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.ldeitos</groupId>
 		<artifactId>extendedValidation-parent</artifactId>
-		<version>0.9.5</version>
+		<version>1.0.CR1</version>
 		<relativePath>../extendedValidation-parent</relativePath>
 	</parent>
 	<name>Extended Validation Test Support</name>
@@ -64,11 +64,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.el</groupId>
-			<artifactId>el-ri</artifactId>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
