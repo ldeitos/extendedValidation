@@ -16,6 +16,11 @@ import com.github.ldeitos.validation.Severity;
 
 public class MessageImpl implements Message {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Severity severity;
 
 	private String message;
