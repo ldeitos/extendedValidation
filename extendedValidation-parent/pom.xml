@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ldeitos</groupId>
 	<artifactId>extendedValidation-parent</artifactId>
-	<version>1.1.CR1</version>
+	<version>1.1.CR2</version>
 	<packaging>pom</packaging>
 	<name>Extended Validation Parent</name>
 	<description>ExtendedValidation parent project.</description>
