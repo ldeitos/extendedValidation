@@ -8,8 +8,10 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.beans.ParameterDescriptor;
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections4.Predicate;
@@ -21,8 +23,14 @@ import org.apache.commons.collections4.Transformer;
  * @author <a href="mailto:leandro.deitos@gmail.com">Leandro Deitos</a>
  *
  */
-public class ParamDescriptor {
+public class ParamDescriptor implements Serializable {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static final Transformer<ParamDescriptor, String> TO_PARAM_NAME = new Transformer<ParamDescriptor, String>() {
+		@Override
 		public String transform(ParamDescriptor input) {
 			return input.getParamName();
 		}
@@ -62,6 +70,7 @@ public class ParamDescriptor {
 	 */
 	public ParamDescriptor getInnerParam(final String paramName) {
 		return find(innerParams, new Predicate<ParamDescriptor>() {
+			@Override
 			public boolean evaluate(ParamDescriptor object) {
 				return object.getParamName().equals(paramName);
 			}
@@ -117,4 +126,33 @@ public class ParamDescriptor {
 		return innerParamsNames.toArray(new String[innerParamsNames.size()]);
 	}
 
+	/**
+	 * @return String representation from current instance.
+	 *
+	 * @since 1.0.CR2
+	 */
+	public String asString() {
+		StringBuilder sb = new StringBuilder(getParamName());
+
+		if (isComplex()) {
+			if (!isRoot()) {
+				sb.append("(");
+			}
+
+			Iterator<ParamDescriptor> it = innerParams.iterator();
+			while (it.hasNext()) {
+				ParamDescriptor param = it.next();
+				sb.append(param.asString());
+				if (it.hasNext()) {
+					sb.append(",");
+				}
+			}
+
+			if (!isRoot()) {
+				sb.append(")");
+			}
+		}
+
+		return sb.toString();
+	}
 }
