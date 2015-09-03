@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ldeitos</groupId>
 	<artifactId>rest-util</artifactId>
-	<version>1.0.CR3</version>
+	<version>1.0.CR4</version>
 	<description>Utilities to Rest applications</description>
 
 	<licenses>

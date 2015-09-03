@@ -48,7 +48,7 @@ public class ParametersParser {
 		ParamDescriptor toReturn = new ParamDescriptor();
 		Deque<List<ParamDescriptor>> paramsStack = new LinkedList<List<ParamDescriptor>>();
 		paramsStack.add(toReturn.getInnerParams());
-		String toParse = new String(params);
+		String toParse = params == null ? null : new String(params);
 
 		while (isNotBlank(toParse)) {
 			Matcher matcher = SIMPLE_PARAM.matcher(toParse);
