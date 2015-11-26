@@ -61,7 +61,7 @@ public class ParametersParser {
 			ParamDescriptor param = new ParamDescriptor(paramName);
 
 			paramsStack.peekLast().add(param);
-			toParse = matcher.replaceFirst(EMPTY);
+			toParse = matcher.replaceFirst(EMPTY).trim();
 
 			if (startsWith(toParse, COMPLEX_PARAM_BEGGIN)) {
 				paramsStack.add(param.getInnerParams());
