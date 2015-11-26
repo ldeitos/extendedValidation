@@ -13,8 +13,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import com.github.ldeitos.constants.Constants;
-import com.github.ldeitos.util.ManualContext;
 import com.github.ldeitos.validation.MessagesSource;
+import com.github.ldeitos.validation.impl.configuration.ConfigInfo;
 import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 
 /**
@@ -42,8 +42,8 @@ public class MultipleBundlesSource extends AbstractMessagesSource {
 	private Map<String, ResourceBundle> cache = new HashMap<String, ResourceBundle>();
 
 	{
-		ConfigInfoProvider configProvider = ManualContext.lookupCDI(ConfigInfoProvider.class);
-		bundleFiles.addAll(getConfiguration(configProvider).getConfituredMessageFiles());
+		ConfigInfo configInfo = ConfigInfoProvider.getConfigInfo();
+		bundleFiles.addAll(getConfiguration(configInfo).getConfituredMessageFiles());
 	}
 
 	/**

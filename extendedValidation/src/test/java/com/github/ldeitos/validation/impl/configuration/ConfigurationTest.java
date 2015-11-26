@@ -19,7 +19,7 @@ import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 public class ConfigurationTest {
 	private static final String TEST_MESSAGE_FILE = "TestValidationMessage";
 
-	private Configuration configuration = getConfiguration(new ConfigInfoProvider());
+	private Configuration configuration = getConfiguration(new ConfigInfo());
 
 	@Test
 	public void testConfigurationWithMessageFilesCofiguredByEnvironment() {

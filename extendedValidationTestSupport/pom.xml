@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.ldeitos</groupId>
 		<artifactId>extendedValidation-parent</artifactId>
-		<version>1.1.CR2</version>
+		<version>1.1.CR3</version>
 		<relativePath>../extendedValidation-parent</relativePath>
 	</parent>
 	<name>Extended Validation Test Support</name>

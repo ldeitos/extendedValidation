@@ -17,7 +17,7 @@ import com.github.ldeitos.test.base.stubs.TestCustomValidationClosure;
 import com.github.ldeitos.test.base.stubs.TestInterceptedClassValidation;
 import com.github.ldeitos.test.base.stubs.TestInterceptedMethodsValidation;
 import com.github.ldeitos.test.base.stubs.TestOtherCustomValidationClosure;
-import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
+import com.github.ldeitos.validation.impl.configuration.ConfigInfo;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 
 @AdditionalClasses({ ValidateParametersInterceptor.class, TestInterceptedClassValidation.class,
@@ -27,7 +27,7 @@ public class ValidateParametersInterceptorWithConfiguredValidationClosureTest ex
 
 	@Produces
 	@ProducesAlternative
-	private ConfigInfoProvider cip = new ConfigInfoProvider() {
+	private ConfigInfo cip = new ConfigInfo() {
 		@Override
 		public String getConfigFileName() {
 			return "META-INF/extendedValidation_configuredValidationClosure.xml";
