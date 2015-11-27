@@ -31,7 +31,7 @@ import com.github.ldeitos.validation.ValidationClosure;
 import com.github.ldeitos.validation.Validator;
 import com.github.ldeitos.validation.annotation.SkipValidation;
 import com.github.ldeitos.validation.annotation.ValidateParameters;
-import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
+import com.github.ldeitos.validation.impl.configuration.ConfigInfo;
 
 /**
  * CDI based interceptor to do audit process.
@@ -51,7 +51,7 @@ public class ValidateParametersInterceptor {
 	private Validator validator;
 
 	@Inject
-	private ConfigInfoProvider configProvider;
+	private ConfigInfo configProvider;
 
 	/**
 	 * Validation interceptor method.

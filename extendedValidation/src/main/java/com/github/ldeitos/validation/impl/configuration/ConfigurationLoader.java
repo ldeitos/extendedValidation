@@ -37,7 +37,7 @@ class ConfigurationLoader {
 	 * @return DTO with configuration content from any
 	 *         {@link Constants#CONFIGURATION_FILE} in application class path.
 	 */
-	static ConfigurationDTO loadConfiguration(ConfigInfoProvider configProvider) {
+	static ConfigurationDTO loadConfiguration(ConfigInfo configProvider) {
 		if (configuration == null || configProvider.isInTest()) {
 			load(configProvider);
 		}
@@ -45,7 +45,7 @@ class ConfigurationLoader {
 		return configuration;
 	}
 
-	private static void load(ConfigInfoProvider configProvider) {
+	private static void load(ConfigInfo configProvider) {
 		String configFileName = configProvider.getConfigFileName();
 
 		try {

@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.ldeitos</groupId>
 		<artifactId>extendedValidation-parent</artifactId>
-		<version>1.0.CR2</version>
+		<version>1.0.CR3</version>
 		<relativePath>../extendedValidation-parent</relativePath>
 	</parent>
 	<licenses>

@@ -53,14 +53,14 @@ public class Configuration {
 
 	private ValidationClosure validationClosure;
 
-	private Configuration(ConfigInfoProvider configProvider) {
+	private Configuration(ConfigInfo configProvider) {
 		configuration = ConfigurationLoader.loadConfiguration(configProvider);
 	};
 
 	/**
 	 * @return Unique instance to {@link Configuration} to application use.
 	 */
-	public static Configuration getConfiguration(ConfigInfoProvider configProvider) {
+	public static Configuration getConfiguration(ConfigInfo configProvider) {
 		if (isUnloaded() || configProvider.isInTest()) {
 			instance = new Configuration(configProvider);
 
@@ -277,7 +277,7 @@ public class Configuration {
 	 *             {@link Constants#CONFIGURATION_FILE} or this is inexistent.
 	 * @since 0.1.2
 	 */
-	public static void load(ConfigInfoProvider cp) throws InvalidConfigurationException {
+	public static void load(ConfigInfo cp) throws InvalidConfigurationException {
 		if (isUnloaded() || cp.isInTest()) {
 			instance = new Configuration(cp);
 		}

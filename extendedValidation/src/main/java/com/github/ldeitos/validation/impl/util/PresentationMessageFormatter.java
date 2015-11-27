@@ -8,21 +8,21 @@ import static java.util.regex.Pattern.compile;
 
 import java.util.regex.Matcher;
 
-import com.github.ldeitos.util.ManualContext;
+import com.github.ldeitos.validation.impl.configuration.ConfigInfo;
 import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 import com.github.ldeitos.validation.impl.configuration.Configuration;
 
 public class PresentationMessageFormatter {
 
 	public static String format(String template, String message) {
-		ConfigInfoProvider configProvider = ManualContext.lookupCDI(ConfigInfoProvider.class);
+		ConfigInfo configProvider = ConfigInfoProvider.getConfigInfo();
 		Configuration configuration = Configuration.getConfiguration(configProvider);
 		Matcher matcherTemplate = compile(MESSAGE_KEY_PATTERN).matcher(template);
 		String formatedMessage = message;
 
 		if (configuration.showTemplate() && matcherTemplate.find()) {
 			Matcher matcherMessage = PRESENTATION_MESSAGE.matcher(configuration
-				.getMessagePresentationTemplate());
+			    .getMessagePresentationTemplate());
 			formatedMessage = matcherMessage.replaceAll(message);
 			Matcher matcherTemplateParam = PRESENTATION_TEMPLATE.matcher(formatedMessage);
 			String msgKey = matcherTemplate.group(PARAMETER_CONTENT_GROUP);

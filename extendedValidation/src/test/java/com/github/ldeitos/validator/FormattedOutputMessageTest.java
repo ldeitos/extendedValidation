@@ -18,14 +18,14 @@ import com.github.ldeitos.test.base.BaseTest;
 import com.github.ldeitos.test.base.stubs.FormattedPresentationValidatorImpl;
 import com.github.ldeitos.test.base.stubs.FormattedTest;
 import com.github.ldeitos.test.base.stubs.GrupoTestBeanA;
-import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
+import com.github.ldeitos.validation.impl.configuration.ConfigInfo;
 import com.github.ldeitos.validation.impl.interpolator.PreInterpolator;
 
 @AdditionalClasses({ PreInterpolator.class, FormattedPresentationValidatorImpl.class })
 public class FormattedOutputMessageTest extends BaseTest {
 	@Produces
 	@ProducesAlternative
-	private ConfigInfoProvider cip = new ConfigInfoProvider() {
+	private ConfigInfo cip = new ConfigInfo() {
 		@Override
 		public String getConfigFileName() {
 			return "META-INF/extendedValidation_configuredTemplateMessagePresentation.xml";

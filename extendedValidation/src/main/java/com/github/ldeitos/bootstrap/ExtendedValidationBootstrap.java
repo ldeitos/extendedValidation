@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.ldeitos.exception.InvalidConfigurationException;
-import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
+import com.github.ldeitos.validation.impl.configuration.ConfigInfo;
 import com.github.ldeitos.validation.impl.configuration.Configuration;
 
 /**
@@ -26,7 +26,7 @@ public class ExtendedValidationBootstrap implements Extension {
 
 	public void startup(@Observes AfterDeploymentValidation event, BeanManager bm) {
 		if (Configuration.isUnloaded()) {
-			ConfigInfoProvider cp = lookupCDI(bm, ConfigInfoProvider.class);
+			ConfigInfo cp = lookupCDI(bm, ConfigInfo.class);
 			try {
 				LOGGER.info("Loading ExtendedValidation configurations.");
 				Configuration.load(cp);
