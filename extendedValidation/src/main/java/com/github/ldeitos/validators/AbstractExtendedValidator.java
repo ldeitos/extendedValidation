@@ -33,13 +33,12 @@ import com.github.ldeitos.validators.util.PathBuilder;
  *
  * @since 0.8.0
  */
-public abstract class AbstractExtendedValidator<A extends Annotation, T> implements ConstraintValidator<A, T> {
+public abstract class AbstractExtendedValidator<A extends Annotation, T>
+    implements ConstraintValidator<A, T> {
 
 	private Logger log = LoggerFactory.getLogger(AbstractExtendedValidator.class);
 
 	private ThreadLocal<Boolean> validMap = new ThreadLocal<Boolean>();
-
-	private ThreadLocal<PathBuilder> pathBuilder = new ThreadLocal<PathBuilder>();
 
 	private ThreadLocal<ConstraintValidatorContext> contextMap = new ThreadLocal<ConstraintValidatorContext>();
 
@@ -298,32 +297,22 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * Usage examples:
 	 *
 	 * <pre>
-	 * //assuming the following domain model
-	 * public class Address {
-	 *     public String getStreet() { ... }
-	 *     public Country getCountry() { ... }
-	 * }
+	 * //assuming the following domain model public class Address { public
+	 * String getStreet() { ... } public Country getCountry() { ... } }
 	 *
-	 * //From a class level constraint on Address
-	 * //Build a constraint violation on the default path + "street"
-	 * //i.e. the street property of Address
+	 * //From a class level constraint on Address //Build a constraint violation
+	 * on the default path + "street" //i.e. the street property of Address
 	 * buildPath("street");
 	 *
 	 * @param path
-	 * 		String representation of path to property to register violation.
-	 * @return
-	 * 		{@link PathBuilder} to build a {@link Path} reference.
+	 *            String representation of path to property to register
+	 *            violation.
+	 * @return {@link PathBuilder} to build a {@link Path} reference.
 	 *
 	 * @since 0.9.0
 	 */
 	protected PathBuilder buildPath(String path) {
-		PathBuilder pBuilder = pathBuilder.get();
-		if (pBuilder == null) {
-			pBuilder = new PathBuilder();
-			pathBuilder.set(pBuilder);
-		}
-
-		return pBuilder.add(path);
+		return new PathBuilder().add(path);
 	}
 
 	/**
@@ -332,49 +321,39 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * Usage examples:
 	 *
 	 * <pre>
-	 * //assuming the following domain model
-	 * public class User {
-	 *     public Map<String, Address> getAddresses() { ... }
-	 * }
-	 * 
-	 * public class Address {
-	 *     public String getStreet() { ... }
-	 *     public Country getCountry() { ... }
-	 * }
-	 * 
-	 * public class Country {
-	 *     public String getName() { ... }
-	 * }
-	 * 
-	 * //From a class level constraint on User
-	 * //Build a constraint violation on the default path + addresses["home"].country.name
-	 * //i.e. property "country.name" on the object stored under "home" in the map
+	 * //assuming the following domain model public class User { public
+	 * Map<String, Address> getAddresses() { ... } }
+	 *
+	 * public class Address { public String getStreet() { ... } public Country
+	 * getCountry() { ... } }
+	 *
+	 * public class Country { public String getName() { ... } }
+	 *
+	 * //From a class level constraint on User //Build a constraint violation on
+	 * the default path + addresses["home"].country.name //i.e. property
+	 * "country.name" on the object stored under "home" in the map
 	 * buildPath("addresses", "home").add("country").add("name")<br>
 	 * or <br>
-	 * buildPath("addresses[home].country.name")<br><br>
-	 * 
-	 * <b>P.S.:</b> A full path build like buildPath("addresses[home].country.name"), when refers a map,
-	 * only can be used when a map key is a String, in other way, uses a fluent model, like
+	 * buildPath("addresses[home].country.name")<br>
+	 * <br>
+	 *
+	 * <b>P.S.:</b> A full path build like
+	 * buildPath("addresses[home].country.name"), when refers a map, only can be
+	 * used when a map key is a String, in other way, uses a fluent model, like
 	 * buildPath("addresses", aObject).add("country").add("name").
-	 * 
-	 * 
+	 *
+	 *
 	 * @param path
-	 * 		String representation of path to property to register violation.
+	 *            String representation of path to property to register
+	 *            violation.
 	 * @param key
-	 * 		Key to mapped content to registered violation.
-	 * @return
-	 * 		{@link PathBuilder} to build a {@link Path} reference.
+	 *            Key to mapped content to registered violation.
+	 * @return {@link PathBuilder} to build a {@link Path} reference.
 	 *
 	 * @since 0.9.1
 	 */
 	protected PathBuilder buildPath(String path, Object key) {
-		PathBuilder pBuilder = pathBuilder.get();
-		if (pBuilder == null) {
-			pBuilder = new PathBuilder();
-			pathBuilder.set(pBuilder);
-		}
-
-		return pBuilder.add(path, key);
+		return new PathBuilder().add(path, key);
 	}
 
 	/**
@@ -382,36 +361,24 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * Usage examples:
 	 *
 	 * <pre>
-	 * //assuming the following domain model
-	 * public class User {
-	 *     public Map<String, Address> getAddresses() { ... }
-	 * }
-	 * 
-	 * public class Address {
-	 *     public String getStreet() { ... }
-	 *     public Country getCountry() { ... }
-	 * }
-	 * 
-	 * //From a property-level constraint on User.addresses
-	 * //Build a constraint violation on the default path + the bean stored
-	 * //under the "home" key on map:
-	 *  atKey("home")
-	 * 
+	 * //assuming the following domain model public class User { public
+	 * Map<String, Address> getAddresses() { ... } }
+	 *
+	 * public class Address { public String getStreet() { ... } public Country
+	 * getCountry() { ... } }
+	 *
+	 * //From a property-level constraint on User.addresses //Build a constraint
+	 * violation on the default path + the bean stored //under the "home" key on
+	 * map: atKey("home")
+	 *
 	 * @param key
-	 * 		Key to mapped collection content to registered violation.
-	 * @return
-	 * 		Correspondent {@link Path}.
+	 *            Key to mapped collection content to registered violation.
+	 * @return Correspondent {@link Path}.
 	 *
 	 * @since 0.9.1
 	 */
 	protected Path atKey(Object key) {
-		PathBuilder pBuilder = pathBuilder.get();
-		if (pBuilder == null) {
-			pBuilder = new PathBuilder();
-			pathBuilder.set(pBuilder);
-		}
-
-		return pBuilder.addAtKey(key).getPath();
+		return new PathBuilder().addAtKey(key).getPath();
 	}
 
 	/**
@@ -420,41 +387,32 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * Usage examples:
 	 *
 	 * <pre>
-	 * //assuming the following domain model
-	 * public class User {
-	 *     public List getAddresses() { ... }
-	 * }
-	 * 
-	 * public class Address {
-	 *     public String getStreet() { ... }
-	 *     public Country getCountry() { ... }
-	 * }
-	 * 
-	 * //From a class level constraint on User
-	 * //Build a constraint violation on the default path + addresses(2).country.name
-	 * //i.e. property "country.name" on the object stored under index 2 in the list
+	 * //assuming the following domain model public class User { public List
+	 * getAddresses() { ... } }
+	 *
+	 * public class Address { public String getStreet() { ... } public Country
+	 * getCountry() { ... } }
+	 *
+	 * //From a class level constraint on User //Build a constraint violation on
+	 * the default path + addresses(2).country.name //i.e. property
+	 * "country.name" on the object stored under index 2 in the list
 	 * buildPath("addresses", 2).add("country").add("name")<br>
 	 * or <br>
-	 * buildPath("addresses(2).country.name")<br><br>
-	 * 
-	 * 
+	 * buildPath("addresses(2).country.name")<br>
+	 * <br>
+	 *
+	 *
 	 * @param path
-	 * 		String representation of path to property to register violation.
+	 *            String representation of path to property to register
+	 *            violation.
 	 * @param index
-	 * 		Index to indexed collection content to registered violation.
-	 * @return
-	 * 		{@link PathBuilder} to build a {@link Path} reference.
+	 *            Index to indexed collection content to registered violation.
+	 * @return {@link PathBuilder} to build a {@link Path} reference.
 	 *
 	 * @since 0.9.0
 	 */
 	protected PathBuilder buildPath(String path, Integer index) {
-		PathBuilder pBuilder = pathBuilder.get();
-		if (pBuilder == null) {
-			pBuilder = new PathBuilder();
-			pathBuilder.set(pBuilder);
-		}
-
-		return pBuilder.add(path, index);
+		return new PathBuilder().add(path, index);
 	}
 
 	/**
@@ -462,41 +420,29 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * Usage examples:
 	 *
 	 * <pre>
-	 * //assuming the following domain model
-	 * public class User {
-	 *     public List getAddresses() { ... }
-	 * }
-	 * 
-	 * public class Address {
-	 *     public String getStreet() { ... }
-	 *     public Country getCountry() { ... }
-	 * }
-	 * 
-	 * //From a property-level constraint on User.addresses
-	 * //Build a constraint violation on the default path + the bean stored
-	 * //under the index 2 on list:
-	 *  atIndex(2)
-	 * 
+	 * //assuming the following domain model public class User { public List
+	 * getAddresses() { ... } }
+	 *
+	 * public class Address { public String getStreet() { ... } public Country
+	 * getCountry() { ... } }
+	 *
+	 * //From a property-level constraint on User.addresses //Build a constraint
+	 * violation on the default path + the bean stored //under the index 2 on
+	 * list: atIndex(2)
+	 *
 	 * @param index
-	 * 		Index to indexed collection content to registered violation.
-	 * @return
-	 * 		Correspondent {@link Path}.
+	 *            Index to indexed collection content to registered violation.
+	 * @return Correspondent {@link Path}.
 	 *
 	 * @since 0.9.0
 	 */
 	protected Path atIndex(Integer index) {
-		PathBuilder pBuilder = pathBuilder.get();
-		if (pBuilder == null) {
-			pBuilder = new PathBuilder();
-			pathBuilder.set(pBuilder);
-		}
-
-		return pBuilder.addAtIndex(index).getPath();
+		return new PathBuilder().addAtIndex(index).getPath();
 	}
 
 	private ConstraintBuilderAdapter buildPath(ConstraintViolationBuilder cvBuilder, Path path) {
 		ConstraintBuilderAdapter constraintBuilderAdapter = new NodeBuilderDefinedContextAdapter(
-			cvBuilder.addNode(path.getPath()));
+		    cvBuilder.addNode(path.getPath()));
 
 		while (path.hasNext()) {
 			path = path.getNext();
@@ -509,6 +455,5 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	private void release() {
 		validMap.remove();
 		contextMap.remove();
-		pathBuilder.remove();
 	}
 }
