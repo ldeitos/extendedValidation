@@ -34,8 +34,7 @@ import com.github.ldeitos.validators.util.PathBuilder;
  *
  * @since 0.8.0
  */
-public abstract class AbstractExtendedValidator<A extends Annotation, T>
-    implements ConstraintValidator<A, T> {
+public abstract class AbstractExtendedValidator<A extends Annotation, T> implements ConstraintValidator<A, T> {
 
 	private Logger log = LoggerFactory.getLogger(AbstractExtendedValidator.class);
 
@@ -75,7 +74,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T>
 	}
 
 	/**
-	 * Extension point to implement validation code. <br/>
+	 * Extension point to implement validation code. <br>
 	 * This code is invoked during API
 	 * {@link #isValid(Object, ConstraintValidatorContext)} call and violation
 	 * must be registered by any methods below:
@@ -100,8 +99,8 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T>
 	 *            Parameters to be interpolated in message violation.<br>
 	 *            Can be informed in "value" pattern, to be interpolated in
 	 *            indexed parameter like "My {0} message" or in "key=value"
-	 *            pattern, to be interpolated in defined parameter like
-	 *            "My {par} message".
+	 *            pattern, to be interpolated in defined parameter like "My
+	 *            {par} message".
 	 *
 	 * @since 0.8.0
 	 */
@@ -132,8 +131,8 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T>
 	 *            Parameters to be interpolated in message violation.<br>
 	 *            Can be informed in "value" pattern, to be interpolated in
 	 *            indexed parameter like "My {0} message" or in "key=value"
-	 *            pattern, to be interpolated in defined parameter like
-	 *            "My {par} message".
+	 *            pattern, to be interpolated in defined parameter like "My
+	 *            {par} message".
 	 *
 	 * @since 0.9.0
 	 */
@@ -169,8 +168,8 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T>
 	 *            Parameters to be interpolated in message violation.<br>
 	 *            Can be informed in "value" pattern, to be interpolated in
 	 *            indexed parameter like "My {0} message" or in "key=value"
-	 *            pattern, to be interpolated in defined parameter like
-	 *            "My {par} message".
+	 *            pattern, to be interpolated in defined parameter like "My
+	 *            {par} message".
 	 *
 	 * @since 0.9.0
 	 */
@@ -185,16 +184,16 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T>
 	 * @param msgTemplate
 	 *            Message template can be:<br>
 	 *            - Just message text, like "My message";<br>
-	 *            - Message text with parameters, like "My {0} message" or
-	 *            "My {par} message";<br>
+	 *            - Message text with parameters, like "My {0} message" or "My
+	 *            {par} message";<br>
 	 *            - Message key to get message in parameterized
 	 *            {@link MessagesSource}, like {my.message.key}.
 	 * @param msgParameters
 	 *            Parameters to be interpolated in message violation.<br>
 	 *            Can be informed in "value" pattern, to be interpolated in
 	 *            indexed parameter like "My {0} message" or in "key=value"
-	 *            pattern, to be interpolated in defined parameter like
-	 *            "My {par} message".
+	 *            pattern, to be interpolated in defined parameter like "My
+	 *            {par} message".
 	 *
 	 * @since 0.8.0
 	 */
@@ -222,16 +221,16 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T>
 	 * @param msgTemplate
 	 *            Message template can be:<br>
 	 *            - Just message text, like "My message";<br>
-	 *            - Message text with parameters, like "My {0} message" or
-	 *            "My {par} message";<br>
+	 *            - Message text with parameters, like "My {0} message" or "My
+	 *            {par} message";<br>
 	 *            - Message key to get message in parameterized
 	 *            {@link MessagesSource}, like {my.message.key}.
 	 * @param msgParameters
 	 *            Parameters to be interpolated in message violation.<br>
 	 *            Can be informed in "value" pattern, to be interpolated in
 	 *            indexed parameter like "My {0} message" or in "key=value"
-	 *            pattern, to be interpolated in defined parameter like
-	 *            "My {par} message".
+	 *            pattern, to be interpolated in defined parameter like "My
+	 *            {par} message".
 	 *
 	 * @since 0.9.0
 	 */
@@ -264,16 +263,16 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T>
 	 * @param msgTemplate
 	 *            Message template can be:<br>
 	 *            - Just message text, like "My message";<br>
-	 *            - Message text with parameters, like "My {0} message" or
-	 *            "My {par} message";<br>
+	 *            - Message text with parameters, like "My {0} message" or "My
+	 *            {par} message";<br>
 	 *            - Message key to get message in parameterized
 	 *            {@link MessagesSource}, like {my.message.key}.
 	 * @param msgParameters
 	 *            Parameters to be interpolated in message violation.<br>
 	 *            Can be informed in "value" pattern, to be interpolated in
 	 *            indexed parameter like "My {0} message" or in "key=value"
-	 *            pattern, to be interpolated in defined parameter like
-	 *            "My {par} message".
+	 *            pattern, to be interpolated in defined parameter like "My
+	 *            {par} message".
 	 *
 	 * @since 0.9.0
 	 */
@@ -312,6 +311,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T>
 	 * //From a class level constraint on Address //Build a constraint violation
 	 * on the default path + "street" //i.e. the street property of Address
 	 * buildPath("street");
+	 * </pre>
 	 *
 	 * @param path
 	 *            String representation of path to property to register
@@ -330,21 +330,27 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T>
 	 * Usage examples:
 	 *
 	 * <pre>
-	 * //assuming the following domain model public class User { public
-	 * Map<String, Address> getAddresses() { ... } }
+	 * //assuming the following domain model 
+	 * public class User { 
+	 *    public Map&#60String, Address&#62 getAddresses() { ... } 
+	 * }
 	 *
-	 * public class Address { public String getStreet() { ... } public Country
-	 * getCountry() { ... } }
+	 * public class Address { 
+	 *    public String getStreet() { ... } 
+	 *    public Country getCountry() { ... } 
+	 * }
 	 *
-	 * public class Country { public String getName() { ... } }
-	 *
-	 * //From a class level constraint on User //Build a constraint violation on
-	 * the default path + addresses["home"].country.name //i.e. property
-	 * "country.name" on the object stored under "home" in the map
-	 * buildPath("addresses", "home").add("country").add("name")<br>
-	 * or <br>
-	 * buildPath("addresses[home].country.name")<br>
-	 * <br>
+	 * public class Country { 
+	 *    public String getName() { ... } 
+	 * }
+	 * 
+	 * // From a class level constraint on User build a constraint violation on the
+	 * // default path + addresses["home"].country.name
+	 * // i.e. property "country.name" on the object stored under "home" in the map
+     * // buildPath("addresses", "home").add("country").add("name")
+	 * // or
+	 * // buildPath("addresses[home].country.name")
+	 * </pre>
 	 *
 	 * <b>P.S.:</b> A full path build like
 	 * buildPath("addresses[home].country.name"), when refers a map, only can be
@@ -371,10 +377,11 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T>
 	 *
 	 * <pre>
 	 * //assuming the following domain model public class User { public
-	 * Map<String, Address> getAddresses() { ... } }
+	 * Map&#60String, Address&#62 getAddresses() { ... } }
 	 *
 	 * public class Address { public String getStreet() { ... } public Country
 	 * getCountry() { ... } }
+	 * </pre>
 	 *
 	 * //From a property-level constraint on User.addresses //Build a constraint
 	 * violation on the default path + the bean stored //under the "home" key on
@@ -401,6 +408,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T>
 	 *
 	 * public class Address { public String getStreet() { ... } public Country
 	 * getCountry() { ... } }
+	 *</pre>
 	 *
 	 * //From a class level constraint on User //Build a constraint violation on
 	 * the default path + addresses(2).country.name //i.e. property
@@ -434,6 +442,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T>
 	 *
 	 * public class Address { public String getStreet() { ... } public Country
 	 * getCountry() { ... } }
+	 *</pre>
 	 *
 	 * //From a property-level constraint on User.addresses //Build a constraint
 	 * violation on the default path + the bean stored //under the index 2 on
@@ -451,7 +460,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T>
 
 	private ConstraintBuilderAdapter buildPath(ConstraintViolationBuilder cvBuilder, Path path) {
 		ConstraintBuilderAdapter constraintBuilderAdapter = new NodeBuilderCustomizableContextAdapter(
-		    cvBuilder.addPropertyNode(path.getPath()));
+				cvBuilder.addPropertyNode(path.getPath()));
 
 		while (path.hasNext()) {
 			path = path.getNext();

@@ -20,7 +20,7 @@ import com.github.ldeitos.validators.PatternValidator;
  * The annotated {@code CharSequence} must match the specified regular expression.
  * The regular expression follows the Java regular expression conventions
  * see {@link java.util.regex.Pattern}.
- * <p/>
+ * <p>
  * Accepts {@code CharSequence}. {@code null} elements are considered valid.
  *
  * @author Emmanuel Bernard
@@ -33,13 +33,13 @@ public @interface Pattern {
 	
 	/**
      * @return Parameter array to be interpolated at message. Parameters can be informed in
-     * "key=value" or just "value" pattern.<br/>
-     * e.g:<br/>
-     * <br/>
-     * message="My {par1} message"<br/>
-     * messageParameters = {"par1=parameterized"}<br/>
-     * <br/>
-     * message="My {0} message"<br/>
+     * "key=value" or just "value" pattern.<br>
+     * e.g:<br>
+     * <br>
+     * message="My {par1} message"<br>
+     * messageParameters = {"par1=parameterized"}<br>
+     * <br>
+     * message="My {0} message"<br>
      * messageParameters = {"parameterized"}
      */
 	String[] messageParameters() default {};

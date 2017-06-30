@@ -58,6 +58,9 @@ public class Configuration {
 	};
 
 	/**
+	 * @param configProvider
+	 * 		Configuration information provider.
+	 * 
 	 * @return Unique instance to {@link Configuration} to application use.
 	 */
 	public static Configuration getConfiguration(ConfigInfoProvider configProvider) {

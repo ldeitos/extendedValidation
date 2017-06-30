@@ -19,7 +19,7 @@ import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 
 /**
  * Default ExtendedValidation concrete implementation from
- * {@link MessagesSource}.<br/>
+ * {@link MessagesSource}.<br>
  * Recovery messages from ValidationMessages.properties <b>and</b> any other
  * file configured by {@link Constants#CONFIGURATION_FILE} or
  * {@link Constants#MESSAGE_FILES_SYSTEM_PROPERTY}.
@@ -71,7 +71,7 @@ public class MultipleBundlesSource extends AbstractMessagesSource {
 	 * @param locale
 	 *            Locale to recover a resource file. May be null.
 	 * @return {@link ResourceBundle} equivalent to file name and locale
-	 *         solicited or null if does not exist.<br/>
+	 *         solicited or null if does not exist.<br>
 	 *         If resource is correctly loaded from environment, the bundle is
 	 *         cached to be recovered in future requests.
 	 */

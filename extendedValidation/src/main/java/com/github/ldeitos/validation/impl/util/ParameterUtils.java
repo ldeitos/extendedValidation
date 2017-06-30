@@ -19,6 +19,9 @@ public class ParameterUtils {
 	private static final Pattern PARAMS_PATTERN = Pattern.compile(INTERPOLATE_PARAMETER_PATTERN);
 
 	/**
+	 * @param parameters
+	 * 		   Parameters array.
+	 * 
 	 * @return Map of constraint attributes and respective values aggregated by
 	 *         {@link Constants#PARAMETERS_FIELD_NAME} constraint content.
 	 */

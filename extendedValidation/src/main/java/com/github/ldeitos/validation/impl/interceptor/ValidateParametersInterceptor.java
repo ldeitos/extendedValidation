@@ -61,6 +61,7 @@ public class ValidateParametersInterceptor {
 	 * @return Intercepted method result.
 	 *
 	 * @throws Exception
+	 * 			  Any exception throwed by validation execution or after that, when execution method proceeds.
 	 *
 	 */
 	@AroundInvoke

@@ -40,8 +40,8 @@ public class CdiLookupConstraintValidationFactory implements ConstraintValidator
 				constraintValidator = delegate.getInstance(key);
 			}
 		} catch (Exception e) {
-			log.warn(format("Error trying get reference to validator [%s] by CDI.", key.getName()));
-			log.warn("Trying by default ConstraintValidatorFactory.");
+			log.debug(format("Error trying get reference to validator [%s] by CDI.", key.getName()));
+			log.debug("Trying by default ConstraintValidatorFactory.");
 			constraintValidator = delegate.getInstance(key);
 		}
 

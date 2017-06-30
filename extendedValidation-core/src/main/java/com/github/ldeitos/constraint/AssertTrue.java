@@ -18,7 +18,7 @@ import javax.validation.ReportAsSingleViolation;
 /**
  * The annotated element must be true.
  * Supported types are {@code boolean} and {@code Boolean}.
- * <p/>
+ * <p>
  * {@code null} elements are considered valid.
  *
  * @author Emmanuel Bernard
@@ -34,13 +34,13 @@ public @interface AssertTrue {
 	
 	/**
      * @return Parameter array to be interpolated at message. Parameters can be informed in
-     * "key=value" or just "value" pattern.<br/>
-     * e.g:<br/>
-     * <br/>
-     * message="My {par1} message"<br/>
-     * messageParameters = {"par1=parameterized"}<br/>
-     * <br/>
-     * message="My {0} message"<br/>
+     * "key=value" or just "value" pattern.<br>
+     * e.g:<br>
+     * <br>
+     * message="My {par1} message"<br>
+     * messageParameters = {"par1=parameterized"}<br>
+     * <br>
+     * message="My {0} message"<br>
      * messageParameters = {"parameterized"}
      */
 	String[] messageParameters() default {};

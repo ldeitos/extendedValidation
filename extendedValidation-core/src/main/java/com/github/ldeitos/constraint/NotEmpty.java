@@ -18,7 +18,7 @@ import com.github.ldeitos.validators.NotEmptyValidator;
 
 /**
  * The annotated element must not empty.
- * <p/>
+ * <p>
  * Supported types are:
  * <ul>
  * <li>{@code CharSequence} (length of character sequence is evaluated)</li>
@@ -26,7 +26,7 @@ import com.github.ldeitos.validators.NotEmptyValidator;
  * <li>{@code Map} (map size is evaluated)</li>
  * <li>Array (array length is evaluated)</li>
  * </ul>
- * <p/>
+ * <p>
  * {@code null} elements are considered valid.
  *
  * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
@@ -40,13 +40,13 @@ public @interface NotEmpty {
 
 	/**
 	 * @return Parameter array to be interpolated at message. Parameters can be
-	 *         informed in "key=value" or just "value" pattern.<br/>
-	 *         e.g:<br/>
-	 * <br/>
-	 *         message="My {par1} message"<br/>
-	 *         messageParameters = {"par1=parameterized"}<br/>
-	 * <br/>
-	 *         message="My {0} message"<br/>
+	 *         informed in "key=value" or just "value" pattern.<br>
+	 *         e.g:<br>
+	 * <br>
+	 *         message="My {par1} message"<br>
+	 *         messageParameters = {"par1=parameterized"}<br>
+	 * <br>
+	 *         message="My {0} message"<br>
 	 *         messageParameters = {"parameterized"}
 	 */
 	String[] messageParameters() default {};

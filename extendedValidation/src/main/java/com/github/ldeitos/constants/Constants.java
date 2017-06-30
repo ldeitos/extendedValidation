@@ -33,7 +33,7 @@ public interface Constants {
 	String CONFIGURATION_FILE = "META-INF/extendedValidation.xml";
 
 	/**
-	 * System property to configure messages files collection.<br/>
+	 * System property to configure messages files collection.<br>
 	 * E.g: com.github.ldeitos.validation.message.files=arq1, arq2, arq3
 	 */
 	String MESSAGE_FILES_SYSTEM_PROPERTY = "com.github.ldeitos.validation.message.files";
@@ -55,9 +55,9 @@ public interface Constants {
 
 	/**
 	 * Pattern to informed parameter to be interpolated in constraint message:
-	 * "(.*)(:|=)(.*)".
+	 * "(.*?)(:|=)(.*)".
 	 */
-	String INTERPOLATE_PARAMETER_PATTERN = "(.*)(:|=)(.*)";
+	String INTERPOLATE_PARAMETER_PATTERN = "(.*?)(:|=)(.*)";
 
 	/**
 	 * Pattern to informed parameter in constraint message:
