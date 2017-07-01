@@ -55,9 +55,9 @@ public interface Constants {
 
 	/**
 	 * Pattern to informed parameter to be interpolated in constraint message:
-	 * "(.*)(:|=)(.*)".
+	 * "(.*?)(:|=)(.*)".
 	 */
-	String INTERPOLATE_PARAMETER_PATTERN = "(.*)(:|=)(.*)";
+	String INTERPOLATE_PARAMETER_PATTERN = "(.*?)(:|=)(.*)";
 
 	/**
 	 * Pattern to informed parameter in constraint message:
