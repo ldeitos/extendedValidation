@@ -4,13 +4,12 @@ import static java.lang.String.format;
 import static javax.validation.Validation.byDefaultProvider;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.spi.CDI;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.github.ldeitos.util.ManualContext;
 
 /**
  *
@@ -32,7 +31,7 @@ public class CdiLookupConstraintValidationFactory implements ConstraintValidator
 		log.trace(format("Getting reference to validator [%s].", key.getName()));
 
 		try {
-			constraintValidator = ManualContext.lookupCDI(key);
+			constraintValidator = CDI.current().select(key).get();
 
 			if (constraintValidator == null) {
 				log.debug(format("Unable to get reference to validator [%s] by CDI.", key.getName()));

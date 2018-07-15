@@ -8,14 +8,15 @@ import static java.util.regex.Pattern.compile;
 
 import java.util.regex.Matcher;
 
-import com.github.ldeitos.util.ManualContext;
+import javax.enterprise.inject.spi.CDI;
+
 import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 import com.github.ldeitos.validation.impl.configuration.Configuration;
 
 public class PresentationMessageFormatter {
 
 	public static String format(String template, String message) {
-		ConfigInfoProvider configProvider = ManualContext.lookupCDI(ConfigInfoProvider.class);
+		ConfigInfoProvider configProvider = CDI.current().select(ConfigInfoProvider.class).get();
 		Configuration configuration = Configuration.getConfiguration(configProvider);
 		Matcher matcherTemplate = compile(MESSAGE_KEY_PATTERN).matcher(template);
 		String formatedMessage = message;

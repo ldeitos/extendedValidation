@@ -1,6 +1,7 @@
 package com.github.ldeitos.validation.impl.interpolator;
 
-import com.github.ldeitos.util.ManualContext;
+import javax.enterprise.inject.spi.CDI;
+
 import com.github.ldeitos.validation.MessagesSource;
 import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 import com.github.ldeitos.validation.impl.configuration.Configuration;
@@ -13,7 +14,7 @@ class BaseInterpolator {
 	private MessagesSource messageSource;
 
 	public MessagesSource getMessageSource() {
-		ConfigInfoProvider configProvider = ManualContext.lookupCDI(ConfigInfoProvider.class);
+		ConfigInfoProvider configProvider = CDI.current().select(ConfigInfoProvider.class).get();
 
 		Configuration configuration = Configuration.getConfiguration(configProvider);
 		if (messageSource == null) {

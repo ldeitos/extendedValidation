@@ -17,6 +17,8 @@ import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.enterprise.inject.spi.CDI;
+
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections4.Closure;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
@@ -24,9 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.ldeitos.constants.Constants;
-import com.github.ldeitos.exception.InvalidCDIContextException;
 import com.github.ldeitos.exception.InvalidConfigurationException;
-import com.github.ldeitos.util.ManualContext;
 import com.github.ldeitos.validation.MessagesSource;
 import com.github.ldeitos.validation.ValidationClosure;
 import com.github.ldeitos.validation.impl.configuration.dto.ConfigurationDTO;
@@ -230,7 +230,7 @@ public class Configuration {
 				log.debug(format("Unable to get [%s] reference by CDI Context.", beanType.getCanonicalName()));
 				bean = getByReflection(beanType);
 			}
-		} catch (InvalidCDIContextException e) {
+		} catch (Exception e) {
 			String warnMsg = format("Error to obtain [%s] reference by CDI Context. Cause: %s.",
 			    beanType.getCanonicalName(), e.getMessage());
 			log.warn(warnMsg);
@@ -267,7 +267,7 @@ public class Configuration {
 	}
 
 	private <T> T getByCDIContext(Class<? extends T> type) {
-		return ManualContext.lookupCDI(type);
+		return CDI.current().select(type).get();
 	}
 
 	/**

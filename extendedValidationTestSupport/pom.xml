@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.ldeitos</groupId>
 		<artifactId>extendedValidation-parent</artifactId>
-		<version>1.1.01</version>
+		<version>1.1.02</version>
 		<relativePath>../extendedValidation-parent</relativePath>
 	</parent>
 	<name>Extended Validation Test Support</name>
@@ -51,12 +51,6 @@
 			<artifactId>commons-collections4</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>cdi-util</artifactId>
-			<version>0.6.2</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.jglue.cdi-unit</groupId>
 			<artifactId>cdi-unit</artifactId>
 			<scope>compile</scope>
@@ -65,6 +59,14 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.weld.se</groupId>
+			<artifactId>weld-se-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.weld.se</groupId>
+			<artifactId>weld-se</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.el</groupId>

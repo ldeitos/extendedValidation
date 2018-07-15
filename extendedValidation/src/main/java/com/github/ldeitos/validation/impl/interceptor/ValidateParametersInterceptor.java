@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.enterprise.inject.Any;
+import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
@@ -25,7 +26,6 @@ import org.slf4j.Logger;
 
 import com.github.ldeitos.qualifier.Closure;
 import com.github.ldeitos.qualifier.ExtendedValidator;
-import com.github.ldeitos.util.ManualContext;
 import com.github.ldeitos.validation.Message;
 import com.github.ldeitos.validation.ValidationClosure;
 import com.github.ldeitos.validation.Validator;
@@ -173,7 +173,7 @@ public class ValidateParametersInterceptor {
 		ValidateParameters conf = getInterceptorConfiguration(invCtx);
 
 		if (mustUseSpecificClosure(conf.closure())) {
-			closure = ManualContext.lookupCDI(ValidationClosure.class, conf.closure());
+			closure = CDI.current().select(ValidationClosure.class, conf.closure()).get();
 		}
 
 		return closure;

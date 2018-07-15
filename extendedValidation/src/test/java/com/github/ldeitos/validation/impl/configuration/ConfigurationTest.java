@@ -11,11 +11,10 @@ import org.jglue.cdiunit.CdiRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.github.ldeitos.util.ManualContext;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 
 @RunWith(CdiRunner.class)
-@AdditionalClasses({ TestMessageSource.class, ManualContext.class })
+@AdditionalClasses({ TestMessageSource.class })
 public class ConfigurationTest {
 	private static final String TEST_MESSAGE_FILE = "TestValidationMessage";
 

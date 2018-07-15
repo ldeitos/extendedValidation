@@ -87,6 +87,12 @@ public interface Constants {
 	 * {@link Constants#INTERPOLATE_PARAMETER_PATTERN}.
 	 */
 	int PARAMETER_KEY_GROUP = 1;
+	
+	/**
+	 * Parameter separator group index in regex
+	 * {@link Constants#INTERPOLATE_PARAMETER_PATTERN}.
+	 */
+	int PARAMETER_SEPARATOR_GROUP = 2;
 
 	/**
 	 * Parameter value group index in regex
