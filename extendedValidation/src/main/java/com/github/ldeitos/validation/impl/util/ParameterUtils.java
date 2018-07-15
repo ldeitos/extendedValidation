@@ -35,12 +35,13 @@ public class ParameterUtils {
 	 *         {@link Constants#PARAMETERS_FIELD_NAME} constraint content.
 	 */
 	public static Map<String, Object> buildParametersMap(String... parameters) {
+		String key, value, par;
 		Map<String, Object> atributes = new HashMap<String, Object>();
-
+		Matcher matcher;
+		
 		for (int i = 0; i < parameters.length; i++) {
-			String par = parameters[i].trim();
-			Matcher matcher = PARAMS_PATTERN.matcher(par);
-			String key, value;
+			par = parameters[i].trim();
+			matcher = PARAMS_PATTERN.matcher(par);
 
 			if (matcher.matches()) {
 				key = matcher.group(PARAMETER_KEY_GROUP);

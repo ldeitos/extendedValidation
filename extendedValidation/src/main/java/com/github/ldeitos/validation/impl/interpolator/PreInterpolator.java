@@ -5,6 +5,7 @@ import static com.github.ldeitos.constants.Constants.PARAMETER_PATTERN;
 import static com.github.ldeitos.validation.impl.util.ParameterUtils.buildParametersMap;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
+import static java.util.regex.Matcher.quoteReplacement;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +54,8 @@ public class PreInterpolator extends BaseInterpolator {
 	}
 
 	private String doInterpolation(String msg, String... parameters) {
+		Object value;
+		String key;
 		String toInterpolate = new String(msg);
 		Map<String, Object> paramsMap = addParamMarkOnMapKeys(buildParametersMap(parameters));
 		Matcher paramPatternMatcher = PARAM_PATTERN.matcher(msg);
@@ -62,13 +65,13 @@ public class PreInterpolator extends BaseInterpolator {
 
 		if (paramPatternMatcher.find()) {
 			for (Entry<String, Object> entry : paramsMap.entrySet()) {
-				String key = entry.getKey();
-				Object value = entry.getValue();
+				key = entry.getKey();
+				value = entry.getValue();
 				paramMatcher = Pattern.compile(key).matcher(toInterpolate);
 
 				if (paramMatcher.find()) {
 					logTrace(key, value);
-					toInterpolate = paramMatcher.replaceAll(valueOf(value));
+					toInterpolate = paramMatcher.replaceAll(quoteReplacement(valueOf(value)));
 				}
 			}
 		}
