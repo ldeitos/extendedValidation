@@ -12,7 +12,7 @@ steps:
     versionSpec: '6'
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'localDirectory'
-    jdkFile: 'jdk/jdk-6u45-linux-x64.tar'
+    jdkFile: 'jdk/jdk-6u45-linux-x64.zip'
     jdkDestinationDirectory: 'java/jdk1.6.0_45'
     cleanDestinationDirectory: 'true'
 - task: Maven@3
