@@ -13,7 +13,7 @@ steps:
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'localDirectory'
     jdkFile: 'jdk/jdk-6u45-linux-x64.tar.gz'
-    jdkDestinationDirectory: '/Program Files/Java/jdk1.6.0_45'
+    jdkDestinationDirectory: '~/Java/jdk1.6.0_45'
     cleanDestinationDirectory: true
 - task: Maven@3
   inputs:
@@ -22,7 +22,7 @@ steps:
     jdkVersionOption: '1.6'
     jdkArchitectureOption: 'x64'
     javaHomeOption: 'path'    
-    jdkDirectory: '/Program Files/Java/jdk1.6.0_45'
+    jdkDirectory: '~/Java/jdk1.6.0_45'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'clean package'
