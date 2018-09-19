@@ -19,7 +19,6 @@ steps:
   inputs:
     mavenPomFile: 'extendedBuild/pom.xml'
     mavenOptions: '-Xmx1024m'
-    javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.6'
     jdkArchitectureOption: 'x64'
     javaHomeOption: 'path'    
