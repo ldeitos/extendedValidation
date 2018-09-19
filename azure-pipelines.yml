@@ -13,8 +13,8 @@ steps:
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'localDirectory'
     jdkFile: 'jdk/jdk-6u45-linux-x64.tar.gz'
-    jdkDestinationDirectory: '~/Java/jdk1.6.0_45'
-    cleanDestinationDirectory: true
+    jdkDestinationDirectory: 'java/jdk1.6.0_45'
+    cleanDestinationDirectory: 'true'
 - task: Maven@3
   inputs:
     mavenPomFile: 'extendedBuild/pom.xml'
@@ -22,8 +22,8 @@ steps:
     jdkVersionOption: '1.6'
     jdkArchitectureOption: 'x64'
     javaHomeOption: 'path'    
-    jdkDirectory: '~/Java/jdk1.6.0_45'
-    publishJUnitResults: true
+    jdkDirectory: 'java/jdk1.6.0_45'
+    publishJUnitResults: 'true'
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'clean package'
     sonarQubeRunAnalysis: true 
