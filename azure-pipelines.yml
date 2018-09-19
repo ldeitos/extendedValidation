@@ -28,3 +28,4 @@ steps:
     goals: 'clean package'
     sonarQubeRunAnalysis: true 
     sqMavenPluginVersionChoice: 'latest'
+  condition: succeededOrFailed()
