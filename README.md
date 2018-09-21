@@ -1,3 +1,5 @@
+https://sonarcloud.io/api/project_badges/measure?project=ldeitos_extendedValidation&metric=alert_status
+
 # repository components
 
 - [ExtendedValidation](http://extendedvalidation.sourceforge.net/home.html) [[wiki pt_BR](https://github.com/ldeitos/repository/wiki/ExtendedValidation-pt_BR)][[wiki en_US](https://github.com/ldeitos/repository/wiki/ExtendedValidation-en_US)]
