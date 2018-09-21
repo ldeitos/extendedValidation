@@ -7,21 +7,21 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 steps:
-- task: JavaToolInstaller@0
-  inputs:
-    versionSpec: '6'
-    jdkArchitectureOption: 'x64'
-    jdkSourceOption: 'localDirectory'
-    jdkFile: 'jdk/jdk1.6.0_45.tar.gz'
-    jdkDestinationDirectory: 'java/jdk1.6.0_45'
-    cleanDestinationDirectory: 'true'
+#- task: JavaToolInstaller@0
+#  inputs:
+#    versionSpec: '6'
+#    jdkArchitectureOption: 'x64'
+#    jdkSourceOption: 'localDirectory'
+#    jdkFile: 'jdk/jdk1.6.0_45.tar.gz'
+#    jdkDestinationDirectory: 'java/jdk1.6.0_45'
+#    cleanDestinationDirectory: 'true'
 - task: Maven@3
   inputs:
     mavenPomFile: 'extendedBuild/pom.xml'
     mavenOptions: '-Xmx1024m'
-    jdkVersionOption: '1.6'
-    jdkArchitectureOption: 'x64'
-    javaHomeOption: 'JDKVersion'    
+#    jdkVersionOption: '1.6'
+#    jdkArchitectureOption: 'x64'
+#    javaHomeOption: 'JDKVersion'    
 #    jdkDirectory: 'jdk/jdk1.6.0_45'
     publishJUnitResults: 'true'
     testResultsFiles: '**/surefire-reports/TEST-*.xml'

@@ -44,6 +44,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<javadoc.opts>-Xdoclint:none</javadoc.opts>
 	</properties>
 
 	<build>
@@ -113,6 +114,9 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
+                                                <configuration>
+							<additionalparam>${javadoc.opts}</additionalparam>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
