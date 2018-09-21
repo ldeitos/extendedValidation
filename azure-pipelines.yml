@@ -21,11 +21,10 @@ steps:
     mavenOptions: '-Xmx1024m'
     jdkVersionOption: '1.6'
     jdkArchitectureOption: 'x64'
-    javaHomeOption: 'path'    
-    jdkDirectory: 'jdk/jdk1.6.0_45'
+    javaHomeOption: 'JDKVersion'    
+#    jdkDirectory: 'jdk/jdk1.6.0_45'
     publishJUnitResults: 'true'
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'clean package'
     sonarQubeRunAnalysis: true 
     sqMavenPluginVersionChoice: 'latest'
-  condition: succeededOrFailed()
