@@ -135,10 +135,12 @@
 						<property>
 							<name>org.jboss.weld.nonPortableMode</name>
 							<value>true</value>
-							<user.language>pt</user.language>
-							<user.region>BR</user.region>
 						</property>
 					</systemProperties>
+					<systemPropertyVariables>
+						<user.language>pt</user.language>
+						<user.region>BR</user.region>
+					</systemPropertyVariables>
 					<classpathDependencyExcludes>
 						<classpathDependencyExcludes>ch.qos.logback:logback-classic</classpathDependencyExcludes>
 					</classpathDependencyExcludes>
