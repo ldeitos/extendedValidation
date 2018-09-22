@@ -12,4 +12,4 @@ steps:
     mavenOptions: '-Xmx1024m'
     publishJUnitResults: 'true'
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'clean package sonar:sonar -Dsonar.projectKey=ldeitos_extendedValidation -Dsonar.organization=ldeitos-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=6a4235905495fa2093182c65a9c6938502ffb167'    
+    goals: 'clean package sonar:sonar -D=user.language=pt -Duser.region=BR -Dsonar.projectKey=ldeitos_extendedValidation -Dsonar.organization=ldeitos-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=6a4235905495fa2093182c65a9c6938502ffb167'    
