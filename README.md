@@ -1,4 +1,4 @@
-<img src="https://sonarcloud.io/api/project_badges/measure?project=ldeitos_extendedValidation&metric=alert_status"/>
+<a href="https://sonarcloud.io/dashboard?id=ldeitos_extendedValidation"><img src="https://sonarcloud.io/api/project_badges/measure?project=ldeitos_extendedValidation&metric=alert_status"/></a>
 
 # repository components
 
