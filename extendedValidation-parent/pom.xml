@@ -137,10 +137,6 @@
 							<value>true</value>
 						</property>
 					</systemProperties>
-					<systemPropertyVariables>
-						<user.language>pt</user.language>
-						<user.country>BR</user.country>
-					</systemPropertyVariables>
 					<classpathDependencyExcludes>
 						<classpathDependencyExcludes>ch.qos.logback:logback-classic</classpathDependencyExcludes>
 					</classpathDependencyExcludes>
