@@ -38,7 +38,7 @@ public class MultipleBundlesSourceTest extends BaseTest {
 
 	@Test
 	public void testDefaultMessageFileLocalized() {
-		Locale locale = new Locale("en_GB");
+		Locale locale = new Locale("es_ES");
 		MultipleBundlesSource source = new MultipleBundlesSource();
 		String msg = source.getMessage(DEFAULT_MESSAGE_KEY, locale);
 
@@ -61,7 +61,7 @@ public class MultipleBundlesSourceTest extends BaseTest {
 	public void testOtherMessageFileLocalized() {
 		System.setProperty(MESSAGE_FILES_SYSTEM_PROPERTY, OTHER_MESSAGE_FILE);
 
-		Locale locale = new Locale("en_GB");
+		Locale locale = new Locale("es_ES");
 		MultipleBundlesSource source = new MultipleBundlesSource();
 		String msg = source.getMessage(OTHER_MESSAGE_KEY, locale);
 
