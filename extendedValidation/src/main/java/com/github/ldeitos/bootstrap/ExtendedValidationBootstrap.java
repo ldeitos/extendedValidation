@@ -1,17 +1,16 @@
 package com.github.ldeitos.bootstrap;
 
-import static com.github.ldeitos.util.ManualContext.lookupCDI;
-
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AfterDeploymentValidation;
 import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.Extension;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.ldeitos.exception.InvalidConfigurationException;
-import com.github.ldeitos.validation.impl.configuration.ConfigInfo;
+import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 import com.github.ldeitos.validation.impl.configuration.Configuration;
 
 /**
@@ -26,7 +25,7 @@ public class ExtendedValidationBootstrap implements Extension {
 
 	public void startup(@Observes AfterDeploymentValidation event, BeanManager bm) {
 		if (Configuration.isUnloaded()) {
-			ConfigInfo cp = lookupCDI(bm, ConfigInfo.class);
+			ConfigInfoProvider cp = CDI.current().select(ConfigInfoProvider.class).get();
 			try {
 				LOGGER.info("Loading ExtendedValidation configurations.");
 				Configuration.load(cp);

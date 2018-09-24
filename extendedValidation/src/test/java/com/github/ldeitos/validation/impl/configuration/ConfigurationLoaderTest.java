@@ -15,7 +15,7 @@ public class ConfigurationLoaderTest {
 
 	@Test
 	public void testLoadExtendedValidatonXML() {
-		ConfigurationDTO dto = ConfigurationLoader.loadConfiguration(new ConfigInfo());
+		ConfigurationDTO dto = ConfigurationLoader.loadConfiguration(new ConfigInfoProvider());
 
 		assertEquals(TEST_MESSAGE_SOURCE, dto.getMessageSource());
 		assertFalse(dto.getMessageFiles().isEmpty());

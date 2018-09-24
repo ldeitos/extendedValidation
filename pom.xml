@@ -7,7 +7,15 @@
 	<url>http://extendedvalidation.sourceforge.net/</url>
 	<packaging>pom</packaging>
 	<properties>
-		<docDir>../</docDir>
+		<docDir>/</docDir>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.projectKey>ldeitos_extendedValidation</sonar.projectKey>
+		<sonar.organization>ldeitos-github</sonar.organization> 
+		<sonar.login>6a4235905495fa2093182c65a9c6938502ffb167</sonar.login>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.jacoco.reportPaths>${basedir}/extendedValidationTestSupport/target/coverage-reports/jacoco-ut.exec,${basedir}/extendedValidation/target/coverage-reports/jacoco-ut.exec,${basedir}/extendedValidation-core/target/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPaths>
+		<sonar.language>java</sonar.language>
 	</properties>
 
 	<licenses>
@@ -30,10 +38,10 @@
 	</scm>
 
 	<modules>
-		<module>../extendedValidation-parent</module>
-		<module>../extendedValidation-core</module>
-		<module>../extendedValidation</module>
-		<module>../extendedValidationTestSupport</module>
+		<module>extendedValidation-parent</module>
+		<module>extendedValidation-core</module>
+		<module>extendedValidation</module>
+		<module>extendedValidationTestSupport</module>
 	</modules>
 
 	<build>

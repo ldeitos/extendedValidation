@@ -19,7 +19,7 @@ import com.github.ldeitos.validators.MinValidator;
 /**
  * The annotated element must be a number whose value must be higher or
  * equal to the specified minimum.
- * <p/>
+ * <p>
  * Supported types are:
  * <ul>
  *     <li>{@code BigDecimal}</li>
@@ -29,7 +29,7 @@ import com.github.ldeitos.validators.MinValidator;
  * </ul>
  * Note that {@code double} and {@code float} are not supported due to rounding errors
  * (some providers might provide some approximative support).
- * <p/>
+ * <p>
  * {@code null} elements are considered valid.
  *
  * @author Emmanuel Bernard
@@ -44,13 +44,13 @@ public @interface Min {
 
     /**
      * @return Parameter array to be interpolated at message. Parameters can be informed in
-     * "key=value" or just "value" pattern.<br/>
-     * e.g:<br/>
-     * <br/>
-     * message="My {par1} message"<br/>
-     * messageParameters = {"par1=parameterized"}<br/>
-     * <br/>
-     * message="My {0} message"<br/>
+     * "key=value" or just "value" pattern.<br>
+     * e.g:<br>
+     * <br>
+     * message="My {par1} message"<br>
+     * messageParameters = {"par1=parameterized"}<br>
+     * <br>
+     * message="My {0} message"<br>
      * messageParameters = {"parameterized"}
      */
     String[] messageParameters() default {};

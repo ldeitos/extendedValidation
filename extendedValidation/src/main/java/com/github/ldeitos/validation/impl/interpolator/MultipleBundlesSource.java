@@ -12,14 +12,15 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.enterprise.inject.spi.CDI;
+
 import com.github.ldeitos.constants.Constants;
 import com.github.ldeitos.validation.MessagesSource;
-import com.github.ldeitos.validation.impl.configuration.ConfigInfo;
 import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 
 /**
  * Default ExtendedValidation concrete implementation from
- * {@link MessagesSource}.<br/>
+ * {@link MessagesSource}.<br>
  * Recovery messages from ValidationMessages.properties <b>and</b> any other
  * file configured by {@link Constants#CONFIGURATION_FILE} or
  * {@link Constants#MESSAGE_FILES_SYSTEM_PROPERTY}.
@@ -42,8 +43,8 @@ public class MultipleBundlesSource extends AbstractMessagesSource {
 	private Map<String, ResourceBundle> cache = new HashMap<String, ResourceBundle>();
 
 	{
-		ConfigInfo configInfo = ConfigInfoProvider.getConfigInfo();
-		bundleFiles.addAll(getConfiguration(configInfo).getConfituredMessageFiles());
+		ConfigInfoProvider configProvider = CDI.current().select(ConfigInfoProvider.class).get();
+		bundleFiles.addAll(getConfiguration(configProvider).getConfituredMessageFiles());
 	}
 
 	/**
@@ -71,7 +72,7 @@ public class MultipleBundlesSource extends AbstractMessagesSource {
 	 * @param locale
 	 *            Locale to recover a resource file. May be null.
 	 * @return {@link ResourceBundle} equivalent to file name and locale
-	 *         solicited or null if does not exist.<br/>
+	 *         solicited or null if does not exist.<br>
 	 *         If resource is correctly loaded from environment, the bundle is
 	 *         cached to be recovered in future requests.
 	 */

@@ -17,6 +17,8 @@ import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.enterprise.inject.spi.CDI;
+
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections4.Closure;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
@@ -24,9 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.ldeitos.constants.Constants;
-import com.github.ldeitos.exception.InvalidCDIContextException;
 import com.github.ldeitos.exception.InvalidConfigurationException;
-import com.github.ldeitos.util.ManualContext;
 import com.github.ldeitos.validation.MessagesSource;
 import com.github.ldeitos.validation.ValidationClosure;
 import com.github.ldeitos.validation.impl.configuration.dto.ConfigurationDTO;
@@ -53,14 +53,17 @@ public class Configuration {
 
 	private ValidationClosure validationClosure;
 
-	private Configuration(ConfigInfo configProvider) {
+	private Configuration(ConfigInfoProvider configProvider) {
 		configuration = ConfigurationLoader.loadConfiguration(configProvider);
 	};
 
 	/**
+	 * @param configProvider
+	 * 		Configuration information provider.
+	 * 
 	 * @return Unique instance to {@link Configuration} to application use.
 	 */
-	public static Configuration getConfiguration(ConfigInfo configProvider) {
+	public static Configuration getConfiguration(ConfigInfoProvider configProvider) {
 		if (isUnloaded() || configProvider.isInTest()) {
 			instance = new Configuration(configProvider);
 
@@ -227,9 +230,9 @@ public class Configuration {
 				log.debug(format("Unable to get [%s] reference by CDI Context.", beanType.getCanonicalName()));
 				bean = getByReflection(beanType);
 			}
-		} catch (InvalidCDIContextException e) {
+		} catch (Exception e) {
 			String warnMsg = format("Error to obtain [%s] reference by CDI Context. Cause: %s.",
-				beanType.getCanonicalName(), e.getMessage());
+			    beanType.getCanonicalName(), e.getMessage());
 			log.warn(warnMsg);
 
 			bean = getByReflection(beanType);
@@ -241,7 +244,7 @@ public class Configuration {
 	private <T> T getByReflection(Class<? extends T> beanType) {
 		T bean = null;
 		String msgError = format("Error to obtain %s instance from [%s] by reflection.",
-			beanType.getInterfaces()[0].getSimpleName(), beanType.getCanonicalName());
+		    beanType.getInterfaces()[0].getSimpleName(), beanType.getCanonicalName());
 		try {
 			log.warn("Trying by reflection...");
 			bean = ConstructorUtils.invokeConstructor(beanType);
@@ -264,7 +267,7 @@ public class Configuration {
 	}
 
 	private <T> T getByCDIContext(Class<? extends T> type) {
-		return ManualContext.lookupCDI(type);
+		return CDI.current().select(type).get();
 	}
 
 	/**
@@ -277,7 +280,7 @@ public class Configuration {
 	 *             {@link Constants#CONFIGURATION_FILE} or this is inexistent.
 	 * @since 0.1.2
 	 */
-	public static void load(ConfigInfo cp) throws InvalidConfigurationException {
+	public static void load(ConfigInfoProvider cp) throws InvalidConfigurationException {
 		if (isUnloaded() || cp.isInTest()) {
 			instance = new Configuration(cp);
 		}

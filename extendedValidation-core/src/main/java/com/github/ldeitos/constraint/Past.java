@@ -26,13 +26,13 @@ public @interface Past {
 	
 	/**
      * @return Parameter array to be interpolated at message. Parameters can be informed in
-     * "key=value" or just "value" pattern.<br/>
-     * e.g:<br/>
-     * <br/>
-     * message="My {par1} message"<br/>
-     * messageParameters = {"par1=parameterized"}<br/>
-     * <br/>
-     * message="My {0} message"<br/>
+     * "key=value" or just "value" pattern.<br>
+     * e.g:<br>
+     * <br>
+     * message="My {par1} message"<br>
+     * messageParameters = {"par1=parameterized"}<br>
+     * <br>
+     * message="My {0} message"<br>
      * messageParameters = {"parameterized"}
      */
 	String[] messageParameters() default {};

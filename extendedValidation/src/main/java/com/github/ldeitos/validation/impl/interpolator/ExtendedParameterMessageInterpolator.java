@@ -11,7 +11,7 @@ import javax.validation.MessageInterpolator;
 import com.github.ldeitos.validation.MessagesSource;
 
 /**
- * ExtendedValidation default {@link MessageInterpolator} implementation.<br/>
+ * ExtendedValidation default {@link MessageInterpolator} implementation.<br>
  * Obtain the requested message from {@link MessagesSource} and send to default
  * interpolator from concrete BeanValidation API implementation in use.
  *

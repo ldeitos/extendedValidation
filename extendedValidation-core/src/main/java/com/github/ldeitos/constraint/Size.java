@@ -18,7 +18,7 @@ import com.github.ldeitos.validators.SizeValidator;
 
 /**
  * The annotated element size must be between the specified boundaries (included).
- * <p/>
+ * <p>
  * Supported types are:
  * <ul>
  *     <li>{@code CharSequence} (length of character sequence is evaluated)</li>
@@ -26,7 +26,7 @@ import com.github.ldeitos.validators.SizeValidator;
  *     <li>{@code Map} (map size is evaluated)</li>
  *     <li>Array (array length is evaluated)</li>
  * </ul>
- * <p/>
+ * <p>
  * {@code null} elements are considered valid.
  *
  * @author Emmanuel Bernard
@@ -39,13 +39,13 @@ public @interface Size {
 	
 	/**
      * @return Parameter array to be interpolated at message. Parameters can be informed in
-     * "key=value" or just "value" pattern.<br/>
-     * e.g:<br/>
-     * <br/>
-     * message="My {par1} message"<br/>
-     * messageParameters = {"par1=parameterized"}<br/>
-     * <br/>
-     * message="My {0} message"<br/>
+     * "key=value" or just "value" pattern.<br>
+     * e.g:<br>
+     * <br>
+     * message="My {par1} message"<br>
+     * messageParameters = {"par1=parameterized"}<br>
+     * <br>
+     * message="My {0} message"<br>
      * messageParameters = {"parameterized"}
      */
 	String[] messageParameters() default {};

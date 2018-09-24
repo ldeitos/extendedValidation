@@ -8,8 +8,8 @@ pool:
 steps:
 - task: Maven@3
   inputs:
-    mavenPomFile: 'extendedBuild/pom.xml'
-    mavenOptions: '-Xmx1024m -Dsonar.projectKey=ldeitos_extendedValidation -Dsonar.organization=ldeitos-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=6a4235905495fa2093182c65a9c6938502ffb167'
+    mavenPomFile: 'pom.xml'
+    mavenOptions: '-Xmx1024m'
     publishJUnitResults: 'true'
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'clean package sonar:sonar'    

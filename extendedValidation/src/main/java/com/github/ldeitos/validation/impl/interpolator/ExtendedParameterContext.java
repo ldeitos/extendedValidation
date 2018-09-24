@@ -23,9 +23,9 @@ import com.github.ldeitos.validation.Validator;
 
 /**
  * A {@link Context} decorator to concrete BeanValidation API implementation in
- * use.<br/>
+ * use.<br>
  * Process a constraint content searching
- * {@link Constants#PARAMETERS_FIELD_NAME} field.<br/>
+ * {@link Constants#PARAMETERS_FIELD_NAME} field.<br>
  * Finding it, get all parameters content and add to attributes map in
  * {@link ConstraintDescriptor}.
  *

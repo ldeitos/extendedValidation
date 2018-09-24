@@ -10,7 +10,7 @@ import com.github.ldeitos.constants.Constants;
 import com.github.ldeitos.validation.MessagesSource;
 
 /**
- * Abstract implementation to {@link MessagesSource}.<br/>
+ * Abstract implementation to {@link MessagesSource}.<br>
  * Provide a {@link Pattern} compiled by {@link Constants#MESSAGE_KEY_PATTERN}, a key group index in regex pattern, 
  * a {@link Matcher} provider method and default implementation to {@link MessagesSource#getMessage(String)} 
  * and {@link MessagesSource#getMessage(String, Locale)}
@@ -64,10 +64,10 @@ public abstract class AbstractMessagesSource implements MessagesSource {
 	/**
 	 * 
 	 * @param original 
-	 * 		Original 'message' constraint attribute content.<br/>
+	 * 		Original 'message' constraint attribute content.<br>
 	 *      E.g: "{keyContent}"
 	 * @param key
-	 * 		Key extracted from original message if that is key pattern compatible.<br/>
+	 * 		Key extracted from original message if that is key pattern compatible.<br>
 	 *      E.g: "{keyContent}" or "[keyContent]" result "keyContent"
 	 * @param locale 
 	 * 		Locale to get localized message, may be <code>null</code>.

@@ -53,7 +53,7 @@ public enum Severity {
 	 * @param constraintSeveritiry
 	 *            {@link ConstraintSeverity} to recover {@link Severity}
 	 *            equivalent.
-	 * @return {@link Severity} item recovered by {@link ConstraintSeverity}. <br/>
+	 * @return {@link Severity} item recovered by {@link ConstraintSeverity}. <br>
 	 *         Case {@link ConstraintSeverity} does't have a equivalent
 	 *         {@link Severity}, {@link #ERROR} is a default return.
 	 */

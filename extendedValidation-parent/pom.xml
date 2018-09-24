@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ldeitos</groupId>
 	<artifactId>extendedValidation-parent</artifactId>
-	<version>1.1.CR3</version>
+	<version>1.1.02</version>
 	<packaging>pom</packaging>
 	<name>Extended Validation Parent</name>
 	<description>ExtendedValidation parent project.</description>
@@ -44,6 +44,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputDirectory>${basedir}/../target/</project.reporting.outputDirectory>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<javadoc.opts>-Xdoclint:none</javadoc.opts>
 	</properties>
@@ -131,6 +132,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.0</version>
 				<configuration>
+					<argLine>@{surefireArgLine} -Xmx512m</argLine>
 					<systemProperties>
 						<property>
 							<name>org.jboss.weld.nonPortableMode</name>
@@ -145,7 +147,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.5.201505241946</version>
+				<version>0.8.1</version>
 				<executions>
 					<execution>
 						<id>pre-unit-test</id>
@@ -153,8 +155,23 @@
 							<goal>prepare-agent</goal>
 						</goals>
 						<configuration>
-							<destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+							<destFile>${basedir}/target/coverage-reports/jacoco-ut.exec</destFile>
 							<propertyName>surefireArgLine</propertyName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>report-aggregate</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report-aggregate</goal>
+						</goals>
+						<configuration>
+							<title>ExtendedValidation</title>
+							<footer>Code Coverage Report for ExtendedValidation ${project.version}</footer>
+							<includes>
+								<include>**/*.class</include>
+							</includes>
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco-agregate</outputDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -164,7 +181,7 @@
 							<goal>report</goal>
 						</goals>
 						<configuration>
-							<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+							<dataFile>${basedir}/target/coverage-reports/jacoco-ut.exec</dataFile>
 							<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
 						</configuration>
 					</execution>
@@ -247,7 +264,7 @@
 			<dependency>
 				<groupId>org.jglue.cdi-unit</groupId>
 				<artifactId>cdi-unit</artifactId>
-				<version>2.0.8</version>
+				<version>4.0.2</version>
 				<scope>test</scope>
 			</dependency>
 
@@ -269,6 +286,20 @@
 				<groupId>com.sun.el</groupId>
 				<artifactId>el-ri</artifactId>
 				<version>1.0</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.weld.se</groupId>
+				<artifactId>weld-se-core</artifactId>
+				<version>2.4.7.Final</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.weld.se</groupId>
+				<artifactId>weld-se</artifactId>
+				<version>2.4.7.Final</version>
 				<scope>test</scope>
 			</dependency>
 

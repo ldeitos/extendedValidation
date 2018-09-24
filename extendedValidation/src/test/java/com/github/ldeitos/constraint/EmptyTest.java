@@ -23,7 +23,7 @@ import org.junit.Test;
 
 import com.github.ldeitos.qualifier.ExtendedValidator;
 import com.github.ldeitos.test.base.BaseTest;
-import com.github.ldeitos.validation.impl.configuration.ConfigInfo;
+import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 import com.github.ldeitos.validators.EmptyValidatorImpl;
 import com.github.ldeitos.validators.SizeValidatorImpl;
@@ -35,7 +35,7 @@ public class EmptyTest extends BaseTest {
 
 	@Produces
 	@ProducesAlternative
-	private ConfigInfo cip = new ConfigInfo() {
+	private ConfigInfoProvider cip = new ConfigInfoProvider() {
 		@Override
 		protected boolean isInTest() {
 			return true;

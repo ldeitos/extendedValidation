@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.enterprise.inject.Any;
+import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
@@ -25,13 +26,12 @@ import org.slf4j.Logger;
 
 import com.github.ldeitos.qualifier.Closure;
 import com.github.ldeitos.qualifier.ExtendedValidator;
-import com.github.ldeitos.util.ManualContext;
 import com.github.ldeitos.validation.Message;
 import com.github.ldeitos.validation.ValidationClosure;
 import com.github.ldeitos.validation.Validator;
 import com.github.ldeitos.validation.annotation.SkipValidation;
 import com.github.ldeitos.validation.annotation.ValidateParameters;
-import com.github.ldeitos.validation.impl.configuration.ConfigInfo;
+import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 
 /**
  * CDI based interceptor to do audit process.
@@ -51,7 +51,7 @@ public class ValidateParametersInterceptor {
 	private Validator validator;
 
 	@Inject
-	private ConfigInfo configProvider;
+	private ConfigInfoProvider configProvider;
 
 	/**
 	 * Validation interceptor method.
@@ -61,6 +61,7 @@ public class ValidateParametersInterceptor {
 	 * @return Intercepted method result.
 	 *
 	 * @throws Exception
+	 * 			  Any exception throwed by validation execution or after that, when execution method proceeds.
 	 *
 	 */
 	@AroundInvoke
@@ -172,7 +173,7 @@ public class ValidateParametersInterceptor {
 		ValidateParameters conf = getInterceptorConfiguration(invCtx);
 
 		if (mustUseSpecificClosure(conf.closure())) {
-			closure = ManualContext.lookupCDI(ValidationClosure.class, conf.closure());
+			closure = CDI.current().select(ValidationClosure.class, conf.closure()).get();
 		}
 
 		return closure;

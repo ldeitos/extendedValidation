@@ -10,14 +10,13 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
 import com.github.ldeitos.qualifier.ExtendedValidator;
-import com.github.ldeitos.util.ManualContext;
 import com.github.ldeitos.validation.impl.ValidatorImpl;
-import com.github.ldeitos.validation.impl.configuration.ConfigInfo;
+import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 import com.github.ldeitos.validation.impl.interpolator.MultipleBundlesSource;
 
 @RunWith(CdiRunner.class)
-@AdditionalClasses({ ValidatorImpl.class, MultipleBundlesSource.class, ManualContext.class,
-	ConfigInfo.class })
+@AdditionalClasses({ ValidatorImpl.class, MultipleBundlesSource.class,
+	ConfigInfoProvider.class })
 public abstract class BaseTest {
 
 	@Inject
