@@ -1,6 +1,6 @@
 package com.github.ldeitos.validation.impl;
 
-import static org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE;
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 import java.lang.annotation.Annotation;
 
@@ -8,7 +8,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Payload;
 import javax.validation.metadata.ConstraintDescriptor;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.github.ldeitos.validation.ConstraintSeverity;
 import com.github.ldeitos.validation.Message;

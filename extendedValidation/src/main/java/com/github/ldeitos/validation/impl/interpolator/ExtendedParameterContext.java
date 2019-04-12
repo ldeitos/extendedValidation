@@ -2,11 +2,9 @@ package com.github.ldeitos.validation.impl.interpolator;
 
 import static com.github.ldeitos.constants.Constants.PARAMETERS_FIELD_NAME;
 import static com.github.ldeitos.validation.impl.util.ParameterUtils.buildParametersMap;
-import static java.lang.String.format;
 import static java.util.Collections.unmodifiableMap;
 
 import java.lang.annotation.Annotation;
-import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +15,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.MessageInterpolator.Context;
 import javax.validation.Payload;
 import javax.validation.metadata.ConstraintDescriptor;
+import javax.validation.metadata.ValidateUnwrappedValue;
 
 import com.github.ldeitos.constants.Constants;
-import com.github.ldeitos.validation.Validator;
 
 /**
  * A {@link Context} decorator to concrete BeanValidation API implementation in
@@ -71,11 +69,11 @@ class ExtendedParameterContext implements Context {
 	 */
 	@Override
 	public <T> T unwrap(Class<T> type) {
-		if (type.isAssignableFrom(Validator.class)) {
+		if (type.isAssignableFrom(ExtendedParameterContext.class)) {
 			return type.cast(this);
 		}
 
-		throw new InvalidParameterException(format("Impossible to get %s instance.", type.getName()));
+		return decorated.unwrap(type);
 	}
 
 	/**
@@ -215,6 +213,20 @@ class ExtendedParameterContext implements Context {
 		@Override
 		public boolean isReportAsSingleViolation() {
 			return decorated.isReportAsSingleViolation();
+		}
+
+		@Override
+		public ValidateUnwrappedValue getValueUnwrapping() {
+			return decorated.getValueUnwrapping();
+		}
+
+		@Override
+		public <U> U unwrap(Class<U> type) {
+			if (type.isAssignableFrom(ExtendedConstraintDescriptor.class)) {
+				return type.cast(this);
+			}
+
+			return decorated.unwrap(type);
 		}
 	}
 }

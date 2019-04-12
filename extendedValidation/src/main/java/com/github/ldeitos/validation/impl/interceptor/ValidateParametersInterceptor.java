@@ -4,8 +4,8 @@ import static com.github.ldeitos.constants.Constants.DEFAULT_VALIDATION_CLOSURE_
 import static com.github.ldeitos.validation.impl.configuration.Configuration.getConfiguration;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
-import static org.apache.commons.collections4.CollectionUtils.isEmpty;
-import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+import static org.apache.commons.collections.CollectionUtils.isEmpty;
+import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.lang.annotation.Annotation;

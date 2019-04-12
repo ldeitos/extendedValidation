@@ -1,18 +1,17 @@
 package com.github.ldeitos.validation.impl.interceptor;
 
 import static java.util.Arrays.asList;
-import static org.apache.commons.collections4.CollectionUtils.collect;
-import static org.apache.commons.collections4.CollectionUtils.containsAll;
+import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.apache.commons.collections4.Transformer;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.junit.Test;
 
@@ -246,15 +245,9 @@ public class ValidateParametersInterceptorTest extends BaseTest {
 
 	private void assertHasMessages(Set<Message> messages, String... msgs) {
 		assertEquals(msgs.length, messages.size());
-		Transformer<Message, String> toStrMsg = new Transformer<Message, String>() {
-			@Override
-			public String transform(Message input) {
-				return input.getMessage();
-			}
-		};
 
-		Collection<String> strMsgs = collect(messages, toStrMsg);
-		assertTrue(containsAll(asList(msgs), strMsgs));
+		Collection<String> strMsgs = messages.stream().map(m-> m.getMessage()).collect(toList());
+		assertTrue(asList(msgs).containsAll(strMsgs));
 	}
 
 }

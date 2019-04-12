@@ -3,15 +3,15 @@ package com.github.ldeitos.validation.impl.configuration.dto;
 import static com.github.ldeitos.constants.Constants.DEFAULT_MESSAGE_SOURCE;
 import static com.github.ldeitos.constants.Constants.DEFAULT_VALIDATION_CLOSURE;
 import static com.github.ldeitos.constants.Constants.PRESENTATION_MESSAGE_PARAMETER;
-import static org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE;
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.github.ldeitos.constants.Constants;
 import com.github.ldeitos.exception.InvalidConfigurationException;

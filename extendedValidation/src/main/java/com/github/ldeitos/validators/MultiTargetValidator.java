@@ -2,15 +2,13 @@ package com.github.ldeitos.validators;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static org.apache.commons.collections15.CollectionUtils.exists;
 
 import java.lang.annotation.Annotation;
 import java.security.InvalidParameterException;
+import java.util.function.Predicate;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-
-import org.apache.commons.collections15.Predicate;
 
 abstract class MultiTargetValidator<A extends Annotation> implements ConstraintValidator<A, Object> {
 
@@ -30,7 +28,7 @@ abstract class MultiTargetValidator<A extends Annotation> implements ConstraintV
 		boolean ret = true;
 		Predicate<Class<?>> assignableFrom = getMustValidatePredicate(valueClass);
 
-		if (exists(asList(getTargetClasses()), assignableFrom)) {
+		if (asList(getTargetClasses()).stream().anyMatch(assignableFrom)) {
 			ret = doValidation(value);
 		} else {
 			throw new InvalidParameterException(format(
@@ -44,8 +42,8 @@ abstract class MultiTargetValidator<A extends Annotation> implements ConstraintV
 	protected Predicate<Class<?>> getMustValidatePredicate(final Class<?> valueClass) {
 		Predicate<Class<?>> assignableFrom = new Predicate<Class<?>>() {
 			@Override
-			public boolean evaluate(Class<?> arg0) {
-				return arg0.isAssignableFrom(valueClass);
+			public boolean test(Class<?> t) {
+				return t.isAssignableFrom(valueClass);
 			}
 		};
 		return assignableFrom;
