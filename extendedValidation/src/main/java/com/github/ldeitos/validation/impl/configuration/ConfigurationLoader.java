@@ -117,7 +117,7 @@ class ConfigurationLoader {
 					}
 					
 					if (elementName.equals(PATH_CONF_MESSAGE_FILES)) {
-						int openned = 0;
+						int openned = 1;
 						do {
 							event = eventReader.nextEvent();
 
