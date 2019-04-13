@@ -2,8 +2,8 @@ package com.github.ldeitos.validation.impl;
 
 import static com.github.ldeitos.exception.ViolationException.throwNew;
 import static java.lang.String.format;
-import static org.apache.commons.collections15.CollectionUtils.collect;
-import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+import static java.util.stream.Collectors.toList;
+import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 
 import java.security.InvalidParameterException;
 import java.util.HashSet;
@@ -14,8 +14,6 @@ import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import javax.validation.executable.ExecutableValidator;
 import javax.validation.metadata.BeanDescriptor;
-
-import org.apache.commons.collections15.Transformer;
 
 import com.github.ldeitos.exception.ViolationException;
 import com.github.ldeitos.qualifier.ExtendedValidator;
@@ -30,12 +28,6 @@ import com.github.ldeitos.validation.Validator;
  */
 @ExtendedValidator
 public class ValidatorImpl implements Validator {
-	private static final Transformer<ConstraintViolation<?>, Message> toMessage = new Transformer<ConstraintViolation<?>, Message>() {
-		@Override
-		public Message transform(ConstraintViolation<?> arg0) {
-			return new MessageImpl(arg0);
-		}
-	};
 
 	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
@@ -79,20 +71,20 @@ public class ValidatorImpl implements Validator {
 	@Override
 	public <T> Set<Message> validateBean(T object, Class<?>... groups) {
 		Set<ConstraintViolation<T>> constraints = validate(object, groups);
-		return new HashSet<Message>(collect(constraints, toMessage));
+		return new HashSet<Message>(constraints.stream().map(MessageImpl::new).collect(toList()));
 	}
 
 	@Override
 	public <T> Set<Message> validatePropertyBean(T object, String propertyName, Class<?>... groups) {
 		Set<ConstraintViolation<T>> constraints = validateProperty(object, propertyName, groups);
-		return new HashSet<Message>(collect(constraints, toMessage));
+		return new HashSet<Message>(constraints.stream().map(MessageImpl::new).collect(toList()));
 	}
 
 	@Override
 	public <T> Set<Message> validateValueBean(Class<T> beanType, String propertyName, Object value,
 	    Class<?>... groups) {
 		Set<ConstraintViolation<T>> constraints = validateValue(beanType, propertyName, value, groups);
-		return new HashSet<Message>(collect(constraints, toMessage));
+		return new HashSet<Message>(constraints.stream().map(MessageImpl::new).collect(toList()));
 	}
 
 	@Override

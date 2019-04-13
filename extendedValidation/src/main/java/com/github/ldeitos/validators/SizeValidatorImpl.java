@@ -1,13 +1,12 @@
 package com.github.ldeitos.validators;
 
 import static java.lang.String.format;
-import static org.apache.commons.lang.ArrayUtils.getLength;
+import static org.apache.commons.lang3.ArrayUtils.getLength;
 
 import java.security.InvalidParameterException;
 import java.util.Collection;
 import java.util.Map;
-
-import org.apache.commons.collections15.Predicate;
+import java.util.function.Predicate;
 
 import com.github.ldeitos.constraint.Size;
 
@@ -75,7 +74,7 @@ public class SizeValidatorImpl extends MultiTargetValidator<Size> implements Siz
 	protected Predicate<Class<?>> getMustValidatePredicate(final Class<?> valueClass) {
 		Predicate<Class<?>> assignableFrom = new Predicate<Class<?>>() {
 			@Override
-			public boolean evaluate(Class<?> arg0) {
+			public boolean test(Class<?> arg0) {
 				return valueClass.getName().startsWith("[") || arg0.isAssignableFrom(valueClass);
 			}
 		};

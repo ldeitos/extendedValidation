@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>extendedValidation</artifactId>
@@ -8,7 +9,7 @@
 	<parent>
 		<groupId>com.github.ldeitos</groupId>
 		<artifactId>extendedValidation-parent</artifactId>
-		<version>1.1.02</version>
+		<version>2.0-RC1</version>
 		<relativePath>../extendedValidation-parent</relativePath>
 	</parent>
 	<licenses>
@@ -45,46 +46,36 @@
 			<artifactId>cdi-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-collections4</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-configuration</groupId>
-			<artifactId>commons-configuration</artifactId>
+			<artifactId>commons-text</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>net.sourceforge.collections</groupId>
-			<artifactId>collections-generic</artifactId>
-			<scope>compile</scope>
+			<groupId>io.github.classgraph</groupId>
+			<artifactId>classgraph</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jglue.cdi-unit</groupId>
 			<artifactId>cdi-unit</artifactId>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.weld.se</groupId>
@@ -92,22 +83,15 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.weld.se</groupId>
-			<artifactId>weld-se</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<scope>test</scope>
+			<artifactId>weld-se-shaded</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.el</groupId>
 			<artifactId>el-ri</artifactId>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-nop</artifactId>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

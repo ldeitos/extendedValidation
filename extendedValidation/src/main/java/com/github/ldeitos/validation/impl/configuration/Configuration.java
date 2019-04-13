@@ -7,9 +7,10 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.regex.Pattern.compile;
-import static org.apache.commons.collections15.CollectionUtils.collect;
-import static org.apache.commons.collections4.CollectionUtils.forAllDo;
-import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+import static java.util.stream.Collectors.toList;
+import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.join;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -19,8 +20,6 @@ import java.util.regex.Pattern;
 
 import javax.enterprise.inject.spi.CDI;
 
-import org.apache.commons.collections15.Transformer;
-import org.apache.commons.collections4.Closure;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,6 @@ import com.github.ldeitos.exception.InvalidConfigurationException;
 import com.github.ldeitos.validation.MessagesSource;
 import com.github.ldeitos.validation.ValidationClosure;
 import com.github.ldeitos.validation.impl.configuration.dto.ConfigurationDTO;
-import com.github.ldeitos.validation.impl.configuration.dto.MessageFileDTO;
 
 /**
  * Class to access ExtendedValidation component configurations.
@@ -97,17 +95,11 @@ public class Configuration {
 	 *         {@link Constants#MESSAGE_FILES_SYSTEM_PROPERTY}.
 	 */
 	private Collection<String> getMessageFilesFromEnvironmentProperty() {
-		Transformer<String, String> toTrimString = new Transformer<String, String>() {
-			@Override
-			public String transform(String arg0) {
-				return arg0.trim();
-			}
-		};
 		String configuredFiles = System.getProperty(MESSAGE_FILES_SYSTEM_PROPERTY);
 		Collection<String> fileNames = new ArrayList<String>();
 
 		if (configuredFiles != null) {
-			fileNames.addAll(collect(asList(configuredFiles.split(",")), toTrimString));
+			fileNames.addAll(asList(configuredFiles.split(",")).stream().map(s -> s.trim()).collect(toList()));
 		}
 
 		logTraceConfiguredFileNames(fileNames, "by system propertie");
@@ -116,14 +108,8 @@ public class Configuration {
 	}
 
 	private Collection<String> getMessageFilesFromXML() {
-		Transformer<MessageFileDTO, String> toFileName = new Transformer<MessageFileDTO, String>() {
-			@Override
-			public String transform(MessageFileDTO arg0) {
-				return arg0.toString();
-			}
-		};
 
-		Collection<String> fileNames = collect(configuration.getMessageFiles(), toFileName);
+		Collection<String> fileNames = configuration.getMessageFiles().stream().map(mfd -> mfd.getMessageFile()).collect(toList());
 
 		logTraceConfiguredFileNames(fileNames, "by validation.xml file");
 
@@ -133,19 +119,10 @@ public class Configuration {
 	private void logTraceConfiguredFileNames(Collection<String> fileNames, String string) {
 		if (isNotEmpty(fileNames) && log.isTraceEnabled()) {
 			final StringBuilder sbLog = new StringBuilder("Files configured ");
-			sbLog.append(string).append(": [");
-			Closure<? super String> buildLogMsg = new Closure<String>() {
-				@Override
-				public void execute(String arg0) {
-					sbLog.append(arg0).append(", ");
-				}
-			};
-
-			forAllDo(fileNames, buildLogMsg);
-
-			int start = sbLog.lastIndexOf(",");
-			int end = sbLog.lastIndexOf(" ");
-			sbLog.replace(start, end, "]");
+			sbLog.append(string)
+			.append(": [")
+			.append(join(fileNames.toArray(), ","))
+			.append("]");
 
 			log.trace(sbLog.toString());
 		}
@@ -243,8 +220,9 @@ public class Configuration {
 
 	private <T> T getByReflection(Class<? extends T> beanType) {
 		T bean = null;
+		String interfaceName = extractInterfaceName(beanType);
 		String msgError = format("Error to obtain %s instance from [%s] by reflection.",
-		    beanType.getInterfaces()[0].getSimpleName(), beanType.getCanonicalName());
+		    interfaceName, beanType.getCanonicalName());
 		try {
 			log.warn("Trying by reflection...");
 			bean = ConstructorUtils.invokeConstructor(beanType);
@@ -264,6 +242,16 @@ public class Configuration {
 		}
 
 		return bean;
+	}
+
+	private <T> String extractInterfaceName(Class<? extends T> beanType) {
+		String interfaceName = beanType.getSimpleName();
+		
+		if(isNotEmpty(beanType.getInterfaces())) {
+			interfaceName = beanType.getInterfaces()[0].getSimpleName();			
+		}
+		
+		return interfaceName;
 	}
 
 	private <T> T getByCDIContext(Class<? extends T> type) {

@@ -12,6 +12,7 @@ import javax.validation.ConstraintViolation;
 
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.ProducesAlternative;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.ldeitos.test.base.BaseTest;
@@ -22,13 +23,14 @@ import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 import com.github.ldeitos.validation.impl.interpolator.PreInterpolator;
 
 @AdditionalClasses({ PreInterpolator.class, FormattedPresentationValidatorImpl.class })
+@Ignore
 public class FormattedOutputMessageTest extends BaseTest {
 	@Produces
 	@ProducesAlternative
 	private ConfigInfoProvider cip = new ConfigInfoProvider() {
 		@Override
 		public String getConfigFileName() {
-			return "META-INF/extendedValidation_configuredTemplateMessagePresentation.xml";
+			return "extendedValidation_configuredTemplateMessagePresentation.xml";
 		}
 
 		@Override

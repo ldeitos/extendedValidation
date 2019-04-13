@@ -12,14 +12,21 @@ import static java.lang.String.format;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.DefaultConfigurationBuilder;
-import org.apache.commons.configuration.HierarchicalConfiguration;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.ldeitos.constants.Constants;
 import com.github.ldeitos.validation.impl.configuration.dto.ConfigurationDTO;
+
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ScanResult;
 
 /**
  * Loader to {@link Constants#CONFIGURATION_FILE}.
@@ -46,17 +53,21 @@ class ConfigurationLoader {
 	}
 
 	private static void load(ConfigInfoProvider configProvider) {
+		String configPath = configProvider.getConfigPath();
 		String configFileName = configProvider.getConfigFileName();
 
-		try {
-			log.info(format("Loading configuration by %s files in class path.", configFileName));
+		log.info(format("Loading configuration by %s/%s files in class path.", configPath, configFileName));
 
-			DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(configFileName);
-			confBuilder.load();
-			loadFromXMLFiles(confBuilder);
-		} catch (ConfigurationException e) {
-			log.warn(format("Error on obtain %s files in class path: [%s]", configFileName, e.getMessage()));
-			log.warn("Loading by default configuration...");
+		XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+		try (ScanResult scanResult = new ClassGraph().whitelistPaths(configPath).scan()) {
+			scanResult.getResourcesWithLeafName(configFileName).forEachInputStream((r, is) -> {
+				try {
+					loadFromXMLFiles(inputFactory.createXMLEventReader(is));
+				} catch (XMLStreamException e) {
+					log.warn(format("Error on obtain %s files in class path: [%s]", configFileName, e.getMessage()));
+					log.warn("Loading by default configuration...");
+				}
+			});
 		}
 
 		if (configuration == null) {
@@ -66,46 +77,82 @@ class ConfigurationLoader {
 		traceConfiguration(configuration);
 	}
 
-	private static void loadFromXMLFiles(DefaultConfigurationBuilder confBuilder) {
-		if (!confBuilder.isEmpty()) {
+	private static void loadFromXMLFiles(XMLEventReader eventReader) throws XMLStreamException {
+		if (configuration == null) {
 			String config;
+			String elementName;
+			XMLEvent event;
+			StartElement sElement;
 			configuration = new ConfigurationDTO();
+			while (eventReader.hasNext()) {
+				event = eventReader.nextEvent();
 
-			if (confBuilder.containsKey(PATH_CONF_VALIDATION_CLOSURE)) {
-				config = confBuilder.getString(PATH_CONF_VALIDATION_CLOSURE);
-				log.debug(format("Configured ValidationClosure: [%s]", config));
-				configuration.setValidationClosure(config);
-			}
+				if (event.isStartElement()) {
+					sElement = event.asStartElement();
+					elementName = sElement.getName().getLocalPart();
 
-			if (confBuilder.containsKey(PATH_CONF_MESSAGE_SOURCE)) {
-				config = confBuilder.getString(PATH_CONF_MESSAGE_SOURCE);
-				log.debug(format("Configured MessagesSource: [%s]", config));
-				configuration.setMessageSource(config);
-			}
+					if (elementName.equals(PATH_CONF_VALIDATION_CLOSURE)) {
+						event = eventReader.nextEvent();
+						config = event.asCharacters().getData();
+						log.debug(format("Configured ValidationClosure: [%s]", config));
+						configuration.setValidationClosure(config);
+						continue;
+					}
 
-			if (confBuilder.containsKey(PATH_CONF_TEMPLATE_MESSAGE_PRESENTATION)) {
-				config = confBuilder.getString(PATH_CONF_TEMPLATE_MESSAGE_PRESENTATION);
-				verifyTemplateMessagePresentation(config);
-				log.debug(format("Message presentation template: [%s]", config));
-				configuration.setMessagePresentationTemplate(config);
-			}
+					if (elementName.equals(PATH_CONF_MESSAGE_SOURCE)) {
+						event = eventReader.nextEvent();
+						config = event.asCharacters().getData();
+						log.debug(format("Configured MessagesSource: [%s]", config));
+						configuration.setMessageSource(config);
+						continue;
+					}
 
-			for (HierarchicalConfiguration nextConf : confBuilder.configurationsAt(PATH_CONF_MESSAGE_FILES)) {
-				for (HierarchicalConfiguration nextFile : nextConf.configurationsAt(PATH_CONF_MESSAGE_FILE)) {
-					config = nextFile.getRoot().getValue().toString();
-					log.debug(format("Adding configured message file: [%s]", config));
-					configuration.addMessageFile(config);
+					if (elementName.equals(PATH_CONF_TEMPLATE_MESSAGE_PRESENTATION)) {
+						event = eventReader.nextEvent();
+						config = event.asCharacters().getData();
+						verifyTemplateMessagePresentation(config);
+						log.debug(format("Message presentation template: [%s]", config));
+						configuration.setMessagePresentationTemplate(config);
+						continue;
+					}
+					
+					if (elementName.equals(PATH_CONF_MESSAGE_FILES)) {
+						int openned = 1;
+						do {
+							event = eventReader.nextEvent();
+
+							if(event.isCharacters() && !StringUtils.isAsciiPrintable(event.asCharacters().getData())){
+								event = eventReader.nextEvent();
+							}
+							
+							if (event.isStartElement()) {
+								openned++;
+								sElement = event.asStartElement();
+								elementName = sElement.getName().getLocalPart();
+								if (elementName.equals(PATH_CONF_MESSAGE_FILE)) {
+									event = eventReader.nextEvent();
+									config = event.asCharacters().getData();
+									log.debug(format("Adding configured message file: [%s]", config));
+									configuration.addMessageFile(config);
+								}
+							}
+							
+							if(event.isEndElement()) {
+								openned--;
+							}
+						} while (openned > 0 && eventReader.hasNext());
+					}
 				}
 			}
 		}
-
 	}
 
 	private static void verifyTemplateMessagePresentation(String input) {
 		Matcher matcher = Pattern.compile(PRESENTATION_MESSAGE_PATTERN).matcher(input);
 		if (!matcher.find()) {
-			log.warn(format("Message presentation template does not shows the message text, "
-				+ "try add %s to pattern.", PRESENTATION_MESSAGE_PATTERN));
+			log.warn(
+					format("Message presentation template does not shows the message text, " + "try add %s to pattern.",
+							PRESENTATION_MESSAGE_PATTERN));
 		}
 	}
 
