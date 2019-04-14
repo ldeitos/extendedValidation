@@ -6,8 +6,11 @@ import static java.lang.System.setProperty;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import javax.enterprise.inject.Produces;
+
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
+import org.jglue.cdiunit.ProducesAlternative;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -16,9 +19,16 @@ import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
 @RunWith(CdiRunner.class)
 @AdditionalClasses({ TestMessageSource.class })
 public class ConfigurationTest {
-	private static final String TEST_MESSAGE_FILE = "TestValidationMessage";
 
-	private Configuration configuration = getConfiguration(new ConfigInfoProvider());
+	private static final String TEST_MESSAGE_FILE = "TestValidationMessage";
+	
+	private static final String OTHER_TEST_MESSAGE_FILE = "OtherTestValidationMessage";
+
+	@Produces	
+	@ProducesAlternative
+	private ConfigInfoProvider configProvider = new ConfigInfoProvider();
+
+	private Configuration configuration = getConfiguration(configProvider);
 
 	@Test
 	public void testConfigurationWithMessageFilesCofiguredByEnvironment() {
@@ -26,8 +36,9 @@ public class ConfigurationTest {
 
 		assertEquals(TestMessageSource.class, configuration.getConfiguredMessagesSource().getClass());
 
-		assertEquals(3, configuration.getConfituredMessageFiles().size());
+		assertEquals(4, configuration.getConfituredMessageFiles().size());
 		assertTrue(configuration.getConfituredMessageFiles().contains(TEST_MESSAGE_FILE));
+		assertTrue(configuration.getConfituredMessageFiles().contains(OTHER_TEST_MESSAGE_FILE));
 		assertTrue(configuration.getConfituredMessageFiles().contains("arq1"));
 		assertTrue(configuration.getConfituredMessageFiles().contains("arq2"));
 
@@ -39,7 +50,8 @@ public class ConfigurationTest {
 
 		assertEquals(TestMessageSource.class, configuration.getConfiguredMessagesSource().getClass());
 
-		assertEquals(1, configuration.getConfituredMessageFiles().size());
+		assertEquals(2, configuration.getConfituredMessageFiles().size());
 		assertTrue(configuration.getConfituredMessageFiles().contains(TEST_MESSAGE_FILE));
+		assertTrue(configuration.getConfituredMessageFiles().contains(OTHER_TEST_MESSAGE_FILE));
 	}
 }
