@@ -19,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import com.github.ldeitos.validation.MessagesSource;
 import com.github.ldeitos.validators.AbstractExtendedValidator;
 
+import java.util.Locale;
+
 /**
  * Pre-interpolator called by {@link AbstractExtendedValidator} to make
  * interpolation from parameters informated during violation register.
@@ -53,6 +55,29 @@ public class PreInterpolator extends BaseInterpolator {
 		return resolvedMsg;
 	}
 
+	/**
+	 * @param msg
+	 *            Message text template or key to retrieve message template in
+	 *            configured {@link MessagesSource}.
+	 *
+	 * @param locale object represents a specific geographical, political, or cultural region.
+	 *            
+	 * @param parameters
+	 *            Parameters to be interpolated in message template. Can be
+	 *            informed in "value" pattern, to be interpolated in indexed
+	 *            parameter like "My {0} message" or in "key=value" pattern, to
+	 *            be interpolated in defined parameter like "My {par} message".
+	 * @return Resolved message by message template and parameters informed.
+	 *
+	 */
+	public String interpolate(String msg, Locale locale, String... parameters) {
+		log.debug(format("Message template: [%s]", msg));
+		String resolvedMsg = getMessageSource().getMessage(msg, locale);
+		resolvedMsg = doInterpolation(resolvedMsg, parameters);
+		return resolvedMsg;
+	}
+	
+	
 	private String doInterpolation(String msg, String... parameters) {
 		String key;
 		Object value;
