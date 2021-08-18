@@ -11,7 +11,7 @@ import org.junit.Test;
 import com.github.ldeitos.test.base.BaseTest;
 import com.github.ldeitos.validation.impl.configuration.ConfigInfo;
 
-@Ignore
+@Ignore("unexpected ut conflict with AbstractExtendedValidatorTest.java")
 public class PresentationMessageFormatterTest extends BaseTest{
 	
 	@Produces

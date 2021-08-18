@@ -55,7 +55,7 @@ import com.github.ldeitos.validation.impl.interpolator.TestMessageSource;
     UserValidatorFullPathListExtendedImpl.class, InvalidMappedValidatorImpl.class,
     InvalidListValidatorImpl.class })
 public class AbstractExtendedValidatorTest extends BaseTest {
-
+	
 	@BeforeClass
 	public static void init() {
 		ENABLE_REAL_IMPLEMETATION = true;
