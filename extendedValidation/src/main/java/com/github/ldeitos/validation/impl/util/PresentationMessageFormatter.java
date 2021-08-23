@@ -4,6 +4,7 @@ import static com.github.ldeitos.constants.Constants.MESSAGE_KEY_PATTERN;
 import static com.github.ldeitos.constants.Constants.PARAMETER_CONTENT_GROUP;
 import static com.github.ldeitos.validation.impl.configuration.Configuration.PRESENTATION_MESSAGE;
 import static com.github.ldeitos.validation.impl.configuration.Configuration.PRESENTATION_TEMPLATE;
+import static java.util.regex.Matcher.quoteReplacement;
 import static java.util.regex.Pattern.compile;
 
 import java.util.regex.Matcher;
@@ -24,11 +25,11 @@ public class PresentationMessageFormatter {
 		if (configuration.showTemplate() && matcherTemplate.find()) {
 			Matcher matcherMessage = PRESENTATION_MESSAGE.matcher(configuration
 				.getMessagePresentationTemplate());
-			formatedMessage = matcherMessage.replaceAll(message);
+			formatedMessage = matcherMessage.replaceAll(quoteReplacement(message));
 			Matcher matcherTemplateParam = PRESENTATION_TEMPLATE.matcher(formatedMessage);
 			String msgKey = matcherTemplate.group(PARAMETER_CONTENT_GROUP);
 
-			formatedMessage = matcherTemplateParam.replaceAll(msgKey);
+			formatedMessage = matcherTemplateParam.replaceAll(quoteReplacement(msgKey));
 			matcherTemplateParam = PRESENTATION_TEMPLATE.matcher(formatedMessage);
 		}
 
