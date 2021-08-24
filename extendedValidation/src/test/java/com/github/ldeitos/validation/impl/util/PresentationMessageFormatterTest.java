@@ -4,24 +4,22 @@ import static org.junit.Assert.assertEquals;
 
 import javax.enterprise.inject.Produces;
 
-import org.jglue.cdiunit.CdiRunner;
 import org.jglue.cdiunit.ProducesAlternative;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
+import com.github.ldeitos.test.base.BaseTest;
+import com.github.ldeitos.validation.impl.configuration.ConfigInfo;
 
-@RunWith(CdiRunner.class)
 @Ignore
-public class PresentationMessageFormatterTest {
-
+public class PresentationMessageFormatterTest extends BaseTest{
+	
 	@Produces
 	@ProducesAlternative
-	private ConfigInfoProvider cip = new ConfigInfoProvider() {
+	private ConfigInfo cip = new ConfigInfo() {
 		@Override
 		public String getConfigFileName() {
-			return "extendedValidation_configuredTemplateMessagePresentation.xml";
+			return "META-INF/extendedValidation_configuredTemplateMessagePresentation.xml";
 		}
 
 		@Override
