@@ -11,8 +11,8 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 import com.github.ldeitos.validators.MinDecimalValidator;
 
@@ -41,7 +41,7 @@ import com.github.ldeitos.validators.MinDecimalValidator;
 @Constraint(validatedBy = {MinDecimalValidator.class })
 public @interface DecimalMin {
 
-    String message() default "{javax.validation.constraints.DecimalMin.message}";
+    String message() default "{jakarta.validation.constraints.DecimalMin.message}";
 
     /**
      * @return Parameter array to be interpolated at message. Parameters can be informed in

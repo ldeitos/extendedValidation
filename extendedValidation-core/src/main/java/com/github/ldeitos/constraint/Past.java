@@ -11,18 +11,18 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
-import javax.validation.ReportAsSingleViolation;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import jakarta.validation.ReportAsSingleViolation;
 
-@javax.validation.constraints.Past
+@jakarta.validation.constraints.Past
 @Target( { METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @Constraint(validatedBy = {})
 @ReportAsSingleViolation()
 @Documented
 public @interface Past {
-	String message() default "{javax.validation.constraints.Past.message}";
+	String message() default "{jakarta.validation.constraints.Past.message}";
 	
 	/**
      * @return Parameter array to be interpolated at message. Parameters can be informed in

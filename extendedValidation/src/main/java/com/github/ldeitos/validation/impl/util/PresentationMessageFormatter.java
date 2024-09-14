@@ -9,7 +9,7 @@ import static java.util.regex.Pattern.compile;
 
 import java.util.regex.Matcher;
 
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDI;
 
 import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
 import com.github.ldeitos.validation.impl.configuration.Configuration;

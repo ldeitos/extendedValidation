@@ -11,8 +11,8 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 import com.github.ldeitos.validators.MaxDecimalValidator;
 
@@ -41,7 +41,7 @@ import com.github.ldeitos.validators.MaxDecimalValidator;
 @Constraint(validatedBy = {MaxDecimalValidator.class })
 public @interface DecimalMax {
 
-    String message() default "{javax.validation.constraints.DecimalMax.message}";
+    String message() default "{jakarta.validation.constraints.DecimalMax.message}";
 
     /**
      * @return Parameter array to be interpolated at message. Parameters can be informed in

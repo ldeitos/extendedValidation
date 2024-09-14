@@ -1,12 +1,12 @@
 package com.github.ldeitos.validation.impl.factory;
 
 import static java.lang.String.format;
-import static javax.validation.Validation.byDefaultProvider;
+import static jakarta.validation.Validation.byDefaultProvider;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.spi.CDI;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorFactory;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

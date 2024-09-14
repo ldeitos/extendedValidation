@@ -11,14 +11,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
-import javax.validation.ConstraintViolation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ValidationException;
+import jakarta.validation.Validator;
 
-import org.jglue.cdiunit.AdditionalClasses;
-import org.jglue.cdiunit.ProducesAlternative;
+import io.github.cdiunit.AdditionalClasses;
+import io.github.cdiunit.ProducesAlternative;
 import org.junit.Test;
 
 import com.github.ldeitos.qualifier.ExtendedValidator;

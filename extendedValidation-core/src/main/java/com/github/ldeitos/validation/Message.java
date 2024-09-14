@@ -2,7 +2,7 @@ package com.github.ldeitos.validation;
 
 import java.io.Serializable;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 
 /**
  * Interface to validation generated messages.

@@ -12,7 +12,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDI;
 
 import com.github.ldeitos.constants.Constants;
 import com.github.ldeitos.validation.MessagesSource;

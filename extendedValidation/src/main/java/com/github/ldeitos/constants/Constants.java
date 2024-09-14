@@ -27,8 +27,8 @@ public interface Constants {
 	String DEFAULT_MESSAGE_SOURCE = "com.github.ldeitos.validation.impl.interpolator.MultipleBundlesSource";
 	
 	/**
-	 * ExtendedValidation configuration file name:
-	 * "META-INF/extendedValidation.xml".
+	 * ExtendedValidation configuration path:
+	 * "META-INF".
 	 */
 	String CONFIGURATION_PATH = "META-INF";
 	

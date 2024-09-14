@@ -1,6 +1,6 @@
 package com.github.ldeitos.validators;
 
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidatorContext;
 
 import com.github.ldeitos.constraint.Pattern;
 import com.github.ldeitos.constraint.Pattern.Flag;

@@ -5,11 +5,11 @@ import static java.lang.String.format;
 
 import java.lang.annotation.Annotation;
 
-import javax.inject.Inject;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder;
-import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder.LeafNodeBuilderCustomizableContext;
+import jakarta.inject.Inject;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidatorContext.ConstraintViolationBuilder;
+import jakarta.validation.ConstraintValidatorContext.ConstraintViolationBuilder.LeafNodeBuilderCustomizableContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -332,7 +332,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 * <pre>
 	 * //assuming the following domain model 
 	 * public class User { 
-	 *    public Map&#60String, Address&#62 getAddresses() { ... } 
+	 *    public Map&#60;String, Address&#62; getAddresses() { ... } 
 	 * }
 	 *
 	 * public class Address { 
@@ -377,7 +377,7 @@ public abstract class AbstractExtendedValidator<A extends Annotation, T> impleme
 	 *
 	 * <pre>
 	 * //assuming the following domain model public class User { public
-	 * Map&#60String, Address&#62 getAddresses() { ... } }
+	 * Map&#60;String, Address&#62; getAddresses() { ... } }
 	 *
 	 * public class Address { public String getStreet() { ... } public Country
 	 * getCountry() { ... } }

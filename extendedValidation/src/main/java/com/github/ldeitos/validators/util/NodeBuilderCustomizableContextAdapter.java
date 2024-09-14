@@ -1,6 +1,6 @@
 package com.github.ldeitos.validators.util;
 
-import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder.NodeBuilderCustomizableContext;
+import jakarta.validation.ConstraintValidatorContext.ConstraintViolationBuilder.NodeBuilderCustomizableContext;
 
 public class NodeBuilderCustomizableContextAdapter implements ConstraintBuilderAdapter {
 	private NodeBuilderCustomizableContext nBuilder;

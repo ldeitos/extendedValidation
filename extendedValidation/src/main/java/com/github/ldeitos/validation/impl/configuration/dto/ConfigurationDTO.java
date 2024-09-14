@@ -16,20 +16,34 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.github.ldeitos.constants.Constants;
 import com.github.ldeitos.exception.InvalidConfigurationException;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
 /**
  * DTO to load configuration from {@link Constants#CONFIGURATION_FILE}
  *
  * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
  *
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "extended-validation")
 public class ConfigurationDTO {
+	
+	@XmlElement(name = "message-source")
 	private String messageSource = DEFAULT_MESSAGE_SOURCE;
-
+	
+	@XmlElement(name = "validation-closure")
 	private String validationClosure = DEFAULT_VALIDATION_CLOSURE;
 
+	@XmlElement(name = "message-presentation-template")
 	private String messagePesentationTemplate = PRESENTATION_MESSAGE_PARAMETER;
 
-	private List<MessageFileDTO> messageFiles = new ArrayList<MessageFileDTO>();
+	@XmlElementWrapper(name = "message-files")
+	@XmlElement(name = "message-file")
+	private List<String> messageFiles = new ArrayList<String>();
 
 	public String getMessageSource() {
 		return messageSource;
@@ -43,6 +57,7 @@ public class ConfigurationDTO {
 		return validationClosure;
 	}
 
+	
 	public void setMessagePresentationTemplate(String templateMessagePresentation) {
 		messagePesentationTemplate = templateMessagePresentation;
 	}
@@ -50,12 +65,12 @@ public class ConfigurationDTO {
 	public String getMessagePresentationTemplate() {
 		return messagePesentationTemplate;
 	}
-
+	
 	public void setValidationClosure(String validationClosure) {
 		this.validationClosure = validationClosure;
 	}
 
-	public List<MessageFileDTO> getMessageFiles() {
+	public List<String> getMessageFiles() {
 		return messageFiles;
 	}
 
@@ -77,7 +92,7 @@ public class ConfigurationDTO {
 	}
 
 	private void mergeMessageFiles(ConfigurationDTO toMerge) {
-		Set<MessageFileDTO> currentContent = new HashSet<MessageFileDTO>(messageFiles);
+		Set<String> currentContent = new HashSet<String>(messageFiles);
 		currentContent.addAll(toMerge.getMessageFiles());
 		messageFiles.clear();
 		messageFiles.addAll(currentContent);
@@ -94,7 +109,7 @@ public class ConfigurationDTO {
 	}
 
 	public void addMessageFile(String fileName) {
-		getMessageFiles().add(new MessageFileDTO(fileName));
+		getMessageFiles().add(fileName);
 	}
 
 	@Override

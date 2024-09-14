@@ -1,7 +1,7 @@
 package com.github.ldeitos.test.base.stubs;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class UserValidatorDefaultImpl implements ConstraintValidator<UserConstraintDefault, User> {
 	@Override
