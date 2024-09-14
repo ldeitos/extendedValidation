@@ -9,8 +9,8 @@ import static java.util.Arrays.asList;
 
 import java.util.Set;
 
-import javax.inject.Inject;
-import javax.validation.ConstraintViolation;
+import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolation;
 
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class AssertTest extends ExtendedValidationBaseTest {
 
 	@Inject
 	@ExtendedValidator
-	private javax.validation.Validator defaultValidator;
+	private jakarta.validation.Validator defaultValidator;
 
 	@Test
 	public void testAssertContainMessage() {

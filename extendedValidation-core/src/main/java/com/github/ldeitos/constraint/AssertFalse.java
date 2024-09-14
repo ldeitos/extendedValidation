@@ -11,9 +11,9 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
-import javax.validation.ReportAsSingleViolation;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import jakarta.validation.ReportAsSingleViolation;
 
 /**
  * The annotated element must be false.
@@ -23,14 +23,14 @@ import javax.validation.ReportAsSingleViolation;
  *
  * @author Emmanuel Bernard
  */
-@javax.validation.constraints.AssertFalse
+@jakarta.validation.constraints.AssertFalse
 @Target( { METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @Constraint(validatedBy = {})
 @ReportAsSingleViolation()
 @Documented
 public @interface AssertFalse {
-	String message() default "{javax.validation.constraints.AssertFalse.message}";
+	String message() default "{jakarta.validation.constraints.AssertFalse.message}";
 	
 	/**
      * @return Parameter array to be interpolated at message. Parameters can be informed in

@@ -12,14 +12,14 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 @Target({ TYPE, METHOD, FIELD })
 @Retention(RUNTIME)
 @Constraint(validatedBy = { UserValidatorFullPathExtendedImpl.class })
 public @interface UserConstraintFullPathExtended {
-	String message() default "{javax.validation.constraints.NotNull.message}";
+	String message() default "{jakarta.validation.constraints.NotNull.message}";
 
 	String[] messageParameters() default {};
 

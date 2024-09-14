@@ -1,7 +1,7 @@
 package com.github.ldeitos.validators.util;
 
-import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder.NodeBuilderCustomizableContext;
-import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder.NodeBuilderDefinedContext;
+import jakarta.validation.ConstraintValidatorContext.ConstraintViolationBuilder.NodeBuilderCustomizableContext;
+import jakarta.validation.ConstraintValidatorContext.ConstraintViolationBuilder.NodeBuilderDefinedContext;
 
 public class IterablePropertyNodeContextAdapter implements ConstraintBuilderAdapter {
 	private NodeBuilderCustomizableContext propertyNodeBuilder;

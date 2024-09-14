@@ -11,8 +11,8 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 import com.github.ldeitos.validators.MaxValidator;
 
@@ -40,7 +40,7 @@ import com.github.ldeitos.validators.MaxValidator;
 @Constraint(validatedBy = {MaxValidator.class })
 public @interface Max {
 
-    String message() default "{javax.validation.constraints.Max.message}";
+    String message() default "{jakarta.validation.constraints.Max.message}";
 
     /**
      * @return Parameter array to be interpolated at message. Parameters can be informed in

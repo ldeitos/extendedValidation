@@ -20,8 +20,8 @@ public class ConfigurationLoaderTest {
 
 		assertEquals(TEST_MESSAGE_SOURCE, dto.getMessageSource());
 		assertEquals(2, dto.getMessageFiles().size());
-		assertEquals(TEST_MESSAGE_FILE_0, dto.getMessageFiles().get(0).getMessageFile());
-		assertEquals(TEST_MESSAGE_FILE_1, dto.getMessageFiles().get(1).getMessageFile());
+		assertEquals(TEST_MESSAGE_FILE_0, dto.getMessageFiles().get(0));
+		assertEquals(TEST_MESSAGE_FILE_1, dto.getMessageFiles().get(1));
 	}
 
 }

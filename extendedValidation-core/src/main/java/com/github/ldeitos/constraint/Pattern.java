@@ -11,8 +11,8 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 import com.github.ldeitos.validators.PatternValidator;
 
@@ -57,7 +57,7 @@ public @interface Pattern {
     /**
      * @return the error message template
      */
-    String message() default "{javax.validation.constraints.Pattern.message}";
+    String message() default "{jakarta.validation.constraints.Pattern.message}";
 
     /**
      * @return the groups the constraint belongs to

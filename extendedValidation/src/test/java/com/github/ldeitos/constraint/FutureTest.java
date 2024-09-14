@@ -9,11 +9,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
-import javax.inject.Inject;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
+import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 
-import org.jglue.cdiunit.AdditionalClasses;
+import io.github.cdiunit.AdditionalClasses;
 import org.junit.Test;
 
 import com.github.ldeitos.qualifier.ExtendedValidator;

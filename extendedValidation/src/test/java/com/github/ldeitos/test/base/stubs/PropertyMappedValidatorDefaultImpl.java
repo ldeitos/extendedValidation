@@ -2,8 +2,8 @@ package com.github.ldeitos.test.base.stubs;
 
 import java.util.Map;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class PropertyMappedValidatorDefaultImpl implements
 ConstraintValidator<PropertyMappedConstraintDefault, Map<String, Address>> {

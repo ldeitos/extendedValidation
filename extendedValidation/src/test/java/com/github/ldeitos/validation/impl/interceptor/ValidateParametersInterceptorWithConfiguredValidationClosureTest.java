@@ -3,11 +3,11 @@ package com.github.ldeitos.validation.impl.interceptor;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Inject;
 
-import org.jglue.cdiunit.AdditionalClasses;
-import org.jglue.cdiunit.ProducesAlternative;
+import io.github.cdiunit.AdditionalClasses;
+import io.github.cdiunit.ProducesAlternative;
 import org.junit.Ignore;
 import org.junit.Test;
 

@@ -7,8 +7,8 @@ import java.lang.annotation.Annotation;
 import java.security.InvalidParameterException;
 import java.util.function.Predicate;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 abstract class MultiTargetValidator<A extends Annotation> implements ConstraintValidator<A, Object> {
 

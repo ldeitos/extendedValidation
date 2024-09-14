@@ -1,10 +1,10 @@
 package com.github.ldeitos.test.base;
 
-import javax.inject.Inject;
-import javax.validation.Validator;
+import jakarta.inject.Inject;
+import jakarta.validation.Validator;
 
-import org.jglue.cdiunit.AdditionalClasses;
-import org.jglue.cdiunit.CdiRunner;
+import io.github.cdiunit.AdditionalClasses;
+import io.github.cdiunit.CdiRunner;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;

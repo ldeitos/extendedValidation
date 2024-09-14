@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDI;
 
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.slf4j.Logger;
@@ -109,7 +109,7 @@ public class Configuration {
 
 	private Collection<String> getMessageFilesFromXML() {
 
-		Collection<String> fileNames = configuration.getMessageFiles().stream().map(mfd -> mfd.getMessageFile()).collect(toList());
+		Collection<String> fileNames = configuration.getMessageFiles();
 
 		logTraceConfiguredFileNames(fileNames, "by validation.xml file");
 

@@ -11,8 +11,8 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 import com.github.ldeitos.validators.MinValidator;
 
@@ -40,7 +40,7 @@ import com.github.ldeitos.validators.MinValidator;
 @Constraint(validatedBy = {MinValidator.class })
 public @interface Min {
 
-    String message() default "{javax.validation.constraints.Min.message}";
+    String message() default "{jakarta.validation.constraints.Min.message}";
 
     /**
      * @return Parameter array to be interpolated at message. Parameters can be informed in

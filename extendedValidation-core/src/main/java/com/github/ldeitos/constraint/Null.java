@@ -11,9 +11,9 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
-import javax.validation.ReportAsSingleViolation;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import jakarta.validation.ReportAsSingleViolation;
 
 /**
  * The annotated element must be {@code null}.
@@ -21,14 +21,14 @@ import javax.validation.ReportAsSingleViolation;
  *
  * @author Emmanuel Bernard
  */
-@javax.validation.constraints.Null
+@jakarta.validation.constraints.Null
 @Target( { METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @Constraint(validatedBy = {})
 @ReportAsSingleViolation()
 @Documented
 public @interface Null {
-	String message() default "{javax.validation.constraints.Null.message}";
+	String message() default "{jakarta.validation.constraints.Null.message}";
 	
 	/**
      * @return Parameter array to be interpolated at message. Parameters can be informed in
