@@ -1,1 +1,5 @@
 /target/
+.vscode/settings.json
+extendedValidation/.settings/org.eclipse.jdt.apt.core.prefs
+extendedValidationTestSupport/.settings/org.eclipse.jdt.apt.core.prefs
+extendedValidation-core/.settings/org.eclipse.jdt.apt.core.prefs

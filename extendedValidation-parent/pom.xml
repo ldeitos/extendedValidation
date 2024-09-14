@@ -7,7 +7,10 @@
 	<version>3.0</version>
 	<packaging>pom</packaging>
 	<name>Extended Validation Parent</name>
-	<description>ExtendedValidation parent project.</description>
+	<description>
+		ExtendedValidation parent project.
+		This version is Java 17 and JakartaEE 10 compatible.
+	</description>
 	<url>http://extendedvalidation.sourceforge.net/</url>
 
 	<licenses>

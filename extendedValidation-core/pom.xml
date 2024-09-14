@@ -5,7 +5,10 @@
 	<packaging>jar</packaging>
 
 	<name>Extended Validation Core</name>
-	<description>Extension for BeanValidation API Core. Content interfaces, qualifiers and constraints definitions.</description>
+	<description>
+		Extension for BeanValidation API Core. Content interfaces, qualifiers and constraints definitions.
+		This version is Java 17 and JakartaEE 10 compatible.
+	</description>
 
 	<parent>
 		<groupId>com.github.ldeitos</groupId>
