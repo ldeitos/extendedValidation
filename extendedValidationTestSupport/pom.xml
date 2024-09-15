@@ -37,6 +37,10 @@
 			<artifactId>jakarta.validation-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>jakarta.inject</groupId>
+			<artifactId>jakarta.inject-api</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>extendedValidation</artifactId>
 			<version>${project.parent.version}</version>
@@ -50,6 +54,11 @@
 		<dependency>
 			<groupId>io.github.cdi-unit</groupId>
     		<artifactId>cdi-unit</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.github.cdi-unit</groupId>
+    		<artifactId>cdi-unit-core</artifactId>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
