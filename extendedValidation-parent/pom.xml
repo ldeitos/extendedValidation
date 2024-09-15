@@ -204,6 +204,20 @@
 			</dependency>
 
 			<dependency>
+				<groupId>jakarta.inject</groupId>
+				<artifactId>jakarta.inject-api</artifactId>
+				<version>2.0.1</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>jakarta.interceptor</groupId>
+				<artifactId>jakarta.interceptor-api</artifactId>
+				<version>2.1.0</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
 				<groupId>jakarta.validation</groupId>
 				<artifactId>jakarta.validation-api</artifactId>
 				<version>3.0.2</version>
@@ -230,6 +244,13 @@
 			</dependency>
 
 			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>3.2.2</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>2.0.16</version>
@@ -237,29 +258,15 @@
 			</dependency>
 
 			<dependency>
-				<groupId>commons-beanutils</groupId>
-				<artifactId>commons-beanutils</artifactId>
-				<version>1.9.4</version>
-				<scope>compile</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-text</artifactId>
-				<version>1.12.0</version>
-				<scope>compile</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>io.github.classgraph</groupId>
-				<artifactId>classgraph</artifactId>
-				<version>4.8.175</version>
-				<scope>compile</scope>
+				<groupId>io.github.cdi-unit</groupId>
+				<artifactId>cdi-unit</artifactId>
+				<version>5.0.0-EA5</version>
+				<scope>test</scope>
 			</dependency>
 
 			<dependency>
 				<groupId>io.github.cdi-unit</groupId>
-				<artifactId>cdi-unit</artifactId>
+				<artifactId>cdi-unit-core</artifactId>
 				<version>5.0.0-EA5</version>
 				<scope>test</scope>
 			</dependency>

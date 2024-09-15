@@ -1,7 +1,7 @@
 package com.github.ldeitos.validation;
 
 import io.github.cdiunit.AdditionalClasses;
-import io.github.cdiunit.CdiRunner;
+import io.github.cdiunit.junit4.CdiRunner;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
