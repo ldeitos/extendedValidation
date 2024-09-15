@@ -7,7 +7,7 @@ import static com.github.ldeitos.validation.Severity.INFO;
 import static com.github.ldeitos.validation.Severity.WARN;
 import static com.github.ldeitos.validation.impl.util.PresentationMessageFormatter.format;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.github.ldeitos.validation.Message;
 import com.github.ldeitos.validation.MessageResolver;

@@ -10,9 +10,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
-import org.jglue.cdiunit.AdditionalClasses;
+import io.github.cdiunit.AdditionalClasses;
 import org.junit.Test;
 
 import com.github.ldeitos.exception.ViolationException;

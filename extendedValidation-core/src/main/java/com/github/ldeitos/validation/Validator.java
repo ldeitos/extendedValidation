@@ -2,7 +2,7 @@ package com.github.ldeitos.validation;
 
 import java.util.Set;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 
 import com.github.ldeitos.exception.ViolationException;
 
@@ -12,7 +12,7 @@ import com.github.ldeitos.exception.ViolationException;
  * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
  *
  */
-public interface Validator extends javax.validation.Validator {
+public interface Validator extends jakarta.validation.Validator {
 	/**
 	 * @param object
 	 *            Object to validate

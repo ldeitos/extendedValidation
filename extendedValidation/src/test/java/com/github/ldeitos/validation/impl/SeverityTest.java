@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Set;
 
-import org.jglue.cdiunit.AdditionalClasses;
+import io.github.cdiunit.AdditionalClasses;
 import org.junit.Test;
 
 import com.github.ldeitos.constraint.AssertTrue;

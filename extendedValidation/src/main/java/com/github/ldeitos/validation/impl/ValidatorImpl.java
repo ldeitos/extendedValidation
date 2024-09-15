@@ -9,11 +9,11 @@ import java.security.InvalidParameterException;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
-import javax.validation.executable.ExecutableValidator;
-import javax.validation.metadata.BeanDescriptor;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.executable.ExecutableValidator;
+import jakarta.validation.metadata.BeanDescriptor;
 
 import com.github.ldeitos.exception.ViolationException;
 import com.github.ldeitos.qualifier.ExtendedValidator;
@@ -31,7 +31,7 @@ public class ValidatorImpl implements Validator {
 
 	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
-	private javax.validation.Validator delegate = factory.getValidator();
+	private jakarta.validation.Validator delegate = factory.getValidator();
 
 	@Override
 	public <T> Set<ConstraintViolation<T>> validate(T object, Class<?>... groups) {

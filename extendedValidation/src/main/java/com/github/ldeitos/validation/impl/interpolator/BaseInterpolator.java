@@ -1,6 +1,6 @@
 package com.github.ldeitos.validation.impl.interpolator;
 
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDI;
 
 import com.github.ldeitos.validation.MessagesSource;
 import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;

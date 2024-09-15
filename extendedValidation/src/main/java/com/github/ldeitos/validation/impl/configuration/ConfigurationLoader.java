@@ -1,32 +1,23 @@
 package com.github.ldeitos.validation.impl.configuration;
 
 import static com.github.ldeitos.constants.Constants.DEFAULT_MESSAGE_SOURCE;
-import static com.github.ldeitos.constants.Constants.PATH_CONF_MESSAGE_FILE;
-import static com.github.ldeitos.constants.Constants.PATH_CONF_MESSAGE_FILES;
-import static com.github.ldeitos.constants.Constants.PATH_CONF_MESSAGE_SOURCE;
-import static com.github.ldeitos.constants.Constants.PATH_CONF_TEMPLATE_MESSAGE_PRESENTATION;
-import static com.github.ldeitos.constants.Constants.PATH_CONF_VALIDATION_CLOSURE;
 import static com.github.ldeitos.constants.Constants.PRESENTATION_MESSAGE_PATTERN;
 import static java.lang.String.format;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.ldeitos.constants.Constants;
 import com.github.ldeitos.validation.impl.configuration.dto.ConfigurationDTO;
-
-import io.github.classgraph.ClassGraph;
-import io.github.classgraph.ScanResult;
 
 /**
  * Loader to {@link Constants#CONFIGURATION_FILE}.
@@ -58,16 +49,16 @@ class ConfigurationLoader {
 
 		log.info(format("Loading configuration by %s/%s files in class path.", configPath, configFileName));
 
-		XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-		try (ScanResult scanResult = new ClassGraph().whitelistPaths(configPath).scan()) {
-			scanResult.getResourcesWithLeafName(configFileName).forEachInputStream((r, is) -> {
+		try (InputStream is = ConfigurationLoader.class.getClassLoader().getResourceAsStream(configProvider.getConfigFileLocation())) {
 				try {
-					loadFromXMLFiles(inputFactory.createXMLEventReader(is));
-				} catch (XMLStreamException e) {
-					log.warn(format("Error on obtain %s files in class path: [%s]", configFileName, e.getMessage()));
+					loadFromXMLFiles(is);
+				} catch (JAXBException e) {
+					log.warn(format("Error on bind XML content from %s files in class path: [%s]", configFileName, e.getMessage()));
 					log.warn("Loading by default configuration...");
 				}
-			});
+		} catch (IOException ex){
+			log.warn(format("Error on obtain %s files in class path: [%s]", configFileName, ex.getMessage()));
+			log.warn("Loading by default configuration...");
 		}
 
 		if (configuration == null) {
@@ -77,73 +68,15 @@ class ConfigurationLoader {
 		traceConfiguration(configuration);
 	}
 
-	private static void loadFromXMLFiles(XMLEventReader eventReader) throws XMLStreamException {
+	private static void loadFromXMLFiles(InputStream is) throws JAXBException {
 		if (configuration == null) {
-			String config;
-			String elementName;
-			XMLEvent event;
-			StartElement sElement;
-			configuration = new ConfigurationDTO();
-			while (eventReader.hasNext()) {
-				event = eventReader.nextEvent();
 
-				if (event.isStartElement()) {
-					sElement = event.asStartElement();
-					elementName = sElement.getName().getLocalPart();
+			JAXBContext jaxbContext;
+      		jaxbContext = JAXBContext.newInstance(ConfigurationDTO.class);
+      		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			configuration = (ConfigurationDTO) jaxbUnmarshaller.unmarshal(is);
 
-					if (elementName.equals(PATH_CONF_VALIDATION_CLOSURE)) {
-						event = eventReader.nextEvent();
-						config = event.asCharacters().getData();
-						log.debug(format("Configured ValidationClosure: [%s]", config));
-						configuration.setValidationClosure(config);
-						continue;
-					}
-
-					if (elementName.equals(PATH_CONF_MESSAGE_SOURCE)) {
-						event = eventReader.nextEvent();
-						config = event.asCharacters().getData();
-						log.debug(format("Configured MessagesSource: [%s]", config));
-						configuration.setMessageSource(config);
-						continue;
-					}
-
-					if (elementName.equals(PATH_CONF_TEMPLATE_MESSAGE_PRESENTATION)) {
-						event = eventReader.nextEvent();
-						config = event.asCharacters().getData();
-						verifyTemplateMessagePresentation(config);
-						log.debug(format("Message presentation template: [%s]", config));
-						configuration.setMessagePresentationTemplate(config);
-						continue;
-					}
-					
-					if (elementName.equals(PATH_CONF_MESSAGE_FILES)) {
-						int openned = 1;
-						do {
-							event = eventReader.nextEvent();
-
-							if(event.isCharacters() && !StringUtils.isAsciiPrintable(event.asCharacters().getData())){
-								event = eventReader.nextEvent();
-							}
-							
-							if (event.isStartElement()) {
-								openned++;
-								sElement = event.asStartElement();
-								elementName = sElement.getName().getLocalPart();
-								if (elementName.equals(PATH_CONF_MESSAGE_FILE)) {
-									event = eventReader.nextEvent();
-									config = event.asCharacters().getData();
-									log.debug(format("Adding configured message file: [%s]", config));
-									configuration.addMessageFile(config);
-								}
-							}
-							
-							if(event.isEndElement()) {
-								openned--;
-							}
-						} while (openned > 0 && eventReader.hasNext());
-					}
-				}
-			}
+			verifyTemplateMessagePresentation(configuration.getMessagePresentationTemplate());
 		}
 	}
 
@@ -176,5 +109,4 @@ class ConfigurationLoader {
 			log.trace(format("Configuration content: [%s]", configuration));
 		}
 	}
-
 }

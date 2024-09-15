@@ -5,11 +5,14 @@
 	<artifactId>extendedValidation</artifactId>
 	<packaging>jar</packaging>
 	<name>Extended Validation</name>
-	<description>Extension for BeanValidation API to provide CDI compatible ConstraintValidatorFactory, easy way to set parameters on message constraint and easy API to add non properties file message sources, like DB, external modules, mainframe routines, etc.</description>
+	<description>
+		Extension for BeanValidation API to provide CDI compatible ConstraintValidatorFactory, easy way to set parameters on message constraint and easy API to add non properties file message sources, like DB, external modules, mainframe routines, etc.
+		This version is Java 17 and JakartaEE 10 compatible.
+	</description>
 	<parent>
 		<groupId>com.github.ldeitos</groupId>
 		<artifactId>extendedValidation-parent</artifactId>
-		<version>2.0</version>
+		<version>3.0</version>
 		<relativePath>../extendedValidation-parent</relativePath>
 	</parent>
 	<licenses>
@@ -38,36 +41,44 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
+			<groupId>jakarta.enterprise</groupId>
+			<artifactId>jakarta.enterprise.cdi-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
+			<groupId>jakarta.inject</groupId>
+			<artifactId>jakarta.inject-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-text</artifactId>
+			<groupId>jakarta.interceptor</groupId>
+			<artifactId>jakarta.interceptor-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.github.classgraph</groupId>
-			<artifactId>classgraph</artifactId>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jglue.cdi-unit</groupId>
+		    <groupId>io.github.cdi-unit</groupId>
 			<artifactId>cdi-unit</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>io.github.cdi-unit</groupId>
+			<artifactId>cdi-unit-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -86,8 +97,16 @@
 			<artifactId>weld-se-shaded</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.el</groupId>
-			<artifactId>el-ri</artifactId>
+			<groupId>org.jboss.weld.module</groupId>
+			<artifactId>weld-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.expressly</groupId>
+    		<artifactId>expressly</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

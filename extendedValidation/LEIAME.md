@@ -360,7 +360,7 @@ Para utilizar o ExtendedValidation é necessário adicionar ao projeto as seguin
 
 - [extendedValidation](http://search.maven.org/#search%7Cga%7C1%7Cextendedvalidation)
 - [extendedValidation-core](http://search.maven.org/#search%7Cga%7C1%7Cextendedvalidation)
-- [BeanValidation API 1.1](http://search.maven.org/#artifactdetails%7Cjavax.validation%7Cvalidation-api%7C1.1.0.Final%7Cjar)
+- [BeanValidation API 1.1](http://search.maven.org/#artifactdetails%7Cjakarta.validation%7Cvalidation-api%7C1.1.0.Final%7Cjar)
 - Uma implementação da *BeanValidation API 1.1* ([Ex.: Hibernate Validator](http://search.maven.org/#artifactdetails%7Corg.hibernate%7Chibernate-validator%7C5.1.2.Final%7Cjar))
 
 O *ExtendedValidation* já possui as configurações necessárias para que seus recursos sejam integrados ao mecanismo de validação. Entretanto, caso seu projeto possua configurações próprias declaradas no arquivo ***validation.xml*** é necessário que uma das seguintes ações sejam tomadas:

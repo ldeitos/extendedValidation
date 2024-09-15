@@ -7,11 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.enterprise.inject.Produces;
-import javax.validation.ConstraintViolation;
+import jakarta.enterprise.inject.Produces;
+import jakarta.validation.ConstraintViolation;
 
-import org.jglue.cdiunit.AdditionalClasses;
-import org.jglue.cdiunit.ProducesAlternative;
+import io.github.cdiunit.AdditionalClasses;
+import io.github.cdiunit.ProducesAlternative;
 import org.junit.Ignore;
 import org.junit.Test;
 

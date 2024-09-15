@@ -1,6 +1,6 @@
 package com.github.ldeitos.validation;
 
-import javax.validation.Payload;
+import jakarta.validation.Payload;
 
 /**
  *
