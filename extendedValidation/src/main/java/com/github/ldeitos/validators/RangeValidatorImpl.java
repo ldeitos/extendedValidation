@@ -5,6 +5,9 @@ import java.math.BigInteger;
 
 import com.github.ldeitos.constraint.Range;
 
+import jakarta.enterprise.context.Dependent;
+
+@Dependent
 public class RangeValidatorImpl extends NumberComparativeValidator<Range> implements RangeValidator {
 
 	private long min;

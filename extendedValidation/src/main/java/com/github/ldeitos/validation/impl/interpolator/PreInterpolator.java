@@ -19,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import com.github.ldeitos.validation.MessagesSource;
 import com.github.ldeitos.validators.AbstractExtendedValidator;
 
+import jakarta.enterprise.context.Dependent;
+
 import java.util.Locale;
 
 /**
@@ -29,6 +31,7 @@ import java.util.Locale;
  *
  * @since 0.8.0
  */
+@Dependent
 public class PreInterpolator extends BaseInterpolator {
 
 	private static final Pattern PARAM_PATTERN = Pattern.compile(PARAMETER_PATTERN);

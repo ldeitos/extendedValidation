@@ -1,10 +1,12 @@
 package com.github.ldeitos.validators;
 
+import jakarta.enterprise.context.Dependent;
 import jakarta.validation.ConstraintValidatorContext;
 
 import com.github.ldeitos.constraint.Pattern;
 import com.github.ldeitos.constraint.Pattern.Flag;
 
+@Dependent
 public class PatternValidatorImpl implements PatternValidator {
 	private java.util.regex.Pattern pattern;
 	
