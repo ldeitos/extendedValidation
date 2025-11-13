@@ -5,6 +5,9 @@ import java.math.BigInteger;
 
 import com.github.ldeitos.constraint.Max;
 
+import jakarta.enterprise.context.Dependent;
+
+@Dependent
 public class MaxValidatorImpl extends  NumberComparativeValidator<Max> 
 	implements MaxValidator {
 	

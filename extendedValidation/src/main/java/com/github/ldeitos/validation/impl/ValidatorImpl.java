@@ -9,6 +9,7 @@ import java.security.InvalidParameterException;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.enterprise.context.Dependent;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.ValidatorFactory;
@@ -26,6 +27,7 @@ import com.github.ldeitos.validation.Validator;
  * @author <a href=mailto:leandro.deitos@gmail.com>Leandro Deitos</a>
  *
  */
+@Dependent
 @ExtendedValidator
 public class ValidatorImpl implements Validator {
 

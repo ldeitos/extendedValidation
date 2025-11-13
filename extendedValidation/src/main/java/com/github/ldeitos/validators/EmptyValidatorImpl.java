@@ -8,6 +8,9 @@ import java.util.function.Predicate;
 
 import com.github.ldeitos.constraint.Empty;
 
+import jakarta.enterprise.context.Dependent;
+
+@Dependent
 public class EmptyValidatorImpl extends MultiTargetValidator<Empty> implements EmptyValidator {
 
 	private static final Class<?>[] targetClasses = { Collection.class, Map.class, CharSequence.class };

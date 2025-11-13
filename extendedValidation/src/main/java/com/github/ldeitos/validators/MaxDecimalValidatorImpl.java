@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 
 import com.github.ldeitos.constraint.DecimalMax;
 
+import jakarta.enterprise.context.Dependent;
+
+@Dependent
 public class MaxDecimalValidatorImpl extends BigDecimalComparativeValidator<DecimalMax> 
 	implements MaxDecimalValidator {
 	private BigDecimal maxValue;

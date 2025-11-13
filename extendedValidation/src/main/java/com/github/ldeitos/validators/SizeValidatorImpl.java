@@ -10,12 +10,14 @@ import java.util.function.Predicate;
 
 import com.github.ldeitos.constraint.Size;
 
+import jakarta.enterprise.context.Dependent;
+
+@Dependent
 public class SizeValidatorImpl extends MultiTargetValidator<Size> implements SizeValidator {
 
 	private static final Class<?>[] targetClasses = { Collection.class, Map.class, CharSequence.class };
 
 	private int min;
-
 	private int max;
 
 	@Override

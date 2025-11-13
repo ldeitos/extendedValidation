@@ -8,6 +8,9 @@ import java.util.function.Predicate;
 
 import com.github.ldeitos.constraint.NotEmpty;
 
+import jakarta.enterprise.context.Dependent;
+
+@Dependent
 public class NotEmptyValidatorImpl extends MultiTargetValidator<NotEmpty> implements NotEmptyValidator {
 
 	private static final Class<?>[] targetClasses = { Collection.class, Map.class, CharSequence.class };

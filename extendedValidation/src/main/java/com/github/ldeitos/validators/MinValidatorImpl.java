@@ -5,6 +5,9 @@ import java.math.BigInteger;
 
 import com.github.ldeitos.constraint.Min;
 
+import jakarta.enterprise.context.Dependent;
+
+@Dependent
 public class MinValidatorImpl extends  NumberComparativeValidator<Min> 
 	implements MinValidator {
 	

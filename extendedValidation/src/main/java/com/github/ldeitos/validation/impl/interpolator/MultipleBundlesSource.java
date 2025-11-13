@@ -12,6 +12,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.spi.CDI;
 
 import com.github.ldeitos.constants.Constants;
@@ -28,6 +29,7 @@ import com.github.ldeitos.validation.impl.configuration.ConfigInfoProvider;
  * @author <a href="mailto:leandro.deitos@gmail.com">Leandro Deitos</a>
  *
  */
+@Dependent
 public class MultipleBundlesSource extends AbstractMessagesSource {
 
 	/**

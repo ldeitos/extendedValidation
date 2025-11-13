@@ -3,12 +3,13 @@ package com.github.ldeitos.validation.impl.configuration;
 import static com.github.ldeitos.constants.Constants.CONFIGURATION_FILE;
 import static com.github.ldeitos.constants.Constants.CONFIGURATION_PATH;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Singleton;
 
 /**
  * Confirg information provider. Auxiliar class to provide boot configuration informations and make easy mock in unit test. 
  */
-@Singleton
+@ApplicationScoped
 public class ConfigInfoProvider {
 
 	public String getConfigFileName() {
